@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soundList>
+	<han asset="sound/shuffle.mp3" handler="onShuffle">
+	</han>
+	<han asset="sound/fold.mp3" handler="FOLD_PRESSED">
+	</han>
+	<han asset="sound/chips_on_table.mp3" handler="sndCall">
+	</han>
+	<han asset="sound/check_fast.mp3" handler="sndCheck">
+	</han>
+	<han asset="sound/raise.mp3" handler="sndRaise">
+	</han>
+	<han asset="sound/chips_winner.mp3" handler="sndWinChips">
+	</han>
+	<han asset="sound/players_turn.mp3" handler="sndTurnStart">
+	</han>
+	<han asset="sound/card_deal_3.mp3,sound/card_deal_4.mp3,sound/card_deal_5.mp3" handler="soundCardFlip">
+	</han>
+	<han asset="sound/card_deal_2.mp3" handler="playSound_Deal">
+	</han>
+	<han asset="sound/players_turn_2.mp3" handler="PlayRemindSound">
+	</han>
+	<han asset="sound/hurry_up.mp3" handler="playHurrySound">
+	</han>
+	<han asset="sound/players_turn.mp3" handler="playSound_YourTurn">
+	</han>
+	<!-- <track>
+		<title>Booted</title>
+		<band>Band2</band>
+		<file>booted.mp3</file>
+	</track>
+	<track>
+		<title>Deal2</title>
+		<band>Band3</band>
+		<file>card_deal_2.mp3</file>
+	</track>
+	<track>
+		<title>Deal3</title>
+		<band>Band4</band>
+		<file>card_deal_3.mp3</file>
+	</track>
+	<track>
+		<title>Deal4</title>
+		<band>Band5</band>
+		<file>card_deal_4.mp3</file>
+	</track>
+	<track>
+		<title>Deal5</title>
+		<band>Band6</band>
+		<file>card_deal_5.mp3</file>
+	</track>
+	<track>
+		<title>Check Fast</title>
+		<band>Band7</band>
+		<file>check_fast.mp3</file>
+	</track>
+	<track>
+		<title>Chips Winner</title>
+		<band>Band8</band>
+		<file>chips_winner.mp3</file>
+	</track>
+	<track>
+		<title>Chips Table</title>
+		<band>Band9</band>
+		<file>chips_on_table.mp3</file>
+	</track>
+	<track>
+		<title>Playes Turn</title>
+		<band>Band10</band>
+		<file>players_turn.mp3</file>
+	</track>
+	<track>
+		<title>Playes Turn2</title>
+		<band>Band11</band>
+		<file>players_turn_2.mp3</file>
+	</track>
+	<track>
+		<title>Fold</title>
+		<band>Band12</band>
+		<file>fold.mp3</file>
+	</track>
+	<track>
+		<title>Gasp</title>
+		<band>Band13</band>
+		<file>gasp1.mp3</file>
+	</track>
+	<track>
+		<title>Hurry</title>
+		<band>Band14</band>
+		<file>hurry_up.mp3</file>
+	</track>
+	<track>
+		<title>Raise</title>
+		<band>Band15</band>
+		<file>raise.mp3</file>
+	</track>
+	<track>
+		<title>Shuffle</title>
+		<band>Band16</band>
+		<file>shuffle.mp3</file>
+	</track>
+	<track>
+		<title>Winner Applause</title>
+		<band>Band17</band>
+		<file>winner_applause.mp3</file>
+	</track> -->
+
+</soundList>

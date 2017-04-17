@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emoList>
+	<han asset="Senang.swf" handler="Senang">
+	</han>
+	<han asset="Terkejut.swf" handler="Terkejut">
+	</han>
+	<han asset="Semangat.swf" handler="Semangat">
+	</han>
+	<han asset="Menangis.swf" handler="Menangis">
+	</han>
+	<han asset="Nakal.swf" handler="Nakal">
+	</han>
+	<han asset="Sembahyang.swf" handler="Sembahyang">
+	</han>
+	<han asset="Marah.swf" handler="Marah">
+	</han>
+	<han asset="Makasih.swf" handler="Makasih">
+	</han>
+	<han asset="Gelisah.swf" handler="Gelisah">
+	</han>
+	<han asset="Bunuh.swf" handler="Bunuh">
+	</han>
+	<han asset="Bagus.swf" handler="Bagus">
+	</han>
+	<han asset="Nyerah.swf" handler="Nyerah">
+	</han>
+	<han asset="Pusing.swf" handler="Pusing">
+	</han>
+	<han asset="Malu.swf" handler="Malu">
+	</han>
+	<han asset="Capek.swf" handler="Capek">
+	</han>	
+</emoList>
+
+			

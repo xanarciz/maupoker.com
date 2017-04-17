@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emoList>
+	<han asset="Laugh.swf" handler="Laugh">
+	</han>
+	<han asset="Think.swf" handler="Think">
+	</han>
+	<han asset="Great.swf" handler="Great">
+	</han>
+	<han asset="Loser.swf" handler="Loser">
+	</han>
+	<han asset="Confuse.swf" handler="Confuse">
+	</han>
+	<han asset="Angry.swf" handler="Angry">
+	</han>
+	<han asset="Thanks.swf" handler="Thanks">
+	</han>
+	<han asset="Wave.swf" handler="Wave">
+	</han>
+	<han asset="Win.swf" handler="Win">
+	</han>
+	<han asset="Cry.swf" handler="Cry">
+	</han>
+	<han asset="Fight.swf" handler="Fight">
+	</han>
+	<han asset="Shock.swf" handler="Shock">
+	</han>
+	<han asset="Kiss.swf" handler="Kiss">
+	</han>
+	<han asset="Wacky.swf" handler="Wacky">
+	</han>
+	<han asset="WhiteFlag.swf" handler="WhiteFlag">
+	</han>
+	
+</emoList>
+
+			

@@ -1,0 +1,460 @@
+/* quickAccess */
+.quickAccess_holder {
+	display: block;
+	position: fixed;
+	z-index: 99;
+}
+
+/* left */
+.quickAccess_holder.left {
+	top: 19%;
+	left: 0px;
+}
+.quickAccess_holder.left ul li a {
+	margin-bottom: 0px;
+	overflow: hidden;
+}
+.quickAccess_holder.left ul li a.active {
+	width: 100px;
+    left: 0;
+}
+.quickAccess_holder.left ul li a.inactive {
+	width: 0px;
+}
+
+/* right */
+.quickAccess_holder.right {
+	top: 19%;
+	right: 0px;
+}
+.quickAccess_holder.right ul li a {
+	margin-bottom: 9px;
+	border-radius: 5px 0px 0px 5px;
+}
+.quickAccess_holder.right ul li a.active {
+	margin-left: -100px;
+	width: 100px;
+}
+.quickAccess_holder.right ul li a.inactive {
+	margin-left: 0px;
+	width: 0px;
+}
+
+/* top */
+.quickAccess_holder.top {
+	left: 30%;
+	top: 0px;
+}
+.quickAccess_holder.top ul li {
+	float: left;
+}
+.quickAccess_holder.top ul li a {
+	margin-right: 9px;
+	border-radius: 0px 0px 5px 5px;
+}
+.quickAccess_holder.top ul li a.active {
+	width: 100px;
+}
+.quickAccess_holder.top ul li a.inactive {
+	width: 0px;
+}
+
+/* bottom */
+.quickAccess_holder.bottom {
+	left: 30%;
+	bottom: 0px;
+}
+.quickAccess_holder.bottom ul li {
+	float: left;
+}
+.quickAccess_holder.bottom ul li a {
+	margin-right: 9px;
+	border-radius: 5px 5px 0px 0px;
+}
+.quickAccess_holder.bottom ul li a.active {
+	width: 100px;
+}
+.quickAccess_holder.bottom ul li a.inactive {
+	width: 0px;
+}
+
+.quickAccess_holder ul, .quickAccess_holder ul li {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+.quickAccess_holder ul li a {
+	color: #333;
+/*	font: 18px/36px "Segoe UI";
+	border: 1px solid #fff;*/
+	display: block;
+	position: relative;
+	background: #404040;
+/*	background: #669966; */
+	background-repeat: no-repeat;
+	text-decoration: none;
+	padding-left: 85px;
+	background-position: 10px center !important;
+	height: 70px;
+	width: 0px;
+	overflow: hidden;
+	font: 14px/36px Arial;
+    line-height: 5em;
+}
+.quickAccess_holder.dark ul li a {
+	color: #333;
+}
+.quickAccess_holder.medium_dark ul li a {
+	color: #777;
+}
+.quickAccess_holder.light ul li a {
+	color: #fff;
+}
+.dark a.quickAccess-folio_3 {
+	background: url(icons/dark_icons/folio_3.png) no-repeat center 3px;
+}
+.light a.quickAccess-folio_3 {
+	background: url(icons/light_icons/folio_3.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-folio_3 {
+	background: url(icons/medium_dark_icons/folio_3.png) no-repeat center 3px;
+}
+.dark a.quickAccess-contact_2 {
+	background: url(icons/dark_icons/contact_2.png) no-repeat center 6px;
+}
+.light a.quickAccess-contact_2 {
+	background: url(icons/light_icons/contact_2.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-contact_2 {
+	background: url(icons/medium_dark_icons/contact_2.png) no-repeat center 6px;
+}
+.dark a.quickAccess-about_1 {
+	background: url(icons/dark_icons/about_1.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_1 {
+	background: url(icons/light_icons/about_1.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_1 {
+	background: url(icons/medium_dark_icons/about_1.png) no-repeat center 2px;
+}
+.dark a.quickAccess-contact_3 {
+	background: url(icons/dark_icons/contact_3.png) no-repeat center 2px;
+}
+.light a.quickAccess-contact_3 {
+	background: url(icons/light_icons/contact_3.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-contact_3 {
+	background: url(icons/medium_dark_icons/contact_3.png) no-repeat center 2px;
+}
+.dark a.quickAccess-home_6 {
+	background: url(icons/dark_icons/home_6.png) no-repeat center 2px;
+}
+.light a.quickAccess-home_6 {
+	background: url(icons/light_icons/home_6.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-home_6 {
+	background: url(icons/medium_dark_icons/home_6.png) no-repeat center 2px;
+}
+.dark a.quickAccess-about_2 {
+	background: url(icons/dark_icons/about_2.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_2 {
+	background: url(icons/light_icons/about_2.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_2 {
+	background: url(icons/medium_dark_icons/about_2.png) no-repeat center 2px;
+}
+.dark a.quickAccess-folio_2 {
+	background: url(icons/dark_icons/folio_2.png) no-repeat center 2px;
+}
+.light a.quickAccess-folio_2 {
+	background: url(icons/light_icons/folio_2.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-folio_2 {
+	background: url(icons/medium_dark_icons/folio_2.png) no-repeat center 2px;
+}
+.dark a.quickAccess-folio_4 {
+	background: url(icons/dark_icons/folio_4.png) no-repeat center 6px;
+}
+.light a.quickAccess-folio_4 {
+	background: url(icons/light_icons/folio_4.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-folio_4 {
+	background: url(icons/medium_dark_icons/folio_4.png) no-repeat center 6px;
+}
+.dark a.quickAccess-home_2 {
+	background: url(icons/dark_icons/home_2.png) no-repeat center 2px;
+}
+.light a.quickAccess-home_2 {
+	background: url(icons/light_icons/home_2.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-home_2 {
+	background: url(icons/medium_dark_icons/home_2.png) no-repeat center 2px;
+}
+.dark a.quickAccess-services_7 {
+	background: url(icons/dark_icons/services_7.png) no-repeat center 6px;
+}
+.light a.quickAccess-services_7 {
+	background: url(icons/light_icons/services_7.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-services_7 {
+	background: url(icons/medium_dark_icons/services_7.png) no-repeat center 6px;
+}
+.dark a.quickAccess-about_6 {
+	background: url(icons/dark_icons/about_6.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_6 {
+	background: url(icons/light_icons/about_6.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_6 {
+	background: url(icons/medium_dark_icons/about_6.png) no-repeat center 2px;
+}
+.dark a.quickAccess-contact_1 {
+	background: url(icons/dark_icons/contact_1.png) no-repeat center 7px;
+}
+.light a.quickAccess-contact_1 {
+	background: url(icons/light_icons/contact_1.png) no-repeat center 7px;
+}
+.medium_dark a.quickAccess-contact_1 {
+	background: url(icons/medium_dark_icons/contact_1.png) no-repeat center 7px;
+}
+.dark a.quickAccess-home_1 {
+	background: url(icons/dark_icons/home_1.png) no-repeat center 2px;
+}
+.light a.quickAccess-home_1 {
+	background: url(icons/light_icons/home_1.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-home_1 {
+	background: url(icons/medium_dark_icons/home_1.png) no-repeat center 2px;
+}
+.dark a.quickAccess-folio_1 {
+	background: url(icons/dark_icons/folio_1.png) no-repeat center 6px;
+}
+.light a.quickAccess-folio_1 {
+	background: url(icons/light_icons/folio_1.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-folio_1 {
+	background: url(icons/medium_dark_icons/folio_1.png) no-repeat center 6px;
+}
+.dark a.quickAccess-services_5 {
+	background: url(icons/dark_icons/services_5.png) no-repeat center 2px;
+}
+.light a.quickAccess-services_5 {
+	background: url(icons/light_icons/services_5.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-services_5 {
+	background: url(icons/medium_dark_icons/services_5.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_4 {
+	background: url(icons/dark_icons/varia_4.png) no-repeat center 2px;
+}
+.light a.quickAccess-varia_4 {
+	background: url(icons/light_icons/varia_4.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-varia_4 {
+	background: url(icons/medium_dark_icons/varia_4.png) no-repeat center 2px;
+}
+.dark a.quickAccess-about_3 {
+	background: url(icons/dark_icons/about_3.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_3 {
+	background: url(icons/light_icons/about_3.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_3 {
+	background: url(icons/medium_dark_icons/about_3.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_6 {
+	background: url(icons/dark_icons/varia_6.png) no-repeat center 3px;
+}
+.light a.quickAccess-varia_6 {
+	background: url(icons/light_icons/varia_6.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-varia_6 {
+	background: url(icons/medium_dark_icons/varia_6.png) no-repeat center 3px;
+}
+.dark a.quickAccess-home_5 {
+	background: url(icons/dark_icons/home_5.png) no-repeat center 3px;
+}
+.light a.quickAccess-home_5 {
+	background: url(icons/light_icons/home_5.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-home_5 {
+	background: url(icons/medium_dark_icons/home_5.png) no-repeat center 3px;
+}
+.dark a.quickAccess-services_2 {
+	background: url(icons/dark_icons/services_2.png) no-repeat center 2px;
+}
+.light a.quickAccess-services_2 {
+	background: url(icons/light_icons/services_2.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-services_2 {
+	background: url(icons/medium_dark_icons/services_2.png) no-repeat center 2px;
+}
+.dark a.quickAccess-contact_5 {
+	background: url(icons/dark_icons/contact_5.png) no-repeat center 2px;
+}
+.light a.quickAccess-contact_5 {
+	background: url(icons/light_icons/contact_5.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-contact_5 {
+	background: url(icons/medium_dark_icons/contact_5.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_8 {
+	background: url(icons/dark_icons/varia_8.png) no-repeat center 6px;
+}
+.light a.quickAccess-varia_8 {
+	background: url(icons/light_icons/varia_8.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-varia_8 {
+	background: url(icons/medium_dark_icons/varia_8.png) no-repeat center 6px;
+}
+.dark a.quickAccess-home_3 {
+	background: url(icons/dark_icons/home_3.png) no-repeat center 2px;
+}
+.light a.quickAccess-home_3 {
+	background: url(icons/light_icons/home_3.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-home_3 {
+	background: url(icons/medium_dark_icons/home_3.png) no-repeat center 2px;
+}
+.dark a.quickAccess-about_5 {
+	background: url(icons/dark_icons/about_5.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_5 {
+	background: url(icons/light_icons/about_5.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_5 {
+	background: url(icons/medium_dark_icons/about_5.png) no-repeat center 2px;
+}
+.dark a.quickAccess-about_4 {
+	background: url(icons/dark_icons/about_4.png) no-repeat center 2px;
+}
+.light a.quickAccess-about_4 {
+	background: url(icons/light_icons/about_4.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-about_4 {
+	background: url(icons/medium_dark_icons/about_4.png) no-repeat center 2px;
+}
+.dark a.quickAccess-services_4 {
+	background: url(icons/dark_icons/services_4.png) no-repeat center 5px;
+}
+.light a.quickAccess-services_4 {
+	background: url(icons/light_icons/services_4.png) no-repeat center 5px;
+}
+.medium_dark a.quickAccess-services_4 {
+	background: url(icons/medium_dark_icons/services_4.png) no-repeat center 5px;
+}
+.dark a.quickAccess-varia_1 {
+	background: url(icons/dark_icons/varia_1.png) no-repeat center 2px;
+}
+.light a.quickAccess-varia_1 {
+	background: url(icons/light_icons/varia_1.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-varia_1 {
+	background: url(icons/medium_dark_icons/varia_1.png) no-repeat center 2px;
+}
+.dark a.quickAccess-services_1 {
+	background: url(icons/dark_icons/services_1.png) no-repeat center 2px;
+}
+.light a.quickAccess-services_1 {
+	background: url(icons/light_icons/services_1.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-services_1 {
+	background: url(icons/medium_dark_icons/services_1.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_2 {
+	background: url(icons/dark_icons/varia_2.png) no-repeat center 3px;
+}
+.light a.quickAccess-varia_2 {
+	background: url(icons/light_icons/varia_2.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-varia_2 {
+	background: url(icons/medium_dark_icons/varia_2.png) no-repeat center 3px;
+}
+.dark a.quickAccess-home_7 {
+	background: url(icons/dark_icons/home_7.png) no-repeat center 3px;
+}
+.light a.quickAccess-home_7 {
+	background: url(icons/light_icons/home_7.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-home_7 {
+	background: url(icons/medium_dark_icons/home_7.png) no-repeat center 3px;
+}
+.dark a.quickAccess-contact_6 {
+	background: url(icons/dark_icons/contact_6.png) no-repeat center 5px;
+}
+.light a.quickAccess-contact_6 {
+	background: url(icons/light_icons/contact_6.png) no-repeat center 5px;
+}
+.medium_dark a.quickAccess-contact_6 {
+	background: url(icons/medium_dark_icons/contact_6.png) no-repeat center 5px;
+}
+.dark a.quickAccess-services_3 {
+	background: url(icons/dark_icons/services_3.png) no-repeat center 2px;
+}
+.light a.quickAccess-services_3 {
+	background: url(icons/light_icons/services_3.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-services_3 {
+	background: url(icons/medium_dark_icons/services_3.png) no-repeat center 2px;
+}
+.dark a.quickAccess-contact_4 {
+	background: url(icons/dark_icons/contact_4.png) no-repeat center 5px;
+}
+.light a.quickAccess-contact_4 {
+	background: url(icons/light_icons/contact_4.png) no-repeat center 5px;
+}
+.medium_dark a.quickAccess-contact_4 {
+	background: url(icons/medium_dark_icons/contact_4.png) no-repeat center 5px;
+}
+.dark a.quickAccess-home_4 {
+	background: url(icons/dark_icons/home_4.png) no-repeat center 2px;
+}
+.light a.quickAccess-home_4 {
+	background: url(icons/light_icons/home_4.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-home_4 {
+	background: url(icons/medium_dark_icons/home_4.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_5 {
+	background: url(icons/dark_icons/varia_5.png) no-repeat center 3px;
+}
+.light a.quickAccess-varia_5 {
+	background: url(icons/light_icons/varia_5.png) no-repeat center 3px;
+}
+.medium_dark a.quickAccess-varia_5 {
+	background: url(icons/medium_dark_icons/varia_5.png) no-repeat center 3px;
+}
+.dark a.quickAccess-services_6 {
+	background: url(icons/dark_icons/services_6.png) no-repeat center 2px;
+}
+.light a.quickAccess-services_6 {
+	background: url(icons/light_icons/services_6.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-services_6 {
+	background: url(icons/medium_dark_icons/services_6.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_3 {
+	background: url(icons/dark_icons/varia_3.png) no-repeat center 2px;
+}
+.light a.quickAccess-varia_3 {
+	background: url(icons/light_icons/varia_3.png) no-repeat center 2px;
+}
+.medium_dark a.quickAccess-varia_3 {
+	background: url(icons/medium_dark_icons/varia_3.png) no-repeat center 2px;
+}
+.dark a.quickAccess-varia_7 {
+	background: url(icons/dark_icons/varia_7.png) no-repeat center 6px;
+}
+.light a.quickAccess-varia_7 {
+	background: url(icons/light_icons/varia_7.png) no-repeat center 6px;
+}
+.medium_dark a.quickAccess-varia_7 {
+	background: url(icons/medium_dark_icons/varia_7.png) no-repeat center 6px;
+}
+.light a.quickAccess-varia_9 {
+	background: url(icons/light_icons/varia_9.png) no-repeat center 6px;
+}
+
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animList>
+	<han asset="Alien.swf" handler="Alien">
+	</han>
+	<han asset="Angry.swf" handler="Angry">
+	</han>
+	<han asset="Buldog.swf" handler="Buldog">
+	</han>
+	<han asset="Cobra.swf" handler="Cobra">
+	</han>
+	<han asset="Crying.swf" handler="Crying">
+	</han>
+	<han asset="Dance.swf" handler="Dance">
+	</han>
+	<han asset="DancingHippo.swf" handler="DancingHippo">
+	</han>
+	<han asset="DogDance.swf" handler="DogDance">
+	</han>
+	<han asset="Eye.swf" handler="Eye">
+	</han>
+	<han asset="Loser.swf" handler="Loser">
+	</han>
+	<han asset="Moon.swf" handler="Moon">
+	</han>
+	<han asset="OhYeah.swf" handler="OhYeah">
+	</han>
+	<han asset="Pig.swf" handler="Pig">
+	</han>
+	<han asset="Smoking.swf" handler="Smoking">
+	</han>
+	<han asset="Star.swf" handler="Star">
+	</han>
+	
+	
+</animList>

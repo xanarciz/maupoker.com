@@ -1,0 +1,66 @@
+button.keypad-trigger {
+	padding: 0px; width: 25px;
+}
+img.keypad-trigger {
+	margin: 2px; vertical-align: middle; cursor: pointer;
+}
+#keypad-div {
+	margin: 0px; padding: 0px; border-radius: 7px; border: 1px solid rgb(136, 136, 136); color: rgb(0, 0, 0); font-family: Arial,Helvetica,sans-serif; display: none; z-index: 10; opacity: 0.98; background-color: rgb(204, 204, 204); -moz-border-radius: 7px; -webkit-border-radius: 7px;
+}
+.keypad-keyentry {
+	display: none;
+}
+.keypad-inline {
+	border-radius: 7px; border: 3px solid rgb(136, 136, 136); background-color: rgb(244, 244, 244); -moz-border-radius: 7px; -webkit-border-radius: 7px;
+}
+.keypad-disabled {
+	filter: alpha(opacity=50); position: absolute; z-index: 100; opacity: 0.5; background-color: white;
+}
+.keypad-rtl {
+	direction: rtl;
+}
+.keypad-prompt {
+	width: 100%; text-align: center; clear: both;
+}
+.keypad-row {
+	width: 100%; clear: both; float: left;
+}
+.keypad-space {
+	margin: 2px; width: 36px; float: left;
+}
+* html .keypad-space {
+	margin: 0px; width: 40px;
+}
+.keypad-half-space {
+	margin: 1px; width: 18px; float: left;
+}
+* html .keypad-half-space {
+	margin: 0px; width: 20px;
+}
+.keypad-key {
+	margin: 2px; padding: 0px; border-radius: 7px; width: 36px; height: 30px; text-align: center; font-family: Arial,Helvetica,sans-serif; font-size: 20px; float: left; cursor: pointer; /*background-color: rgb(244, 244, 244);*/ -moz-border-radius: 7px; -webkit-border-radius: 7px;
+}
+[disabled].keypad-key {
+	border: 3px outset currentColor;
+}
+.keypad-spacebar {
+	width: 272px;
+}
+.keypad-clear {
+	width: 52px; color: rgb(0, 0, 0); font-weight: bold;
+}
+.keypad-shift {
+	width: 100px; color: rgb(0, 0, 0); font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold;
+}
+.keypad-back {
+	width: 100px; color: rgb(0, 0, 0); font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold;
+}
+.keypad-clear {
+	font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; background-color: rgb(244, 244, 244);
+}
+.keypad-close {
+	width: 72px; font-family: Arial,Helvetica,sans-serif; font-size: 16px; font-weight: bold; margin-left: 6px;
+}
+.keypad-cover {
+	left: -4px; top: -4px; width: 125px; height: 200px; display: block; filter: mask(); position: absolute; z-index: -1;
+}

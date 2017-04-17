@@ -1,0 +1,6 @@
+.tipsy { background: url(tipsy.gif) no-repeat; padding: 5px; font-size: 11px; opacity: 0.9; filter: alpha(opacity=90); }
+.tipsy-inner { background: #000000; padding: 5px; color: #ffffff; max-width: 250px; text-align: left; border: 1px solid #000000; opacity: 0.9; filter: alpha(opacity=90); }
+.tipsy-inner { -moz-border-radius:3px; -webkit-border-radius:3px; }
+.tipsy-north { background-position: top center; }
+.tipsy-south { background-position: bottom center; }
+.tipsy-east { background-position: right center; }

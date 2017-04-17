@@ -1,0 +1,34 @@
+.jnotify-item{
+	height: auto;
+	padding: 5px;
+	margin: 0 0 5px 0;
+	display: block;
+	position: relative;
+	-moz-border-radius: 10px; -webkit-border-radius: 10px; -khtml-border-radius: 10px; border-radius: 10px;
+	-moz-box-shadow: 0 0 10px #222222; -webkit-box-shadow: 0 0 10px #222222;
+}
+.jnotify-item-close {
+	float: right;
+	margin-left: 2px;
+	cursor: pointer;
+}
+.jnotify-item{
+	font-size: 11px;
+}
+.jnotify-item h1{
+	font-size: 11px;
+	font-weight: bold;
+	margin-top: -1px;
+	margin-bottom: 0px;
+	text-transform: capitalize;
+}
+.jnotify-item p{
+	margin: 5px 3px 0px 3px;
+}
+.jnotify-item a{
+	color: #0000ff;
+	font-weight: bold;
+}
+.jnotify-item a:hover{
+	color: #000099
+}

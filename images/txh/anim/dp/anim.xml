@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animList>
+	<han asset="Snow.swf" handler="Snow">
+	</han>
+	<han asset="Paper.swf" handler="Paper">
+	</han>
+	<han asset="Clown.swf" handler="Clown">
+	</han>
+	<han asset="Dancer.swf" handler="Dancer">
+	</han>
+	<han asset="Dancer2.swf" handler="Dancer2">
+	</han>
+		
+</animList>
