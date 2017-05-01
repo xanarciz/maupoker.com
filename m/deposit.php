@@ -605,7 +605,7 @@ if ($sql1["amount"] > 0){
 								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
 							</div>
 							<div class="col-lg-7">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="byuro">  </label>
+								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nare">  </label>
 							</div>
 						</div>
 
@@ -617,7 +617,7 @@ if ($sql1["amount"] > 0){
 								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
 							</div>
 							<div class="col-lg-5">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="bmut">  </label>
+								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nore">  </label>
 								<label style="display: none;" id="finalcopy"></label>
 							</div>
 							<div class="col-lg-2">
@@ -964,8 +964,8 @@ if ($sql1["amount"] > 0){
 		}
 
   		$( "#bkil" ).html( res[0] );
-  		$( "#byuro" ).html( res[2] );
-  		$( "#bmut" ).html( res[1] );
+  		$( "#nare" ).html( res[2] );
+  		$( "#nore" ).html( res[1] );
 	});
 
 	$( ".deploy-toggle-1" ).click(function() {
@@ -987,7 +987,7 @@ if ($sql1["amount"] > 0){
 	}
 
 	document.getElementById("copy-to").addEventListener("click", function() {
-		var _targetcopy = document.getElementById("bmut").innerHTML;
+		var _targetcopy = document.getElementById("nore").innerHTML;
 		var _rescopy = _targetcopy.split("-");
 		var _finalres = "";
 
@@ -1091,8 +1091,8 @@ if ($sql1["amount"] > 0){
 		}
 
   		$( "#bkil" ).html( res[0] );
-  		$( "#byuro" ).html( res[2] );
-  		$( "#bmut" ).html( res[1] );
+  		$( "#nare" ).html( res[2] );
+  		$( "#nore" ).html( res[1] );
 	});
 </script>
 

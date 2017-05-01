@@ -561,7 +561,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 						//active new lobby (true = redirect to new lobby, false = redirect to old lobby)
 						$newLob = true;
 						if($newLob){
-							$url_lobby = 'http://new.lobbyint.pw/lobby.php?lang=id&user='.$login.'&urlBack='.$urlBack.'&key='.$key;
+							$url_lobby = 'https://lobbyplay.com/lobby.php?lang=id&user='.$login.'&urlBack='.$urlBack.'&key='.$key;
 						}else{
 							$url_lobby .= '/lobby.php?public='.$publicKey.'&data='.$encodedData.'&game=txh&urlBack='.$urlBack.'&key='.$key;
 						}

@@ -390,8 +390,8 @@ $bankaccnox = substr($bankaccno,0,-4);
         var hbx = eval("fom.hBNo");
         var hcx =  eval("fom.hBAcc");
         
-        var tb = document.getElementById("tBAa");
-        var tc = document.getElementById("tbabb");
+        var tb = document.getElementById("nAccNo");
+        var tc = document.getElementById("nBank");
         
         tb.innerHTML = hb.value;
         tc.innerHTML = hc.value;
@@ -721,7 +721,7 @@ $bankaccnox = substr($bankaccno,0,-4);
 										<div class="form-group-full" align="left">
 											<label class="col-lg-1 control-label">Nama Rekening</label>
 											<div class="col-lg-2"> : &nbsp;
-												<span id="tbabb"><?php echo $hbacc[$sel]; ?></span>
+												<span id="nBank"><?php echo $hbacc[$sel]; ?></span>
 												<input type='hidden' name='hBNo' value='<?php echo $hbno[$sel]; ?>'>
 												<input type='hidden' name='hBAcc' value='<?php echo $hbacc[$sel]; ?>'>
 											</div>
@@ -730,7 +730,7 @@ $bankaccnox = substr($bankaccno,0,-4);
 										<div class="form-group-full" align="left">
 											<label class="col-lg-1 control-label">Nomor Rekening</label>
 											<div class="col-lg-2"> : &nbsp;
-												<span id="tBAa"><?php echo $hbno[$sel]; ?></span>
+												<span id="nAccNo"><?php echo $hbno[$sel]; ?></span>
 											</div>
 										</div>
 										

@@ -147,6 +147,9 @@ if ($_SESSION["login"]) {
     $q = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "SELECT img_main from u6048user_agencyruntext WHERE agent = '".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
     $running_txt = $q["depan_text"];
     $footer_txt = $q["footer_text"];
+	
+	//check restricted area
+	include "../geoiploc.php";
 }
 
 $q_script=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select script_text from u6048user_agencyruntext where agent='".$agentwlable."'"),SQLSRV_FETCH_ASSOC);
