@@ -5,7 +5,7 @@ include("../config_db2.php");
 include("_metax.php");
 include("_header.php");
 
-if($link_img == "io"){ $warna = "blue"; }elseif($link_img == "PTKP"){ $warna = "blue"; }else{ $warna = "purple";}
+if(strtoupper($link_img) == "IO"){ $warna = "blue"; }elseif($link_img == "PTKP"){ $warna = "blue"; }else{ $warna = "purple";}
 
 ?>
 

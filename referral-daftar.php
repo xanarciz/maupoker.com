@@ -187,7 +187,7 @@ if($_POST["submit"]){
 	$cekBankNo	= sqlsrv_num_rows(sqlsrv_query($sqlconn, "select bankaccno from u6048user_id where bankaccno = '".$bano5."' and userprefix='".$agentwlable."'",$params,$options));
 	$te = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select ip from a83adm_ipblok where ip = '".$ip."'",$params,$options));
 
-	if ($capt != $_SESSION['CAPTCHAString']){
+	if (!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
 	}else if($pv !== true){ 
 		$errorReport =  "<div class='error-report'>".$pv."</div>"; 

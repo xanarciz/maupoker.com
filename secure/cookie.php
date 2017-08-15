@@ -145,9 +145,17 @@ if (($entered_login) && ($entered_password)) {
 		sqlsrv_query($sqlconn,"delete from u6048user_active where userid ='".$entered_login."'");
 		$sqlx = "insert into u6048user_active (entertime,gametime,gametype,tableid,userid,usertype,agent_usertype,playerpt,msg,IP,".SESS_FIELD.",smaster,master,agent,webid,www,curr,txh_share,dmm_share,ebn_share,bjk_share,agent_txh_share,agent_dmm_share,agent_ebn_share,agent_bjk_share,master_txh_share,master_dmm_share,master_ebn_share,master_bjk_share,smaster_txh_share,smaster_dmm_share,smaster_ebn_share,smaster_bjk_share,referral_agent) values(GETDATE(),GETDATE(),'-','-','$entered_login','$level','$level_agent','$theplayerpt','','".$ip."','".$sessid."','$smaster','$master','$agent','$partdomain','".$www."','".$curruser."','".$txhshare."','".$dmmshare."','".$ebnshare."','".$bjkshare."','".$agent_txhshare."','".$agent_dmmshare."','".$agent_ebnshare."','".$agent_bjkshare."','".$master_txhshare."','".$master_dmmshare."','".$master_ebnshare."','".$master_bjkshare."','".$smaster_txhshare."','".$smaster_dmmshare."','".$smaster_ebnshare."','".$smaster_bjkshare."','".$thereferral_agent."')";
 		sqlsrv_query($sqlconn,$sqlx);
+		
+		// Log Login yang Lama (masa peralihan ke log login yang baru)
 		include_once("config_db2.php");
 		$sqly = "insert into log_loginlog (gametype,crttime,userid,userprefix,ip,lastuser,status,www) values('-',GETDATE(),'$entered_login','$agen','$ip','$cooks','user login','".$www."')";	
 		sqlsrv_query($sqlconn_db2,$sqly);
+		
+		// Log Login (yang baru kalau data sudah stabil log lama dihapus)
+		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		  VALUES ('$entered_login','$agen','Login','" . getUserIP2() . "','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Login from " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
+		sqlsrv_query($sqlconn_db2,$queryLogLogin);
+		
 		sqlsrv_query($sqlconn,"update u6048user_id set lastlogin = GETDATE() where userid = '".$entered_login."'");
 	} else {
 		$act = sqlsrv_fetch_array($sql_securex,SQLSRV_FETCH_ASSOC);

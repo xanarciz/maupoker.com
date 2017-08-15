@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
 
-<title>Mobile Poker</title>
 
 <?php
 session_start();
@@ -52,8 +51,8 @@ if($_GET["action"]=="logout"){
 	}
 ?>
 
-<link href="css/<?PHP echo $link_img;?>/style.css?id=422" rel="stylesheet" type="text/css">
-<link href="css/<?PHP echo $link_img;?>/framework.css" rel="stylesheet" type="text/css">
+<link href="css/<?PHP echo $link_img;?>/style.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
+<link href="css/<?PHP echo $link_img;?>/framework.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
 <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">	
 <link href="css/animate.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="assets/owl-carousel/owl.carousel.css" />

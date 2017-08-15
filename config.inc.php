@@ -10,7 +10,9 @@ if (substr($dmn[0],0,3) != "www"){
 }
 
 //$path	="http://www.".$dmn[1].".".$dmn[2];
-$path	="https://avatar.npselalu.net";
+// $path	="https://avatar.npselalu.net";
+//$path	="http://avatar.76k424vhek.com";
+$path	="https://avatar.96nmdqufhz.com";
 $reflink = "www.".$dmn[1].".".$dmn[2]."/referral_daftar.php";
 $agentlink = "www.".$dmn[1].".".$dmn[2]."/agent_daftar.php";
 $DomainName = "www.".$dmn[1].".".$dmn[2];

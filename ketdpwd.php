@@ -81,6 +81,17 @@
                                 </p>
                             </div>
                         </div>
+						<div class="row">
+                            <div class="ico-bank">
+                                <img src="assets/img/bank/cimb-icon.png" style="vertical-align: middle;">
+                                <button onclick=openRequestedPopup('https://www.cimbclicks.co.id/ib-cimbniaga/Login.html','CIMB') target='POP' class="btn btn-submit">Login CIMB</button>
+                            </div>
+                            <div class="sched">
+                                <p>
+                                   Tidak Ada Offline
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="clear space_20"></div>

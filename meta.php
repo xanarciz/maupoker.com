@@ -216,7 +216,6 @@ if ($_SESSION["login"] && $message == "") {
 		echo "<script>alert('$kata');</script>";
 	}
 }
-
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>
@@ -247,6 +246,7 @@ if ($_SESSION["login"] && $message == "") {
 		if ($q_script[0]!="" && $page !="changeAvatar"){
 			echo $q_script[0];
 		}
+			
 		?>
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -257,7 +257,7 @@ if ($_SESSION["login"] && $message == "") {
         <!-- Stylesheet -->
         <link rel="stylesheet" href="assets/css/normalize.css">
     	<link rel="stylesheet" href="assets/css/main.css">
-        <link rel="stylesheet" href="assets/css/<?php echo $link_img;?>.css?id=987">
+        <link rel="stylesheet" href="assets/css/<?php echo $link_img;?>.css?id=<?PHP echo time();?>">
 
         <!-- Jquery -->
         <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -523,5 +523,86 @@ if ($_SESSION["login"] && $message == "") {
 		<?php
 		}
 		?>
+<SCRIPT LANGUAGE="Javascript"><!--
+// ***********************************************
+// AUTHOR: WWW.CGISCRIPT.NET, LLC
+// URL: http://www.cgiscript.net
+// Use the script, just leave this message intact.
+// Download your FREE CGI/Perl Scripts today!
+// ( http://www.cgiscript.net/scripts.htm )
+// ***********************************************
+var isNS = (navigator.appName == "Netscape") ? 1 : 0;
+var EnableRightClick = 0;
+if(isNS) 
+document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
+function mischandler(){
+  if(EnableRightClick==1){ return true; }
+  else {return false; }
+}
+function mousehandler(e){
+  if(EnableRightClick==1){ return true; }
+  var myevent = (isNS) ? e : event;
+  var eventbutton = (isNS) ? myevent.which : myevent.button;
+  if((eventbutton==2)||(eventbutton==3)) return false;
+}
+function keyhandler(e) {
+  var myevent = (isNS) ? e : window.event;
+  if (myevent.keyCode==96)
+    EnableRightClick = 1;
+  return;
+}
+document.oncontextmenu = mischandler;
+document.onkeypress = keyhandler;
+document.onmousedown = mousehandler;
+document.onmouseup = mousehandler;
+//-->
+</script>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+function popUp(URL) {
+day = new Date();
+id = day.getTime();
+eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=800,height=500,left = 100,top = 134');");
+}
+
+//-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var checkflag = "false";
+function check(field) {
+	if (checkflag == "false") {
+		for (i = 0; i < field.length; i++) {
+			if ((field[i].getAttribute('id')=='1')){
+			field[i].checked = true;
+			//document.getElementById('barisku_'+i).style.backgroundColor = '#99FF99';
+			}
+		}
+		tes=document.getElementById('max').value;
+		for (x = 0; x < tes; x++) {
+			document.getElementById('barisku_'+x).style.backgroundColor = '#99FF99';
+		}
+		
+		checkflag = "true";
+		return; 
+	}
+	else {
+		for (i = 0; i < field.length; i++) {
+			if ((field[i].getAttribute('id')=='1')){
+			field[i].checked = false; 
+			}
+		}
+		tes=document.getElementById('max').value;
+		for (x = 0; x < tes; x++) {
+			if(x%2==0)	document.getElementById('barisku_'+x).style.backgroundColor = '#dcdcdc';
+			else document.getElementById('barisku_'+x).style.backgroundColor = '#ededed';
+		}
+		checkflag = "false";
+		return;
+		}
+}
+//-->
+</SCRIPT>
+
     </head>
 	

@@ -106,9 +106,9 @@ if($_POST['submit']){
         $banox=$cx1."-".$cx2."-".$cx3."-".$cx4;
     }else if (strtoupper($_POST["BName"])=='CIMB'){
         $cx1=substr($bano,0,3);
-        $cx2=substr($bano,3,2);
-        $cx3=substr($bano,5,5);
-        $cx4=substr($bano,10,13);
+        $cx2=substr($bano,3,3);
+        $cx3=substr($bano,6,3);
+        $cx4=substr($bano,9,13);
         $banox=$cx1."-".$cx2."-".$cx3."-".$cx4;
     }
 
@@ -229,7 +229,7 @@ if($_POST['submit']){
                     <label class="black ">Nama Rekening</label>
                 </div>
                 <div class="col-lg-7">
-                    <input class="form-control bg-light-gray place-red" id="the_baname" type="text" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" placeholder="*Nama sesuai buku tabungan Anda" />
+                    <input class="form-control bg-light-gray place-red" id="the_baname" type="text" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" placeholder="*Nama sesuai buku tabungan Anda" maxlength="50" onkeyup="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" />
                 </div>
             </div>
             <div class="row padding-15 tpadding-3 bpadding-2">
@@ -260,7 +260,7 @@ if($_POST['submit']){
                     <label class="black">Nomor Rekening</label>
                 </div>
                 <div class="col-lg-7">
-                    <input class="form-control bg-light-gray" id="the_bano" type="text" name="BAno" id="BAno" value="<?php echo $_POST["BAno"];?>" />
+                    <input class="form-control bg-light-gray" id="the_bano" type="text" name="BAno" id="BAno" value="<?php echo $_POST["BAno"];?>" maxlength="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" onblur="this.value=this.value.replace(/[^0-9]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }" />
                 </div>
             </div>
 

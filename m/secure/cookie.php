@@ -180,9 +180,15 @@ else $cooks="";
 		//echo "a ".$key." a";
 		sqlsrv_query($sqlconn,$sqlx);
 		
-		include_once("../../config_db2.php");
+		// Log Login yang Lama (masa peralihan ke log login yang baru)
+		include_once("../config_db2.php");
 		$sqly = "insert into log_loginlog (gametype,crttime,userid,userprefix,ip,lastuser,status,www) values('-',GETDATE(),'$entered_login','$agen','$ip','$cooks','user login','".$www."')";	
 		sqlsrv_query($sqlconn_db2,$sqly);
+		
+		// Log Login (yang baru kalau data sudah stabil log lama dihapus)
+		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		  VALUES ('$entered_login','$agen','Login','" . getUserIP2() . "','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Login from " . $_SERVER['SERVER_NAME'] . " (Mobile Version)', GETDATE())";
+		sqlsrv_query($sqlconn_db2,$queryLogLogin);
 
 		sqlsrv_query($sqlconn,"update u6048user_id set lastlogin = GETDATE() where userid = '".$entered_login."'");
 				

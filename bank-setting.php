@@ -99,9 +99,9 @@ if($_POST['submit']){
         $banox=$cx1."-".$cx2."-".$cx3."-".$cx4;
     }else if (strtoupper($_POST["BName"])=='CIMB'){
         $cx1=substr($bano,0,3);
-        $cx2=substr($bano,3,2);
-        $cx3=substr($bano,5,5);
-        $cx4=substr($bano,10,13);
+        $cx2=substr($bano,3,3);
+        $cx3=substr($bano,6,3);
+        $cx4=substr($bano,9,13);
         $banox=$cx1."-".$cx2."-".$cx3."-".$cx4;
     }
 
@@ -258,7 +258,7 @@ if($_POST['submit']){
                                 <label class="col-lg-1 control-label">Nama Rekening Bank</label>
                                 <div class="col-lg-2">
                                     <div id="ceklis8" class="validx"></div>
-                                    <input type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control">
+                                    <input type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" onkeyup="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');">
                                 </div>
                             </div>
 
@@ -288,7 +288,7 @@ if($_POST['submit']){
                                 <label class="col-lg-1 control-label">Nomor Rekening Bank</label>
                                 <div class="col-lg-2">
                                     <div id="ceklis9" class="validx"></div>
-                                    <input type="text" name="BAno" id="the_bano" value="<?php echo $bano; ?>" placeholder="Nomor Rekening Bank Anda" data-required="true" class="form-control">
+                                    <input type="text" name="BAno" id="the_bano" value="<?php echo $bano; ?>" placeholder="Nomor Rekening Bank Anda" data-required="true" class="form-control" maxlength="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" onblur="this.value=this.value.replace(/[^0-9]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }">
                                 </div>
                             </div>
                             <div class="form-group-full">

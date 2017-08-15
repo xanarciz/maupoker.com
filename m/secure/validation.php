@@ -32,6 +32,14 @@ if ($_POST["input_pin"]){
 		if ( ($logx+1) >= 5 ){
 			sqlsrv_query($sqlconn,"update u6048user_id set logx='5',lastlogin=GETDATE(),status='1' where userid ='".$login."'");
 			sqlsrv_query($sqlconn,"insert into g846log_internal (userid,username,waktu,ket) values ('".$login."','".$_SERVER['REMOTE_ADDR']."',GETDATE(),'Validation Pin Fail')");
+			
+			include_once("../config_db2.php");
+			// log Login (yang baru kalau data sudah stabil log lama dihapus) / Dewadev insert ke 56 Live ke 142
+			$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		      VALUES ('$login','" . $agentwlable . "','Block','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Wrong PIN 5 time. From " . $_SERVER['SERVER_NAME'] . " (Mobile Version)', GETDATE())";
+							  
+			sqlsrv_query($sqlconn_db2,$queryLogLogin);
+			
 			session_destroy();
 		}else{
 			sqlsrv_query($sqlconn,"update u6048user_id set logx=(logx+1) where userid='".$login."'");
@@ -113,7 +121,7 @@ if($logx >= 5){
    	 	</div>
    	 </div>
    	 <div class="container-fluid validate">
-   	 	<label class="<?PHP if($link_img == "io"){ echo "gold"; }elseif($link_img == "PTKP"){ echo "blue"; }else{ echo "purple";} ?>"><b>VALIDASI KEAMANAN</b></label>
+   	 	<label class="<?PHP if(strtoupper($link_img) == "IO"){ echo "gold"; }elseif($link_img == "PTKP"){ echo "blue"; }else{ echo "purple";} ?>"><b>VALIDASI KEAMANAN</b></label>
    	 	<p class="black">
    	 		Sistem ini untuk meningkatkan <b>KEAMANAN</b> dan <b>KENYAMANAN</b> bermain anda.
 			<ul class="black">

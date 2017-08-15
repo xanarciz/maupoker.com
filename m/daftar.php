@@ -209,7 +209,7 @@ if($_POST["submit"]){
 	$cekBankNo	= sqlsrv_num_rows(sqlsrv_query($sqlconn, "select bankaccno from u6048user_id where bankaccno = '".$bano5."' and userprefix='".$cref."'",$params,$options));
 	$te = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select ip from a83adm_ipblok where ip = '".$ip."'",$params,$options));
 
-	if ($capt != $_SESSION['CAPTCHAString']){
+	if (!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "Validasi anda salah.";
 	}else if($pv !== true){ 
 		$errorReport =  "".$pv."";
@@ -368,7 +368,10 @@ if($_POST["submit"]){
 			sqlsrv_query($sqlconn,"insert into log_error (error) values('".$uname."-".hash("sha256",md5($pass).'8080')."-".$cref."-".$ref_userid."-U-".$fname."-0-".$phone."-".$email."-".$bname."-".$baname."-".$bano5."-1-0-0-".$sex."-".$subwebid."')");
 		}
 		
-		sqlsrv_query ($sqlconn, "insert into venus_db.dbo.userid (userid, webid, device, joindate) values ('".$unameid."', (SELECT webid FROM venus_db.dbo.website where domainname like '%,".$nonWWW."%'),1,GETDATE())");
+		sqlsrv_query ($sqlconn, "INSERT INTO venus_db.dbo.userid (id, userid,webid,device, joindate) 
+								 SELECT id, userid, webid, 1 as device, GETDATE() as joindate 
+								 FROM u6048user_id a join venus_db.dbo.website b ON a.userprefix = b.agent COLLATE Latin1_General_CI_AS 
+								 WHERE userid = '".$unameid."'");
 		
 		$successRegister = "<centeR><a href='http://".$DomainName."'>$DomainName</a> - Pendaftaran Sukses<br>Username = <b>$uname</b><br>Anda bisa melakukan deposit di website <a href='http://".$DomainName."'>$DomainName</a>.<br>Selamat bermain dan Terima Kasih  (#1021)<br><br> <font style='font-weight:bold;'>Anda akan terlogin dalam <label id='counter'>5</label>s</font></center>";
 		

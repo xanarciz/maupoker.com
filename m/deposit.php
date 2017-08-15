@@ -134,7 +134,7 @@ if ($sql1["amount"] > 0){
 			$err = 1;
 			die();
 		}
-		if ($capt != $_SESSION['CAPTCHAString']){
+		if (!checkCaptcha('CAPTCHAString', $capt)){
 			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Validasi anda salah.</p></div>";
 			$err = 1;
 		}else if ($amount == "" || $amount <= 0){
@@ -472,7 +472,7 @@ if ($sql1["amount"] > 0){
 						<label class="black fs-13 pull-left tmargin-10">Jumlah Deposit</label>
 						<div class="row">
 							<div class="col-lg-11">
-								<input type="text" class="form-control bg-light-gray" name="ui_amount" id="ui_amount" value="<?php echo @$amount?>" placeholder="Masukan jumlah deposit" required />
+								<input type="tel" class="form-control bg-light-gray" name="ui_amount" id="ui_amount" value="<?php echo @$amount?>" placeholder="Masukan jumlah deposit" required onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }" />
 								<input type="hidden" name="amount" id="amount" value="<?php echo @$amount?>">
 							</div>
 							<div class="col-lg-1 text-left">
@@ -662,6 +662,15 @@ if ($sql1["amount"] > 0){
 										<p class="margin-0 tmargin-3">Login E-Bank</p>
 									</div>
 								</a>
+								
+								<a href="https://www.cimbclicks.co.id/ib-cimbniaga/Login.html" target="_blank" class="dropbtn fs-14" id="btn-cimb" style="display: none; height: 50px;">
+									<div class="col-lg-3 col-lg-offset-2">
+										<img src="img/banks/cimb.png" class="bank pull-left tmargin-5" style="width: 100px; margin-left: -10px;">
+									</div>
+									<div class="col-lg-3">
+										<p class="margin-0 tmargin-3" style="margin-left: 30px;">Login E-Bank</p>
+									</div>
+								</a>
 							</div>
 						</div>
 
@@ -702,7 +711,7 @@ if ($sql1["amount"] > 0){
 
 								<div class="row padding-10">
 									<div class="row">
-										<div class="col-lg-3 tpadding-10">
+										<div class="col-lg-3">
 											<img class="img-fluid tmargin-10" src="img/banks/bca.png">
 										</div>
 										<div class="col-lg-9 lpadding-10">
@@ -714,8 +723,8 @@ if ($sql1["amount"] > 0){
 										</div>	
 									</div>
 
-									<div class="row">
-										<div class="col-lg-3 tpadding-15">
+									<div class="row tpadding-15">
+										<div class="col-lg-3">
 											<img class="img-fluid tmargin-10" src="img/banks/mandiri.png">
 										</div>
 										<div class="col-lg-9 lpadding-10">
@@ -726,24 +735,34 @@ if ($sql1["amount"] > 0){
 										</div>	
 									</div>
 
-									<div class="row">
+									<div class="row tpadding-15">
 										<div class="col-lg-3">
 											<img class="img-fluid tmargin-10" src="img/banks/bni.png">
 										</div>
 										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11" style="border:none; color: #000 !important;">
+											<p class="fs-11 tmargin-10" style="border:none; color: #000 !important;">
 												Senin - Minggu	: 00:00 - 02: 30 WIB
 											</p>
 										</div>	
 									</div>
 
-									<div class="row">
+									<div class="row tpadding-15">
 										<div class="col-lg-3">
 											<img class="img-fluid tmargin-10" src="img/banks/bri.png">
 										</div>
 										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11" style="border:none; color: #000 !important;">
+											<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
 												Senin - Minggu	: 21:00 - 05:30 WIB
+											</p>
+										</div>	
+									</div>
+										<div class="row tpadding-15">
+										<div class="col-lg-3">
+											<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
+										</div>
+										<div class="col-lg-9 lpadding-10">
+											<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
+												Tidak Ada Offline
 											</p>
 										</div>	
 									</div>
@@ -764,14 +783,14 @@ if ($sql1["amount"] > 0){
 						<label class="black fs-13 pull-left tmargin-10">Voucher Code</label>
 						<div class="row">
 							<div class="col-lg-12">
-								<input class="form-control bg-light-gray" name="voucher_code" id="amount" value="" placeholder="Voucher Code" required />
+								<input class="form-control bg-light-gray" name="voucher_code" id="amount" value="" placeholder="Voucher Code" required maxlength="20" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" />
 							</div>
 						</div>
 
 						<label class="black fs-13 pull-left tmargin-10">Voucher PIN</label>
 						<div class="row">
 							<div class="col-lg-12">
-								<input class="form-control bg-light-gray" name="pin" id="amount" value="" placeholder="Voucher Pin" required />
+								<input class="form-control bg-light-gray" name="pin" id="amount" value="" placeholder="Voucher Pin" required onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" />
 							</div>
 						</div>
 
@@ -838,6 +857,11 @@ if ($sql1["amount"] > 0){
 					<img class="img-fluid" src="img/banks/bri.png">
 				</div>
 			</div>
+			<div class="row tmargin-5 lpadding-5 bmargin-10">
+				<div class="col-lg-3">
+					<img class="img-fluid" src="img/banks/cimb.png">
+				</div>
+			</div>
 			<label class="ntf fs-13">
 				Metode Deposit Alternatif:
 			</label>
@@ -896,6 +920,16 @@ if ($sql1["amount"] > 0){
 						</p>
 					</div>	
 				</div>
+				<div class="row tmargin-10">
+					<div class="col-lg-3">
+						<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
+					</div>
+					<div class="col-lg-9 lpadding-10 tmargin-10">
+						<p class="dark-gray fs-11" style="border:none;">
+							Tidak Ada Offline
+						</p>
+					</div>	
+				</div>
 			</div>
 
 			<div style="padding-bottom: 75px;"></div>
@@ -938,21 +972,31 @@ if ($sql1["amount"] > 0){
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'BNI' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'block');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'MANDIRI' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'block');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'BCA' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'block');
+				$( '#btn-cimb' ).css('display', 'none');
+			}else if( res[0] == 'CIMB' ){
+				$( '#btn-bri' ).css('display', 'none');
+				$( '#btn-bni' ).css('display', 'none');
+				$( '#btn-mandiri' ).css('display', 'none');
+				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'block');
 			}
 
 		}else{
@@ -961,6 +1005,7 @@ if ($sql1["amount"] > 0){
 			$( '#btn-bni' ).css('display', 'none');
 			$( '#btn-mandiri' ).css('display', 'none');
 			$( '#btn-bca' ).css('display', 'none');
+			$( '#btn-cimb' ).css('display', 'none');
 		}
 
   		$( "#bkil" ).html( res[0] );
@@ -1065,21 +1110,31 @@ if ($sql1["amount"] > 0){
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'BNI' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'block');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'MANDIRI' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'block');
 				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'none');
 			}else if( res[0] == 'BCA' ){
 				$( '#btn-bri' ).css('display', 'none');
 				$( '#btn-bni' ).css('display', 'none');
 				$( '#btn-mandiri' ).css('display', 'none');
 				$( '#btn-bca' ).css('display', 'block');
+				$( '#btn-cimb' ).css('display', 'none');
+			}else if( res[0] == 'CIMB' ){
+				$( '#btn-bri' ).css('display', 'none');
+				$( '#btn-bni' ).css('display', 'none');
+				$( '#btn-mandiri' ).css('display', 'none');
+				$( '#btn-bca' ).css('display', 'none');
+				$( '#btn-cimb' ).css('display', 'block');
 			}
 
 		}else{
@@ -1088,6 +1143,7 @@ if ($sql1["amount"] > 0){
 			$( '#btn-bni' ).css('display', 'none');
 			$( '#btn-mandiri' ).css('display', 'none');
 			$( '#btn-bca' ).css('display', 'none');
+			$( '#btn-cimb' ).css('display', 'none');
 		}
 
   		$( "#bkil" ).html( res[0] );
@@ -1097,7 +1153,7 @@ if ($sql1["amount"] > 0){
 </script>
 
 <?PHP 
-	if($link_img == "io"){ 
+	if(strtoupper($link_img) == "IO"){ 
 		$color1 = "#e6fdff";
 		$color2 = "#2eb9ca";
 	}elseif($link_img == "PTKP"){ 

@@ -141,8 +141,8 @@ $encodedData = rawurlencode($encryptedData);
         .spin {
             font-size: 16px;
             font-family: 'big_noodle_titlingx';
-            margin-right: -180px;
-            margin-top: -90px;
+            margin-left: -170px;
+            margin-top: -78px;
             background: red;
             color: #fff;
             position: relative;
@@ -275,7 +275,7 @@ function curl($url,  $postdata){
     }
 	
 function after_login($userid,$email){
-
+	/*
 	// QUERY IF USER IS VERFIED USER 
 	$url = 'http://email.6mbr.com/api/email_check';
 	$data = array('api_key' => 'ASDFCAZ123FCRFFGVHGVUSVAH',
@@ -291,7 +291,7 @@ function after_login($userid,$email){
 	}
 	else{
 		return 0;
-	}
+	}*/
 }
 $valid = after_login($_SESSION['login'],$qry['email']);
 	if($_SESSION['login'] && $valid == 1 && $subscribe == 0){
@@ -414,7 +414,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 		}
 		?>
         <div align="center">
-            <div id="header">
+            <div <?PHP if($login){ echo "id='header'"; }else{ echo "id='header-if'"; }?>>
                 <link rel="stylesheet" type="text/css" href="assets/js/vkeyboard/jquery.keypad.big.css">
         		<script language="JavaScript" src="assets/js/vkeyboard/jquery.keypadlogin.js"></script>
         		<script language="JavaScript" src="assets/js/vkeyboard/jquery.keypad-id.js"></script>
@@ -441,7 +441,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 				</script>
 
                 <div class="container">
-                    <div class="logo"><a href="index.php"></a></div>
+                    <div <?PHP if($login){ echo "class='logo'"; }else{ echo "class='logo-if'"; }?>><a href="index.php"></a></div>
 					<?php 
 					if (!$_SESSION["login"]){
 					?>
@@ -473,7 +473,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 						<?php if($cdFrLuck != ''){ ?>
 						<div style="position:absolute;margin-left:380px;margin-top:30px;">
 							<a href="#"  onclick="window.open('dewafortune/dewafortune.php?f=val_access&p=<?PHP echo rawurlencode(base64_encode($param)); ?>&data=<?php echo rawurlencode(base64_encode("https://dewafortune.com/auth/login_defor.php?userid=".$_SESSION['login']."&sessid=".$sid."&access_token=9a7e8111d09b65e038de0444e96b5a8c"));?>','name','width=1280,height=700')">
-								<img src="assets/img/io/button-spinwheel.gif" />
+								<img src="assets/img/io/chips-gratis.gif" />
 								<?PHP if($tiket != "0"){ ?>
 									<p class="spin" align="center"><?PHP echo $tiket;?></p>
 								<?PHP } ?>
@@ -559,12 +559,22 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 						<?php 
 						
 						//active new lobby (true = redirect to new lobby, false = redirect to old lobby)
+						
+						include("myaes.php");
 						$newLob = true;
-						if($newLob){
-							$url_lobby = 'https://lobbyplay.com/lobby.php?lang=id&user='.$login.'&urlBack='.$urlBack.'&key='.$key;
-						}else{
-							$url_lobby .= '/lobby.php?public='.$publicKey.'&data='.$encodedData.'&game=txh&urlBack='.$urlBack.'&key='.$key;
-						}
+						
+						// if( $login == 'AQUILAD8' ){
+							$pkey = '02e97eddc9524a1e';
+							$myaes = new myaes();
+							$myaes->setPrivate($pkey);
+							$pin = $_SESSION["pin"];
+							$valuex = $login.','.$key.','.$pin.',id,'.$urlBack;
+							$encvalue = $myaes->getEnc($valuex);
+							$url_lobby = 'https://lobby6.lobbyplay.com/lobby.php?vp='.rawurlencode($encvalue);
+						// }else{
+							//$url_lobby = 'http://lobby5.lobbyplay.com/lobby.php?lang=id&user='.$login.'&urlBack='.$urlBack.'&key='.$key;
+							// $url_lobby = 'https://lobby6.lobbyplay.com/lobby.php?lang=id&user='.$login.'&urlBack='.$urlBack.'&key='.$key;						
+						// }
 						if ($register == 1){
 							if ($login){
 							?>
@@ -584,16 +594,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 								<li><a class="main1" href="referral.php"><?php echo P_AREFCOM ?></a></li>
 								<li><a class="main1" href="jackpot.php"><?php echo P_JACKPOT?></a></li>
 								<li><a class="main1 android" href="mobile.php"><?php echo P_MOBILE;?></a></li>
-								<li>
-									<a class="main1" href="point-reward.php">
-										<div width="200px" style="margin-top:-5px;">
-											<center>
-												<p style="font-size:11px;line-height:10px;color:#F15000">POINT</p>
-												<p style="line-height:16px;"> REWARD</p>
-											</center>
-										</div>
-									</a>
-								</li>
+								<li><a class="main1" href="promotion.php">PROMOSI</a></li>
 								<li><a class="main1" href="contact.php"><?php echo P_HELP ?></a></li>
 							<?php } 
 						}else if ($register== 0){
@@ -612,17 +613,8 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 							<li><a class="main3" href="deposit.php"><?php echo P_DEP; ?></a></li>
 							<li><a class="main3" href="withdraw.php"><?php echo P_WIT; ?></a></li>
 							<li><a class="main3" href="jackpot.php"><?php echo P_JACKPOT?></a></li>
-                            <li><a class="main3 android" href="point-reward.php"><?php echo P_MOBILE?>&nbsp;&nbsp;&nbsp;</a></li>
-                            <li>
-                            	<a class="main1" href="mobile.php">
-									<div width="200px" style="margin-top:-5px;">
-										<center>
-											<p style="font-size:11px;line-height:10px;color:#F15000">POINT</p>
-											<p style="line-height:16px;"> REWARD</p>
-										</center>
-									</div>
-								</a>
-							</li>
+                            <li><a class="main3 android" href="mobile.php"><?php echo P_MOBILE?>&nbsp;&nbsp;&nbsp;</a></li>
+                            <li><a class="main1" href="promotion.php">PROMOSI</a></li>
 							<li><a class="main3" href="contact.php"><?php echo P_HELP?></a></li>
 							<?php } 
 						}else if ($register== 2){
@@ -638,16 +630,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 								<!-- <li><a class="main3" href="how-to-play.php">Cara Bermain</a></li> -->
 								<li><a class="main3" href="jackpot.php"><?php echo P_JACKPOT?></a></li>
 								<li><a class="main3 android" href="mobile.php"><?php echo P_MOBILE?>&nbsp;&nbsp;&nbsp;</a></li>
-								<li>
-									<a class="main1" href="point-reward.php">
-										<div width="200px" style="margin-top:-5px;">
-											<center>
-												<p style="font-size:11px;line-height:10px;color:#F15000">POINT</p>
-												<p style="line-height:16px;"> REWARD</p>
-											</center>
-										</div>
-									</a>
-								</li>
+								<li><a class="main1" href="promotion.php">PROMOSI</a></li>
 								<li><a class="main3" href="contact.php"><?php echo P_HELP?></a></li>
 							<?php } 
 						}else if ($register== 4){
@@ -669,16 +652,7 @@ $valid = after_login($_SESSION['login'],$qry['email']);
 								<li><a class="main1" href="withdraw.php">Withdraw</a></li>
 								<li><a class="main1" href="jackpot.php">Jackpot</a></li>
 								<li><a class="main1 android" href="Mobile.php">Mobile&nbsp;&nbsp;</a></li>
-								<li>
-									<a class="main1" href="point-reward.php">
-										<div width="200px" style="margin-top:-5px;">
-											<center>
-												<p style="font-size:11px;line-height:10px;color:#F15000">POINT</p>
-												<p style="line-height:16px;"> REWARD</p>
-											</center>
-										</div>
-									</a>
-								</li>
+								<li><a class="main1" href="promotion.php">PROMOSI</a></li>
 								<li><a class="main1" href="contact.php">Bantuan</a></li>
 							<?php } 
 						}

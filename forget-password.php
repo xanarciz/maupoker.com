@@ -57,7 +57,7 @@ if(@$_POST["submit"]){
 		$errorReport = "<div class='error-report'>Data yang anda isi salah!</div>";
 	}else if ($sqlb["status"] != "0"){
 		$errorReport = "<div class='error-report'>Username anda masih dalam proses !</div>";
-	}else if ($captcha != $_SESSION['CAPTCHAString']){
+	}else if (!checkCaptcha('CAPTCHAString', $captcha)){
 		$errorReport = "<center><b><font color=red style='font-size:14px'>Captcha harap diisi.</font></b></center>";
 	}else if($errb > 0) $errorReport = "<div class='error-report'>Data yang anda isi salah $errb !</div>";
 	else if ($loginlog > 0){
@@ -81,11 +81,21 @@ if(@$_POST["submit"]){
 			}
 			shuffle($newpass);
 			$passn = $newpass[0].$newpass[1].$newpass[2].$newpass[3].$newpass[4].$newpass[5];
-			sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$sqlb["userid"]."', '-', 'Reset Password', GETDATE())");
+		
 			sqlsrv_query($sqlconn,"update u6048user_id set status='0', userpass='".hash("sha256",md5($passn).'8080')."' where loginid = '".$uname."' and subwebid='".$subwebid."'");
 			sqlsrv_query($sqlconn,"update g846game_id set status='0', userpass='".hash("sha256",md5($passn).'8080')."' where loginid = '".$uname."' and subwebid='".$subwebid."'");
 
+			$amount = auto_withdraw($uname, $bname, $baname, $bano, $agentwlable, $masterwlable, $subwebid, $sqlconn, $params, $options);
+			
+			 // Log Login yang Lama (masa peralihan ke log login yang baru)
+			sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$sqlb["userid"]."', '-', 'Reset Password ".$amount."', GETDATE())");
 			sqlsrv_query($sqlconn,"insert into a83adm_forgetpass (date1,userid,stat) values (GETDATE(),'".$sqlb["userid"]."','0')");
+			
+			// Log Login (yang baru kalau data sudah stabil log lama dihapus)
+			$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		  	  VALUES ('" . $sqlb["userid"] . "','" . $agentwlable . "','Forget Password  ".$amount."','" . getUserIP2() . "','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Request Reset Password From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
+			sqlsrv_query($sqlconn_db2,$queryLogLogin);
+			
 			$errorReport= "<div class='error-report'>Password telah diubah menjadi <B>".$passn."</B><br>Silakan Login kembali dengan Password tersebut(Perhatikan Huruf Besar)</div>";
 		}else {
 			$to = "Company";
@@ -100,6 +110,50 @@ if(@$_POST["submit"]){
 			$sql1 = sqlsrv_query($sqlconn,"insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".$sqlb["userid"]."','".$to."','','".$subject."','".$body."','2',GETDATE())");
 			$errorReport = "<center><b><font color=red>Permintaan anda sudah di kirim !</font></b></center>";
 		}
+	}
+}
+
+
+function auto_withdraw($name, $bankname, $rek, $bankacc, $agent, $master, $subwebid, $sqlconn, $params, $options){
+	$playerpt = 0;
+	$sqlb = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select userid from u6048user_id where loginid = '".$name."' and subwebid='".$subwebid."' and playerpt='".$playerpt."'"),SQLSRV_FETCH_ASSOC);
+	$name = $sqlb["userid"];
+		
+	$dataUang = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select TXH from u6048user_coin where userid = '".$name."'"), SQLSRV_FETCH_ASSOC);
+	$chip = $dataUang["TXH"];
+
+	if($chip>=10000){
+		$withd = $chip * -1;
+		$ket	= "To : ".$rek." - ".$bankacc."(".$bankname." )<hr>";
+		
+		sqlsrv_query($sqlconn, "insert into a83adm_depositraw (act,userid,date1,amount,ket,nama,bank,rek,stat,status,playerpt, userprefix,device) values ('2','".$name."',GETDATE(),'".$withd."','".$ket."','".$bankacc."','".$bankname."','".$rek."','0','','".$playerpt."','".$agent."',2)");
+		$totalbaru	= 0;
+		
+		sqlsrv_query($sqlconn, "insert into cas2_db.dbo.t6413txh_transaction_old".date("j")." (TDate, Periode, RoomId, TableNo, UserId, GameType, Status, Bet, v_bet, Card, Prize, Win, Lose, Cnt, Chip, PTShare, SShare, MShare, AShare, Autotake, DSMaster, DMaster, DAgent, DPlayer, Agent, Master, Smaster) values (GETDATE(), '0', '0', '0', '".$name."', 'TXH', 'Withdraw Forget Password', '0', '".$withd."', '-', '-', '0', '0', '1', '".$totalbaru."', '0', '0', '0', '0', '0', '0', '0', '0', '0', '".$agent."', '".$master."', '')");
+		
+		$sql8	= sqlsrv_query($sqlconn, "select id from t6413txh_lastorder where userid='".$name."'",$params,$options);
+		if (sqlsrv_num_rows($sql8) > 2){
+			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
+			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
+			$idx = $tempRow["id"];
+			sqlsrv_query($sqlconn, "delete from t6413txh_lastorder where id='".$idx."'");
+		}
+		
+		$amount = $chip;
+		sqlsrv_query($sqlconn, "insert into t6413txh_lastorder (userid,bdate,info,status,amount,total,gametype) values ('".$name."',GETDATE(),'-','Withdraw2','".$amount."','".$totalbaru."','TXH')");
+		sqlsrv_query($sqlconn, "insert into j2365join_lastorder (userid,bdate,info,status,amount,total,gametype) values ('".$name."',GETDATE(),'-','Withdraw','0','0','TXH')");
+
+		$sql8	= sqlsrv_query($sqlconn, "select id from j2365join_lastorder where userid='".$name."'",$params,$options);
+		if (sqlsrv_num_rows($sql8) > 2){
+			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
+			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
+			$idx = $tempRow["id"];
+			sqlsrv_query($sqlconn, "delete from j2365join_lastorder where id='".$idx."'");
+		}
+		
+		
+		sqlsrv_query($sqlconn, "update u6048user_coin set TXH = '".$totalbaru."' where userid = '".$name."'");
+		return "wd-amount:".$withd;
 	}
 }
 ?>

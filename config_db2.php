@@ -1,7 +1,7 @@
 <?php
 $Server_db2 = "103.249.162.142";
-$DbUserName_db2 = "super_dewa";
-$DbUserPass_db2 = "adm!@#123";
+$DbUserName_db2 = "log_matadewa";
+$DbUserPass_db2 = "1nTel_5#9_FBI";
 $DbName_db2 = "cas2_db";
 global $sqlconn_db2;
 $connectionInfo_db2 = array( "UID"=>$DbUserName_db2,

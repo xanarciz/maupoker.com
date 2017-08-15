@@ -60,6 +60,18 @@
     }
 ?>
 
+	<script type="text/javascript">
+		//hiding footer
+		$(document).ready(function(){
+			$('input[type="text"], input[type="tel"], input[type="password"]').on("focus",function (){
+				 $('.footer').hide();
+			});
+			$('input[type="text"], input[type="tel"], input[type="password"]').on("blur",function (){
+				 $('.footer').show();
+			});
+		});
+	</script>
+
 </div> <!-- END OF ALL ELEMENT -->
 </div> <!-- END OF CONTENT -->
 </body>

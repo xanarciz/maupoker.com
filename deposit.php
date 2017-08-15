@@ -59,7 +59,7 @@ if ($sql1["amount"] > 0){
 }
 
 //$sqlbank = mssql_fetch_array(mssql_query("select bankname, bankaccno, bankaccname, bankgrup from u6048user_id where userid ='".$login."'"));
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
+$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id, bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
 $bankname = $sqlu["bankname"];
 $bankaccno = $sqlu["bankaccno"];
 $bankaccname = $sqlu["bankaccname"];
@@ -130,12 +130,12 @@ if ($_POST["submit"] && !$err) {
 		 $errorReport =  "<div class='error-report'>Connection Timeout.</div>";
 		 $err = 1;
 		 die();
-	}
+	}/* 
 
-	if ($capt != $_SESSION['CAPTCHAString']){
+	if (!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
 		$err = 1;
-	}else if ($amount == "" || $amount <= 0){
+	}else */ if ($amount == "" || $amount <= 0){
 		$errorReport =  "<div class='error-report'>Deposit gagal<br>Isi Jumlah.</div>";
 		$err = 1;
 	// }else if ($waktu == ""){
@@ -255,6 +255,14 @@ if ($_POST["submit"] && !$err) {
 					</tr>
 				</table>
 				<span>Deposit anda paling maximal akan di proses dalam 24 jam</span></div>";
+				
+			echo"<br>";
+			echo "<script src=\"https://d3qycynbsy5rsn.cloudfront.net/OptiRealApi-1.1.0.js\" type=\"text/javascript\"></script>";
+			echo "<script>
+				$(document).ready(function(){
+					OptiRealApi.reportEvent(7, null, '" . $sqlu["id"] . "', \"7ae87a05e42bd455d041884a1f62da6a30bc2ff5a20dc47e8b12620cf82066bc\");
+				});
+			</script>";
 		}
 	}
 	echo"<BR>";
@@ -401,26 +409,43 @@ $bankaccnox = substr($bankaccno,0,-4);
         var bnk = $("#data_bank" ).val().toUpperCase();
         
         if( bnk == 'BRI' ){
-            $( '.bri' ).css('display', 'block');
-            $( '.bni' ).css('display', 'none');
-            $( '.bca' ).css('display', 'none');
-            $( '.mandiri' ).css('display', 'none');
+            $( '.bri-ebank' ).css('display', 'block');
+            $( '.bni-ebank' ).css('display', 'none');
+            $( '.bca-ebank' ).css('display', 'none');
+            $( '.cimb-ebank' ).css('display', 'none');
+            $( '.mandiri-ebank' ).css('display', 'none');
         }else if( bnk == 'BNI' ){
-            $( '.bri' ).css('display', 'none');
-            $( '.bni' ).css('display', 'block');
-            $( '.bca' ).css('display', 'none');
-            $( '.mandiri' ).css('display', 'none');
+            $( '.bri-ebank' ).css('display', 'none');
+            $( '.bni-ebank' ).css('display', 'block');
+            $( '.bca-ebank' ).css('display', 'none');
+            $( '.cimb-ebank' ).css('display', 'none');
+            $( '.mandiri-ebank' ).css('display', 'none');
         }else if( bnk == 'BCA' ){
-            $( '.bri' ).css('display', 'none');
-            $( '.bni' ).css('display', 'none');
-            $( '.bca' ).css('display', 'block');
-            $( '.mandiri' ).css('display', 'none');
+            $( '.bri-ebank' ).css('display', 'none');
+            $( '.bni-ebank' ).css('display', 'none');
+            $( '.bca-ebank' ).css('display', 'block');
+            $( '.cimb-ebank' ).css('display', 'none');
+            $( '.mandiri-ebank' ).css('display', 'none');
         }else if( bnk == 'MANDIRI' ){
-            $( '.bri' ).css('display', 'none');
-            $( '.bni' ).css('display', 'none');
-            $( '.bca' ).css('display', 'none');
-            $( '.mandiri' ).css('display', 'block');
+            $( '.bri-ebank' ).css('display', 'none');
+            $( '.bni-ebank' ).css('display', 'none');
+            $( '.bca-ebank' ).css('display', 'none');
+            $( '.cimb-ebank' ).css('display', 'none');
+            $( '.mandiri-ebank' ).css('display', 'block');
+        }else if( bnk == 'CIMB' ){
+            $( '.bri-ebank' ).css('display', 'none');
+            $( '.bni-ebank' ).css('display', 'none');
+            $( '.bca-ebank' ).css('display', 'none');
+            $( '.cimb-ebank' ).css('display', 'block');
+            $( '.mandiri-ebank' ).css('display', 'none');
         }
+		
+		var mybank = '<?PHP echo $bankname; ?>';
+		if(bnk != mybank){
+			$( '.newterm' ).css('display', 'block');
+		}else{
+			$( '.newterm' ).css('display', 'none');
+		}
     }
 
     function openCity(evt, target_) {
@@ -441,7 +466,7 @@ $bankaccnox = substr($bankaccno,0,-4);
     $(document).ready(function(){
         document.getElementById("defaultOpen").click();
         var bnk = $("#data_bank" ).val().toLowerCase();
-        $("."+bnk).css('display', 'block');
+        $("."+bnk+"-ebank").css('display', 'block');
     });
 
 </script>
@@ -536,7 +561,7 @@ $bankaccnox = substr($bankaccno,0,-4);
 	if($_SESSION['login'] && $subscribe == 0 ){
 ?>
 <!-- <script src="assets/js/jquery-2.1.4.js"></script>-->
-<script src="http://email.6mbr.com/subscribe.js?u=<?php echo $_SESSION['login']?>&w=domino88321&v=<?php echo time();?>" data-modalid="1405531097" data-webid="domino88321" data-user="<?php echo $_SESSION['login']?>" ></script>	<?php 
+<script src="https://email.6mbr.com/subscribe.js?u=<?php echo $_SESSION['login']?>&w=domino88321&v=<?php echo time();?>" data-modalid="1405531097" data-webid="domino88321" data-user="<?php echo $_SESSION['login']?>" ></script>	<?php 
 	}
 ?>
 			<div id="content">
@@ -599,13 +624,13 @@ $bankaccnox = substr($bankaccno,0,-4);
 										<div class="form-group-full">
 											<label class="col-lg-1 control-label">Voucher Code</label>
 											<div class="col-lg-2"> : &nbsp;
-												<input id="" type="text" placeholder="Voucher Code" name="voucher_code" value="" data-required="true" class="form-control" style="width:96%;">
+												<input id="" type="text" placeholder="Voucher Code" name="voucher_code" value="" data-required="true" class="form-control" style="width:96%;" maxlength="20" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');">
 											</div>
 										</div>
 										<div class="form-group-full">
 											<label class="col-lg-1 control-label">PIN</label>
 											<div class="col-lg-2"> : &nbsp;
-												<input id="" type="text" placeholder="Pin" name="pin" value="" data-required="true" class="form-control" style="width:96%;">
+												<input id="" type="text" placeholder="Pin" name="pin" value="" data-required="true" class="form-control" style="width:96%;" maxlength="10" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');">
 											</div>
 										</div>
 										<div class="form-group-full">
@@ -622,6 +647,9 @@ $bankaccnox = substr($bankaccno,0,-4);
 										</div>
 									</form>
 								</div>
+								<table style="float: right; margin-top: -45px">
+									<tr><td><a href="http://www.voucher88.asia/business/benefits/reseller" target="_blank"><img src="images/V88_300x100.gif"></a></td></tr>
+								</table>
 								
 								<div id="cash" class="tabcontent">
 									<br>
@@ -664,7 +692,7 @@ $bankaccnox = substr($bankaccno,0,-4);
 										<div class="form-group-full" align="left">
 											<label class="col-lg-1 control-label">Jumlah Deposit</label>
 											<div class="col-lg-2"> : &nbsp;
-												<input type="text" name="ui_amount" id="ui_amount" placeholder="Jumlah Deposit" data-required="true" class="form-control" style="width:450px;"> IDR <br> &nbsp; &nbsp;
+												<input type="text" name="ui_amount" id="ui_amount" placeholder="Jumlah Deposit" data-required="true" class="form-control" style="width:450px;" onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }"> IDR <br> &nbsp; &nbsp;
 												<font color="#dfbf61" size="2" style="font-style:italic;">*Minimal deposit Rp <?php echo number_format ($conf_depo['min_depo'], 0, '.', '.'); ?>, Maksimal deposit Rp <?php echo number_format ($conf_depo['max_depo'], 0, '.', '.'); ?></font>
 												<input type="hidden" name="amount" id="amount" placeholder="Jumlah Deposit" data-required="true" class="form-control" style="width:450px;">
 											</div>
@@ -718,6 +746,14 @@ $bankaccnox = substr($bankaccno,0,-4);
 											</div>
 										</div>
 										
+										<div class="form-group-full newterm" align="left" style="display: none;">
+											<label class="col-lg-1 control-label"></label>
+											<div class="col-lg-2">&nbsp;
+												<font size="2" style="font-style: italic; color: red; margin-left: 15px;">*Transfer antar bank diwajibkan untuk menggunakan nominal unik</font>
+											</div>
+										</div>
+										<br>
+										
 										<div class="form-group-full" align="left">
 											<label class="col-lg-1 control-label">Nama Rekening</label>
 											<div class="col-lg-2"> : &nbsp;
@@ -737,17 +773,20 @@ $bankaccnox = substr($bankaccno,0,-4);
 										<div class="form-group-full" align="left">
 											<div class="col-lg-1"></div>
 											<div class="col-lg-2">
-												<a onclick="openRequestedPopup('https://ib.bri.co.id/ib-bri/','BRI')" target='POP' class='btn-bank bri' style='cursor:pointer;'>
+												<a onclick="openRequestedPopup('https://ib.bri.co.id/ib-bri/','BRI')" target='POP' class='btn-bank bri-ebank' style='cursor:pointer;'>
 													<img src="m/img/banks/bri - blue.png" width="70px" style="vertical-align:middle;"> &nbsp; Login E-Banking
 												</a>
-												<a onclick="openRequestedPopup('https://ibank.klikbca.com/','BCA')" target='POP' class='btn-bank bca' style='cursor:pointer;'>
+												<a onclick="openRequestedPopup('https://ibank.klikbca.com/','BCA')" target='POP' class='btn-bank bca-ebank' style='cursor:pointer;'>
 													<img src="m/img/banks/bca - blue.png" width="70px" style="vertical-align:middle;"> &nbsp; Login E-Banking
 												</a>
-												<a onclick="openRequestedPopup('https://ib.bankmandiri.co.id','MANDIRI')" target='POP' class='btn-bank mandiri' style='cursor:pointer;'>
+												<a onclick="openRequestedPopup('https://ib.bankmandiri.co.id','MANDIRI')" target='POP' class='btn-bank mandiri-ebank' style='cursor:pointer;'>
 													<img src="m/img/banks/mandiri - blue.png" width="70px" style="vertical-align:middle;"> &nbsp; Login E-Banking
 												</a>
-												<a onclick="openRequestedPopup('https://ibank.bni.co.id/','BNI')" target='POP' class='btn-bank bni' style='cursor:pointer;'>
+												<a onclick="openRequestedPopup('https://ibank.bni.co.id/','BNI')" target='POP' class='btn-bank bni-ebank' style='cursor:pointer;'>
 													<img src="m/img/banks/bni - blue.png" width="70px" style="vertical-align:middle;"> &nbsp; Login E-Banking
+												</a>
+												<a onclick="openRequestedPopup('https://www.cimbclicks.co.id/ib-cimbniaga/Login.html','CIMB')" target='POP' class='btn-bank cimb-ebank' style='cursor:pointer;'>
+													<img src="m/img/banks/cimb.png" width="70px" style="vertical-align:middle;"> &nbsp; Login E-Banking
 												</a>
 											</div>
 										</div>
@@ -923,5 +962,15 @@ function openRequestedPopup(link, title) {
 	});
 </script>
 <?php
+if(isset($_SESSION['optLogin'])){
+	echo "<script src=\"https://d3qycynbsy5rsn.cloudfront.net/OptiRealApi-1.1.0.js\" type=\"text/javascript\"></script>";
+	echo "<script>
+			 $(document).ready(function(){
+				 OptiRealApi.reportEvent(1, null, '" . $sqlu["id"] . "', \"7ae87a05e42bd455d041884a1f62da6a30bc2ff5a20dc47e8b12620cf82066bc\");
+			 });
+		 </script>";
+	unset($_SESSION['optLogin']);
+}
+
 include("footer.php");
 ?>

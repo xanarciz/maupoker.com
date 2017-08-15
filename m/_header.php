@@ -157,19 +157,9 @@ $txt_script = explode("__lc.license = ",$q_script["script_text"]);
 $lisence = substr($txt_script[1],0,7);
 
 $img_main = explode(";",$q["img_main"]);
-if($link_img == "io"){ 
-    $android = "https://www.gameiosapk.com/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
-	$name = 'Domino88';
-}elseif($link_img == "PTKP"){ 
-    $android = "https://www.gameiosapk.com/m-kartupoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-kartupoker/iphone/manifest.plist"; 
-	$name = 'Kartu Poker';
-}else{ 
-    $android = "https://www.gameiosapk.com/m-remipoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-remipoker/iphone/manifest.plist"; 
-	$name = 'RemiPoker';
-}
+$android = "https://www.gameiosapk.com/android.php";
+$ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
+$name = 'Domino88';
 ?>
 
 <body>
@@ -193,7 +183,7 @@ if($link_img == "io"){
           <img class="header-logo" src="img/<?PHP echo $link_img;?>/logo.png">
             <?php if ($_SESSION["login"]){ ?>
             
-            <div class="col-lg-4 pull-right <?PHP if($link_img == "io"){ echo "bg-lighter-blue"; }elseif($link_img == "PTKP"){ echo "bg-black"; }else{ echo "bg-purple";} ?> padding-3 ui-corner-all lpadding-5 tmargin-5 tpadding-5" >
+            <div class="col-lg-4 pull-right <?PHP if(strtoupper($link_img) == "IO"){ echo "bg-lighter-blue"; }elseif($link_img == "PTKP"){ echo "bg-black"; }else{ echo "bg-purple";} ?> padding-3 ui-corner-all lpadding-5 tmargin-5 tpadding-5" >
                 <p class="white padding-0 margin-0"><?php echo $_SESSION["login"]; ?></p>
                 <p class="green padding-0 margin-0">IDR <?php echo number_format($coin); ?></p>
             </div>
@@ -256,6 +246,7 @@ if($link_img == "io"){
 
           });
 		  
+		  <?PHP if(!$login){ ?>
 		  $(document).ready(function () {
             if(smartBanner.isSupportDevice() && $.cookie('hideSmartBanner') !== 'true'){
               $('.app-container').slideDown('slow');
@@ -269,4 +260,5 @@ if($link_img == "io"){
               title: '<?php echo $name;?>'
             });
           });
+		  <?PHP } ?>
         </script>

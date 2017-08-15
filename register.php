@@ -251,7 +251,7 @@ if($_POST["submit"]){
 	
 	
 
-	if ($capt != $_SESSION['CAPTCHAString']){
+	if (!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "<div class='error-report'>Validasi anda salah.(#1001)</div>";
 	}else if($pv !== true){ 
 		$errorReport =  "<div class='error-report'>".$pv." (#1002)</div>"; 
@@ -441,7 +441,10 @@ if($_POST["submit"]){
 			$mobile = 1;
 		}
 		
-		sqlsrv_query ($sqlconn, "insert into venus_db.dbo.userid (userid, webid, device, joindate) values ('".$unameid."', (SELECT webid FROM venus_db.dbo.website where domainname like '%,".$nonWWW."%'),".$mobile.",GETDATE())");
+		sqlsrv_query ($sqlconn, "INSERT INTO venus_db.dbo.userid (id, userid,webid,device, joindate) 
+								 SELECT id, userid, webid, ".$mobile." as device, GETDATE() as joindate 
+								 FROM u6048user_id a join venus_db.dbo.website b ON a.userprefix = b.agent COLLATE Latin1_General_CI_AS 
+								 WHERE userid = '".$unameid."'");
 		
 		$successRegister = "<centeR><a href='http://".$DomainName."'>$DomainName</a> - Pendaftaran Sukses<br>Username = <b>$uname</b><br>Anda bisa melakukan deposit di website <a href='http://".$DomainName."'>$DomainName</a>.<br>Selamat bermain dan Terima Kasih  (#1021)<br><br> <font style='font-weight:bold;'>Anda akan terlogin dalam <label id='counter'>5</label>s</font></center>";
 		?>

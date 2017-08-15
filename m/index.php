@@ -3,22 +3,10 @@ $page='home';
 include("_metax.php");
 include("_header.php");
 
-if($link_img == "io"){ 
-    $android = "https://www.gameiosapk.com/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://infodomino88.com/bermain-di-smartphone/"; 
-    $linkpanduan_i = "http://infodomino88.com/bermain-di-apple-ios/"; 
-}elseif($link_img == "PTKP"){ 
-    $android = "https://www.gameiosapk.com/m-kartupoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-kartupoker/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://infokartupoker.com/android/"; 
-    $linkpanduan_i = "http://infokartupoker.com/petunjuk-instalasi-ios/"; 
-}else{ 
-    $android = "https://www.gameiosapk.com/m-remipoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-remipoker/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://inforemipoker.com/cara-install-aplikasi-android-remipoker/"; 
-    $linkpanduan_i = "http://inforemipoker.com/cara-install-aplikasi-ios-remipoker/"; 
-}
+$android = "https://www.gameiosapk.com/android.php";
+$ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
+$linkpanduan_a = "http://infodomino88.com/bermain-di-smartphone/"; 
+$linkpanduan_i = "http://infodomino88.com/bermain-di-apple-ios/"; 
 
 session_start();
 $login = $_SESSION["login"];
@@ -99,7 +87,7 @@ $param = $_SESSION['login'].",".$sid;
   <div class="row">
       <div class="slider">
         <div id="owl-demo" class="owl-carousel owl-theme">
-          <div class="item"><div class="slider-img1"></div></div>
+          <a href='http://infodomino88.com/turnamen-domino88/' target="_blank"><div class="item"><div class="slider-img1"></div></div></a>
           <div class="item"><div class="slider-img2"></div></div>
           <div class="item"><div class="slider-img3"></div></div>
         </div>
@@ -135,7 +123,7 @@ $param = $_SESSION['login'].",".$sid;
   <!-- SPIN -->
   <?PHP if($_SESSION["login"]){ ?>
   <div class="toggle-1 tpadding-5 bpadding-5" align="center" style="<?PHP if($tiket <= 0){ echo 'padding-top: 25px;'; }?>">
-    <a href="#"  onclick="window.open('../dewafortune/dewafortune.php?f=val_access&p=<?PHP echo rawurlencode(base64_encode($param)); ?>&data=<?php echo rawurlencode(base64_encode("https://dewafortune.com/auth/login_defor.php?userid=".$_SESSION['login']."&sessid=".$sid."&access_token=9a7e8111d09b65e038de0444e96b5a8c"));?>','name','width=800,height=450')">
+    <a href="https://dewafortune.com/auth/login_defor.php?userid=<?php echo $_SESSION['login'];?>&sessid=<?php echo $sid;?>&access_token=9a7e8111d09b65e038de0444e96b5a8c" target="_blank">
         <?PHP if($tiket > 0){ ?>
         <div class="spin tpadding-3" align="center"><?PHP echo $tiket;?></div>
         <?PHP } ?>

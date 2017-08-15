@@ -16,22 +16,10 @@ if (!$info){
     $info = 1;
 }
 
-if($link_img == "io"){ 
-    $android = "https://www.gameiosapk.com/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://infodomino88.com/bermain-di-smartphone/"; 
-    $linkpanduan_i = "http://infodomino88.com/bermain-di-apple-ios/"; 
-}elseif($link_img == "PTKP"){ 
-    $android = "https://www.gameiosapk.com/m-kartupoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-kartupoker/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://infokartupoker.com/android/"; 
-    $linkpanduan_i = "http://infokartupoker.com/petunjuk-instalasi-ios/"; 
-}else{ 
-    $android = "https://www.gameiosapk.com/m-remipoker/android.php";
-    $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/m-remipoker/iphone/manifest.plist"; 
-    $linkpanduan_a = "http://inforemipoker.com/cara-install-aplikasi-android-remipoker/"; 
-    $linkpanduan_i = "http://inforemipoker.com/cara-install-aplikasi-ios-remipoker/"; 
-}
+$android = "https://www.gameiosapk.com/android.php";
+$ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
+$linkpanduan_a = "http://infodomino88.com/bermain-di-smartphone/"; 
+$linkpanduan_i = "http://infodomino88.com/bermain-di-apple-ios/"; 
 ?>
 
 <div class="content" style="height:auto;padding-bottom:50px;">
@@ -70,24 +58,24 @@ if($link_img == "io"){
         </div>
     </div>
 
-    <div class="row lpadding-20 <?PHP if($link_img == "io"){ echo "bg-blue-panel"; }elseif($link_img == "PTKP"){ echo "bg-red-panel"; }else{ echo "bg-purple";} ?> tpadding-10 bpadding-10">
+    <div class="row lpadding-20 <?PHP if(strtoupper($link_img) == "IO"){ echo "bg-blue-panel"; }elseif($link_img == "PTKP"){ echo "bg-red-panel"; }else{ echo "bg-purple";} ?> tpadding-10 bpadding-10">
         <a href="<?php echo $linkpanduan_a; ?>" target="_blank">
             <div class="col-lg-1">
-                <i class="fa fa-android fa-2x <?PHP if($link_img == "io"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>"></i>
+                <i class="fa fa-android fa-2x <?PHP if(strtoupper($link_img) == "IO"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>"></i>
             </div>
-            <div class="col-lg-11 tpadding-7 lpadding-5 fs-13 <?PHP if($link_img == "io"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>">
+            <div class="col-lg-11 tpadding-7 lpadding-5 fs-13 <?PHP if(strtoupper($link_img) == "IO"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>">
                 Panduan Instalasi Android
             </div>
         </a>
     </div>
 
-    <div class="row tmargin-5 lpadding-20 <?PHP if($link_img == "io"){ echo "bg-blue-panel"; }elseif($link_img == "PTKP"){ echo "bg-red-panel"; }else{ echo "bg-purple";} ?> tpadding-10 bpadding-10">
+    <div class="row tmargin-5 lpadding-20 <?PHP if(strtoupper($link_img) == "IO"){ echo "bg-blue-panel"; }elseif($link_img == "PTKP"){ echo "bg-red-panel"; }else{ echo "bg-purple";} ?> tpadding-10 bpadding-10">
         <a href="<?php echo $linkpanduan_i; ?>" target="_blank">         
             <div class="col-lg-1">
-                <i class="fa fa-apple fa-2x <?PHP if($link_img == "io"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>"></i>
+                <i class="fa fa-apple fa-2x <?PHP if(strtoupper($link_img) == "IO"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>"></i>
             </div>
-            <div class="col-lg-11 tpadding-7 lpadding-5 fs-13 <?PHP if($link_img == "io"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>">
-                Panduan Instalasi <?PHP if($link_img == "io"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>
+            <div class="col-lg-11 tpadding-7 lpadding-5 fs-13 <?PHP if(strtoupper($link_img) == "IO"){ echo "white"; }elseif($link_img == "PTKP"){ echo "white"; }else{ echo "gold";} ?>">
+                Panduan Instalasi iOS
             </div>
         </a>
     </div>

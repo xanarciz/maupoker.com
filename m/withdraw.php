@@ -31,12 +31,6 @@ $agent	= $sql3["userprefix"];
 $sql5	= "select min_wdraw from u6048user_id where userid='".$agent."'";
 $query5	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, $sql5), SQLSRV_FETCH_ASSOC);
 $minwit	= $query5["min_wdraw"];
-
-if($bankaccno == null && $bankname == null && $bankaccname == null) {
-	echo "<script>window.location = 'bank-setting.php'</script>";
-	$_SESSION['urlPrev'] = 'withdraw.php';
-	die();
-}
 	
 $query = sqlsrv_query($sqlconn,"select sqltable from a83adm_configgame");
 
@@ -312,7 +306,7 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 		<label class="black fs-13 pull-left tmargin-10">Jumlah Penarikan</label>
 		<div class="row">
 			<div class="col-lg-11">
-				<input class="form-control bg-light-gray" name="ui_amount" id="ui_amount" placeholder="Masukan jumlah penarikan dana" />
+				<input type="tel" class="form-control bg-light-gray" name="ui_amount" id="ui_amount" placeholder="Masukan jumlah penarikan dana" onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }" />
 				<input type="hidden" name="amount" id="amount"/>
 			</div>
 			<div class="col-lg-1 text-left">
@@ -396,7 +390,7 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 
 				<div class="row padding-10">
 					<div class="row">
-						<div class="col-lg-3 tpadding-10">
+						<div class="col-lg-3">
 							<img class="img-fluid tmargin-10" src="img/banks/bca.png">
 						</div>
 						<div class="col-lg-9 lpadding-10">
@@ -408,8 +402,8 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 						</div>	
 					</div>
 
-					<div class="row">
-						<div class="col-lg-3 tpadding-15">
+					<div class="row tpadding-15">
+						<div class="col-lg-3">
 							<img class="img-fluid tmargin-10" src="img/banks/mandiri.png">
 						</div>
 						<div class="col-lg-9 lpadding-10">
@@ -420,24 +414,34 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 						</div>	
 					</div>
 
-					<div class="row">
+					<div class="row tpadding-15">
 						<div class="col-lg-3">
 							<img class="img-fluid tmargin-10" src="img/banks/bni.png">
 						</div>
 						<div class="col-lg-9 lpadding-10">
-							<p class="fs-11" style="border:none; color: #000 !important;">
-								Senin - Minggu	: 00:00 - 02:30  WIB
+							<p class="fs-11 tmargin-10" style="border:none; color: #000 !important;">
+								Senin - Minggu	: 00:00 - 02: 30 WIB
 							</p>
 						</div>	
 					</div>
 
-					<div class="row">
+					<div class="row tpadding-15">
 						<div class="col-lg-3">
 							<img class="img-fluid tmargin-10" src="img/banks/bri.png">
 						</div>
 						<div class="col-lg-9 lpadding-10">
-							<p class="fs-11" style="border:none; color: #000 !important;">
+							<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
 								Senin - Minggu	: 21:00 - 05:30 WIB
+							</p>
+						</div>	
+					</div>
+						<div class="row tpadding-15">
+						<div class="col-lg-3">
+							<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
+						</div>
+						<div class="col-lg-9 lpadding-10">
+							<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
+								Tidak Ada Offline
 							</p>
 						</div>	
 					</div>
@@ -450,11 +454,6 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 
 
 	<script language="JavaScript" type="text/javascript">
-		jQuery(document).ready(function(){
-			setform("form_wd", "res_wd");
-			jQuery("#amount").focus().priceFormat();
-		})
-
 		$( ".deploy-toggle-1" ).click(function() {
 			if ( $('.toggle-content').css('display') != 'block' ) {
 				$('.btn-up').css('display', 'block');
@@ -508,6 +507,12 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 				<img class="img-fluid" src="img/banks/bri.png">
 			</div>
 		</div>
+		<div class="row tmargin-5 lpadding-5 bmargin-10">
+			<div class="col-lg-3">
+				<img class="img-fluid" src="img/banks/cimb.png">
+			</div>
+		</div>
+
 		<!--
 		<label class="ntf fs-13">
 			Metode Withdraw Alternatif:
@@ -565,6 +570,16 @@ while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){
 				<div class="col-lg-9 lpadding-10 tmargin-10">
 					<p class="dark-gray fs-11" style="border:none;">
 						Senin - Minggu	: 21:00 - 05:30 WIB
+					</p>
+				</div>	
+			</div>
+			<div class="row tmargin-10">
+				<div class="col-lg-3">
+					<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
+				</div>
+				<div class="col-lg-9 lpadding-10 tmargin-10">
+					<p class="dark-gray fs-11" style="border:none;">
+						Tidak Ada Offline
 					</p>
 				</div>	
 			</div>

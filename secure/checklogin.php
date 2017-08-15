@@ -138,6 +138,7 @@ else
 	$partlogin = $_SESSION['part_login'];
 	$partuid = $_SESSION['part_uid'];
 
+	$_SESSION['optLogin'] = str_shuffle(time());
 	/*$login = sanitizex($login);
 	$password = sanitizex($password);
 */

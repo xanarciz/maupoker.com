@@ -9,16 +9,15 @@ if($check_mobile==1 || $check_tablet==1){
 	header("location:m");
 	exit();
 }
-
-
 include("meta.php");
 include("header.php");
+
 if ($_SESSION["login"]){
 	echo "<script>window.location='deposit.php'</script>";
 }
 		if ($q_script[1]!=""){
 			?>
-			<div id='advertise' style='display:none;'><img src='<?php echo $q_script[1]; ?>'></div>
+			<div id='advertise' style='display:none;'><a href = "http://infodomino88.com/fitur-keamanan-terbaru/" target="_blank"><img src='<?php echo $q_script[1]; ?>'></a></div>
 			<a href="#advertise" class="popup_ads" id="popup_ads"></a>
 			<?php
 		}
@@ -32,7 +31,7 @@ if ($_SESSION["login"]){
 					?>
                     <div class="slider-wrapper theme-default">
                         <div id="slider" class="nivoSlider">
-							<?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" />
+							<a href='http://infodomino88.com/turnamen-domino88/' target="_Blank"><?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" /></a>
 							<?php if ($img_main[1]!="") ?> <img src="<?php echo $img_main[1]?>" height="487px" />
 							<?php if ($img_main[2]!="") ?> <img src="<?php echo $img_main[2]?>" height="487px" />
                         </div>

@@ -393,17 +393,13 @@ td{
 #header{
     width: 100%;
     height: 125px;
-    /* background: #003e51 url(../img/io/bg_.jpg?id=25); */
-    
     background-position: center; 
-    /*background-image: -moz-linear-gradient(top, #d8dff4 0%, #ee8124 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d8dff4), color-stop(100%,#ee8124));
-    background-image: -webkit-linear-gradient(top, #d8dff4 0%,#ee8124 100%);
-    background-image:      -o-linear-gradient(top, #d8dff4 0%,#ee8124 100%);
-    background-image:         linear-gradient(top, #d8dff4 0%,#ee8124 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d8dff4', endColorstr='#ee8124',GradientType=0 );
-    background-repeat: repeat-x;*/
-    
+}
+
+#header-if{
+    width: 100%;
+    height: 125px;
+    /* background: #003e51 url(../img/io/header-bg.jpg);     */
 }
 
 /**** Header ****/
@@ -414,6 +410,14 @@ div.logo a{
     display: block;
     margin: 6px 0;
     background: url(../img/io/imgAll.png) 10px -10px no-repeat;
+}
+div.logo-if a{
+    float: left;
+    width: 335px;
+    height: 120px;
+    display: block;
+    background: url(../img/io/imgAll.png) no-repeat;
+	background-size: 295px auto;
 }
 div.logo-rules a{
     width: 336px;
@@ -2225,3 +2229,37 @@ li.active a, li.active a:hover {
     margin-bottom: 10px;
 }
 
+.content-promo{
+	padding-bottom: 50px;
+}
+
+.content-btn{
+	width: 30%;
+	padding: 0 10px;
+	float: right;
+	text-align: center;
+}
+
+.img-promo{
+	/* border-top-left-radius: 5px; */
+	/* border-top-right-radius: 5px; */
+	width: 70%;
+	display: inline-block;
+}
+
+.btn-promo{
+	width: 60%; 
+	border-radius: 5px;
+	margin-top: 40px;
+	padding: 5px 0;
+}
+
+.toggle-content{
+	display: none; 
+	float: left; 
+	width: 70%;
+	background: #ccc;
+	color: #000;
+	padding: 15px;
+	margin: -5px 0 20px 0;
+}

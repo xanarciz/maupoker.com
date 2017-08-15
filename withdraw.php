@@ -10,7 +10,7 @@ if (!$_SESSION["login"]){
 	die();
 }
 
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankname, bankaccno, bankaccname from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
+$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id, bankname, bankaccno, bankaccname from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
 $bankname = $sqlu["bankname"];
 $bankaccno = $sqlu["bankaccno"];
 $bankaccname = $sqlu["bankaccname"];
@@ -31,7 +31,7 @@ if ($sql1 >= $sqlc["withdraw_ctrl"]){
 	 $success_withdraw = "<div class='error-report'>$sqlc[withdraw_text]</div>";
 	 $err = 1;
 }*/
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select userpass, bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
+$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id, userpass, bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
 $query = sqlsrv_query($sqlconn,"select sqltable from a83adm_configgame");
 
 while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){		
@@ -93,10 +93,10 @@ if (!$err){
 			 $err = 1;
 			 die();
 		}
-		if ($capt != $_SESSION['CAPTCHAString']){
+		/* if (!checkCaptcha('CAPTCHAString', $capt)){
 			$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
 			$err = 1;
-		}
+		} */
 		if ($amount == "" || $amount <= 0){
 			$error	= 1;
 			$errorReport =  "<div class='error-report'>Withdraw failed.<br>Please fill amount.</div>";
@@ -252,6 +252,13 @@ if (!$err){
 		sqlsrv_query($sqlconn, "update u6048user_coin set TXH = '".$balancebaru."' where userid = '".$name."'");
 		
 		$success_withdraw = "<div class='error-report'>Withdraw Berhasil.<br> Permintaan withdraw anda akan di proses dalam 1x24 jam .</div>";
+		
+		echo "<script src=\"https://d3qycynbsy5rsn.cloudfront.net/OptiRealApi-1.1.0.js\" type=\"text/javascript\"></script>";
+		echo "<script>
+			$(document).ready(function(){
+				OptiRealApi.reportEvent(9, null, '" . $sqlu["id"] . "', \"7ae87a05e42bd455d041884a1f62da6a30bc2ff5a20dc47e8b12620cf82066bc\");
+			});
+		</script>";
 
 		}
 		echo"<BR>";
@@ -413,7 +420,7 @@ if (!$err){
 							<div class="form-group-full" align="left">
 								<label class="col-lg-1 control-label">Jumlah Withdraw</label>
 								<div class="col-lg-2"> : &nbsp;
-									<input type="text" name="ui_amount" id="ui_amount" placeholder="Jumlah Withdraw" data-required="true" class="form-control" style="width:96%;"> <br>&nbsp;&nbsp;&nbsp;
+									<input type="text" name="ui_amount" id="ui_amount" placeholder="Jumlah Withdraw" data-required="true" class="form-control" style="width:96%;" onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }"> <br>&nbsp;&nbsp;&nbsp;
 									<font color="#dfbf61" size="2" style="font-style:italic;">*Minimal withdraw Rp <?php echo number_format($conf_depo['min_wdraw'], 0, '.', '.'); ?>, Maksimal withdraw Rp <?php echo number_format ($conf_depo['max_wdraw'], 0, '.', '.'); ?></font>
 									<input type="hidden" name="amount" id="amount" placeholder="Jumlah Withdraw" data-required="true" class="form-control" style="width:96%;">
 								</div>

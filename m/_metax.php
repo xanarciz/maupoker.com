@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
 
-<title>Mobile Poker</title>
 
 <?php
 if($page == 'home'){
@@ -219,8 +218,8 @@ if ($_SESSION["login"] && $message == "") {
 ?>
 
 
-<link href="css/<?PHP echo $link_img;?>/style.css?id=422" rel="stylesheet" type="text/css">
-<link href="css/<?PHP echo $link_img;?>/framework.css" rel="stylesheet" type="text/css">
+<link href="css/<?PHP echo $link_img;?>/style.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
+<link href="css/<?PHP echo $link_img;?>/framework.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
 <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">	
 <link href="css/animate.min.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="assets/owl-carousel/owl.carousel.css" />
@@ -386,5 +385,28 @@ $dt = date("Y m d H:i:s");
 // 	}
 // }
 ?>
-
+<title> Domino88 mobile | website taruhan judi online pecinta domino INDONESIA </title>
+<meta name="description" content="Domino88 tempat bermain judi online, pecinta judi online dan merupakan website paling trend di kalangan masyarakat indonesia ">
+<meta name=""keywords" content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88">
+<meta name="copyright" content="www.logindm88.com">
+<meta name="geo.placename" content="Jakarta">
+<meta name="geo.region" content="ID-JK">
+<meta name="geo.country" content="ID">
+<meta name="language" content="ID">
+<meta name="tgn.nation" content="Indonesia">
+<meta name="rating" content="general">
+<meta name="distribution" content="global">
+<meta name="author" content="www.logindm88.com/">
+<meta name="publisher" content="www.logindm88.com">
+<meta name="copyright" content="copyright@ 2017 www.logindm88.com">
+<meta content="Jhon poker" name="DC.Creator">
+<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="ind" name="DC.Title">
+<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="ind" name="DC.Subject">
+<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="en" name="DC.Description">
+<meta content="2017-06-06" name="DC.Date.LastModified" scheme="ISO 31-1">
+<meta content="http://logindm88.com" name="DC.Identifier">
+<meta content="domino88 | domino88 versi mobile | download aplikasi domino88 | game online mobile domino88 | domino88 versi hadphone | judi mobile domino88" name="DC.Publisher">
+<meta content="ind" name="DC.Language" scheme="ISO639-2">
+<meta content="http://logindm88.com" name="DC.Relation.IsPartOf">
+<meta content="http://logindm88.com" name="DC.Rights">
 </head>

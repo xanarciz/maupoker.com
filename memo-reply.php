@@ -14,7 +14,7 @@
 	}
 	$id = $_GET["id"];
 	if ($id > 0){
-		$data_memo_old = sqlsrv_fetch_array(sqlsrv_query($sqlconn_db2, "select mbody,msubject from j2365join_memo where id = '".$id."'"), SQLSRV_FETCH_ASSOC);
+		$data_memo_old = sqlsrv_fetch_array(sqlsrv_query($sqlconn_db2, "select id,mbody,msubject from j2365join_memo where id = '".$id."' and (mfrom = '".$login."' or mto = '".$login."')"), SQLSRV_FETCH_ASSOC);
 	}
 
 ?>
@@ -32,6 +32,9 @@
     					}
     					?>
     					<center><div class="res" id="res_memo"></div></center>
+						<?php 
+						if($data_memo_old['id'] ){
+						?>
     					<form method="post" action="memo-send-reply.php" id="form_memo" style="color:#fff;">
     						<input type=hidden name="id" value="<?php echo $id;?>">
                     		<input type="hidden" name="admin" value="<?php if(isset($param)) echo $param; ?>" />
@@ -79,6 +82,11 @@
                     			setform("form_memo", "res_memo");
                     		})
                     	</script>
+						<?php 
+						}else{
+							echo "<h2><center><font color='red'>NO FOUND</font></center></h2>";
+						}
+						?>
                     </div>
             	</div>
             </div>

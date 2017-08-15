@@ -2,9 +2,16 @@
 include("meta.php");
 include("header.php");
 include("function/jcd-umum.php");
+include_once("config_db2.php");
 
 if ($_POST["reset_pin"]){
 	sqlsrv_query($sqlconn,"update u6048user_id set hp='' where userid = '".$login."'");
+	
+	// log Login (yang baru kalau data sudah stabil log lama dihapus)
+	$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+					  VALUES ('$login','" . $agentwlable . "','Reset PIN','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Reset PIN From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
+	sqlsrv_query($sqlconn_db2,$queryLogLogin);
+	
 	$_SESSION["pin"]="";
 	exit ("<script>window.location='../index.php'</script>");
 	
@@ -26,7 +33,7 @@ if($_POST["submit"]){
 	$pv = pass_validation($uname , $new1);
 	
 	$rejpas = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($pass)."'",$params,$options));
-	if ($capt != $_SESSION['CAPTCHAString']){
+	if (!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
 		$err = 1;
 	}else if (!$_POST["old"]){
@@ -46,10 +53,17 @@ if($_POST["submit"]){
 	}else if ($rejpas > 0) { 
 		$errorReport = "<div class='error-report'>User Error, tidak dapat menggunakan password ini!</div>";
 	}else{
-		sqlsrv_query($sqlconn, "insert into j2365join_history (crttime,crtby,crtto,history) values (GETDATE(),'".$login."','".$login."','Change Password')");
 		sqlsrv_query($sqlconn, "update u6048user_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
 		sqlsrv_query($sqlconn, "update g846game_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
+		
+		// Log Login yang Lama (masa peralihan ke log login yang baru)
+		sqlsrv_query($sqlconn, "insert into j2365join_history (crttime,crtby,crtto,history) values (GETDATE(),'".$login."','".$login."','Change Password')");
 		sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$login."', '-', 'Reset Password', GETDATE())");
+		
+		// log Login (yang baru kalau data sudah stabil log lama dihapus)
+		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		  VALUES ('$login','" . $agentwlable . "','Change Password','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Change Password From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
+		sqlsrv_query($sqlconn_db2,$queryLogLogin);
 		?>
 		<script>
 			alert("Sukses ganti password,Silakan Login kembali.");
@@ -58,6 +72,10 @@ if($_POST["submit"]){
 		echo "<script>document.location='../logout.php'</script>";
 	}
 }
+// if($login == "AQUILAD8"){
+	// echo $nonWWW;
+// }
+
 ?>
             <div id="content">
                 <div class="container">
@@ -91,7 +109,7 @@ if($_POST["submit"]){
 									}
 									?>
 									<div class="form-group-full">
-                                        <label class="col-lg-1 control-label">user ID</label>
+                                        <label class="col-lg-1 control-label">user ID </label>
                                         <div class="col-lg-2">
                                             <div class="text-left bold pt7 normal">
 											<?php echo strtoupper($user_login);?>

@@ -139,7 +139,7 @@ if($id_div){
 				echo $result;
 				die();
 			}elseif (preg_match("(^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*_]).+$)",$pass) == false){
-				$result = "0;Password wajib mengunakan kombinasi huruf angka dan simbol (contoh : Ex@mple123)";
+				$result = "0;Password wajib mengunakan kombinasi huruf angka dan simbol (@#$%^*_), (contoh : Ex@mple123)";
 				echo $result;
 				die();
 			}

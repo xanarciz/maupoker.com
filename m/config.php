@@ -10,8 +10,8 @@ header("Pragma: no-cache"); // HTTP/1.0
 
 include_once("config.inc.php");
 $Server = "103.249.162.14, 3433";
-$DbUserName = "idn_www_admin";
-$DbPassword = "my#nUt3ll@";
+$DbUserName = "www_rabbit00";
+$DbPassword = "(Sn1p3r@US-)";
 $DbName = "cas_db";
 include_once("lang_id.php");
 //smartfox
@@ -36,8 +36,8 @@ $connectionInfo = array( "UID"=>$DbUserName ,
                          "PWD"=>$DbPassword,
                          "Database"=>$DbName);
 						 
-function sanitize($data) {
-	if ( !isset($data) or empty($data)) return $data;
+function sanitize($data, $values2 = null) {
+	/* if ( !isset($data) or empty($data)) return $data;
 	if ( is_numeric($data) ) return $data;
 
 	$non_displayables = array(
@@ -53,7 +53,76 @@ function sanitize($data) {
 
 	$data = str_replace("'", "''", $data );
 	$data = str_replace("char(", "", $data );
-	return $data;
+	return $data; */
+	if ( !isset($data) or empty($data)) return $data;
+	if ( is_numeric($data) ) return $data;
+
+	$data = str_replace("'", "''", $data);
+	$operators = [
+        ' like ', 'like binary', 'not like', ' between ', ' ilike ',
+        '&', '|', '^', '<<', '>>','<','>',
+        ' rlike ', ' regexp ', ' not regexp ',
+        '~', '~*', '!~', '!~*', ' similar to ',
+        'not similar to', 'not ilike', '~~*', '!~~*',';',
+        'select ','update ','delete ','insert ',' alter ','create ',
+        ' join ',' where ',' union ',' order ',' having ', ' exec ',' declare ',
+        ' char ', '(',')'
+    ];
+    $regexIlegalChar = [
+        '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
+        '/%1[0-9a-f]/',             // url encoded 16-31
+        '/[\x00-\x08]/',            // hexa 00-08
+        '/\x0b/',                   // hexa 11
+        '/\x0c/',                   // hexa 12
+        '/[\x0e-\x1f]/',             // hexa 14-31
+		'/%3[A-CEF]/',
+		'/%2[0-9A]/',
+		'/[<>":;?()]/'
+    ];
+	if(is_array($data)){
+		$res = array();
+		foreach ($data as $key => $value){
+			$res[$key] = str_ireplace($operators, '', $value);
+			$res[$key] = preg_replace($regexIlegalChar, '', $res[$key]);
+		}
+	}else{
+		$res = str_ireplace($operators,'',$data);
+		$res = preg_replace($regexIlegalChar,'',$res);
+	}
+
+	$result = $res;
+
+	if(! is_null($values2)){
+		$values2 = $checkValue($values2);
+
+		$result = array($data, $values2);
+	}
+	return $result;
+}
+
+/**
+ * Get IP of user to access this page
+ *
+ * @param null $type
+ * @return null
+ */
+function getUserIP2($type = null){
+	if($type == null) {
+		$client = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+		$remote = $_SERVER['REMOTE_ADDR'];
+		$forward = isset(explode(',', $forward)[1]) ? explode(',', $forward)[1] : explode(',', $forward)[0];
+
+		if (filter_var($client, FILTER_VALIDATE_IP)) $ip = $client;
+		elseif (filter_var($forward, FILTER_VALIDATE_IP)) $ip = $forward;
+		else $ip = $remote;
+	}else{
+		$ipType = @$_SERVER[$type];
+		$ip = isset(explode(',', $ipType)[1]) ? explode(',', $ipType)[1] : explode(',', $ipType)[0];
+
+		if (!filter_var($ip, FILTER_VALIDATE_IP)) $ip = null;
+	}
+	return $ip;
 }
 
 $_POST = sanitize($_POST);
@@ -121,5 +190,17 @@ if ($q_maintenance > 0){
 	
 }
 $domain = $nonWWW;
+
+function checkCaptcha($captchaName, $captchaValue){
+	// session_start();
+	
+	$captchaSession = $_SESSION[$captchaName];
+	unset($_SESSION[$captchaName]);
+	
+	if($captchaValue == "" || $captchaValue == NULL || $captchaSession == "" || $captchaSession == NULL){ return false; }
+	if($captchaSession == $captchaValue){ return true; }
+	
+	return false;
+}
 
 ?>

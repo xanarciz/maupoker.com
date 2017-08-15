@@ -195,11 +195,17 @@ include_once("../config_db2.php");
 
                     $passn = $newpass[0].$newpass[1].$newpass[2].$newpass[3].$newpass[4].$newpass[5];
 
-                    sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$sqlb["userid"]."', '-', 'Reset Password', GETDATE())");
                     sqlsrv_query($sqlconn,"update u6048user_id set status='0', userpass='".hash("sha256",md5($passn).'8080')."' where userid = '".$sqlb["userid"]."'");
                     sqlsrv_query($sqlconn,"update g846game_id set status='0', userpass='".hash("sha256",md5($passn).'8080')."' where userid = '".$sqlb["userid"]."'");
-                    sqlsrv_query($sqlconn,"insert into a83adm_forgetpass (date1,userid,stat) values (GETDATE(),'".$sqlb["userid"]."','0')");
+                    
+					// Log Login yang Lama (masa peralihan ke log login yang baru)
+					sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$sqlb["userid"]."', '-', 'Reset Password', GETDATE())");
+					sqlsrv_query($sqlconn,"insert into a83adm_forgetpass (date1,userid,stat) values (GETDATE(),'".$sqlb["userid"]."','0')");
 
+					// Log Login (yang baru kalau data sudah stabil log lama dihapus)
+					$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+									  VALUES ('" . $sqlb["userid"] . "','" . $agentwlable . "','Forget Password','" . getUserIP2() . "','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Request Reset Password From " . $_SERVER['SERVER_NAME'] . " (Mobile Version)', GETDATE())";
+					sqlsrv_query($sqlconn_db2,$queryLogLogin);
 
                     $errorReport= "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Password telah diubah menjadi <span style='font-weight:bold;'>".$passn."</span> <br>Silakan Login kembali dengan Password tersebut(Perhatikan Huruf Besar)</p></div>";
 
@@ -240,13 +246,23 @@ include_once("../config_db2.php");
             <label class="black lmargin-7">Nama Bank</label>
             <select name="BName" class="form-control" required>
                 <?php
-                    $banksql = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select val from a83adm_config3 where name='registrasi_bank'"),SQLSRV_FETCH_NUMERIC);
-                    $_bank = explode(",",$banksql[0]);
-                    for ($__a=0; $__a<count($_bank); $__a++){
-                        $select = "";
-                        if($_POST["BName"] == $_bank[$__a]) $select = "selected";
-                        if (str_replace(" ","", $_bank[$__a]))echo "<option value='".strtoupper($_bank[$__a])."' ".$select.">".strtoupper($_bank[$__a])."</option>";
-                    }
+                    // $banksql = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select val from a83adm_config3 where name='registrasi_bank'"),SQLSRV_FETCH_NUMERIC);
+                    // $_bank = explode(",",$banksql[0]);
+                    // for ($__a=0; $__a<count($_bank); $__a++){
+                        // $select = "";
+                        // if($_POST["BName"] == $_bank[$__a]) $select = "selected";
+                        // if (str_replace(" ","", $_bank[$__a]))echo "<option value='".strtoupper($_bank[$__a])."' ".$select.">".strtoupper($_bank[$__a])."</option>";
+                    // }
+					$select = "";
+					if($_POST["BName"] == $bankdata["bank"]) $select = "selected";
+					$banksql		= sqlsrv_query($sqlconn, "select distinct(bank) from a83adm_configbank where code = '".$agentwlable."' and (curr = 'IDR')",$params,$options); 
+
+					while($bankdata = sqlsrv_fetch_array($banksql,SQLSRV_FETCH_ASSOC)){
+						$select = "";
+						if($_POST["BName"] == $bankdata["bank"]) $select = "selected";
+						$options.= "<option value='".$bankdata["bank"]."' ".$select.">".$bankdata["bank"]."</option>";
+					}
+					echo $options;					
                 ?>
             </select>
         </div>

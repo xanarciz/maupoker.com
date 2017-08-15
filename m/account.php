@@ -3,6 +3,7 @@ $page='akun';
 include("_metax.php");
 include("_header.php");
 include("../myaes.php");
+include_once("config_db2.php");
 
 
 $req4 = "<request>
@@ -42,7 +43,101 @@ function myCurl($req)
 	return $array_data;
 }
 
-if($link_img == "io"){ $warna = "bg-blue-panel"; }elseif($link_img == "PTKP"){ $warna = "bg-red-panel"; }else{ $warna = "bg-purple";}
+
+function pass_validation($user , $pass){
+	$ps = strtolower($pass);
+	$us = strtolower($user);
+	$pass_rejected_db = ["Abc123","ABc123","Asd123","ASd123"]; 
+	if (strpos($pass,$user) == false) {
+		$contain = true;
+	}else{
+		$contain = false;
+	}
+	if($pass == $user || $ps == $us || $contain == false || substr($pass,0,3) == substr($user,0,3)){
+		Return ("Password tidak boleh mengandung USERID");
+		
+		
+	}elseif (in_array($pass, $pass_rejected_db)) {
+		
+		Return ("Password di tolak, silahkan pilih password yang lain");
+		
+	}elseif (preg_match("(^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*_]).+$)",$pass) == false){
+		
+		Return ("Password harus kombinasi huruf angka dan simbol (ex : Ex@mple123)");
+		
+	}else{
+		
+		return true;
+		
+	}
+	
+}
+
+if($_POST["ubahpass"]){
+	$uname = $login;
+	$old	= hash("sha256",md5($_POST["old"]).'8080');
+	$new1	= $_POST["new1"];
+	$new2	= $_POST["new2"];
+	$capt	= $_POST["capt"];
+	$rek = $_POST['rek'];
+	$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($new1)."'",$params,$options));
+	$bankno = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankaccno from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
+
+	if ($sql1 > 0){
+		$error	= 4;
+	}
+	$oldp;
+	$oldp	= $sqlu["userpass"];
+	$old2	= $old;
+	$rekV	= $bankno['bankaccno'];
+	$rekV 	= str_replace('-', '', $rekV); ;
+	$rek2 	= substr(strtoupper($rekV),strlen($rekV)-4,strlen($rekV));
+	$pv = pass_validation($uname , $new1);
+	
+
+	$rejpas = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($pass)."'",$params,$options));
+	if (!checkCaptcha('CAPTCHAString', $capt)){
+		$errorReport =  "<strong>Validasi anda salah!</strong>";
+		$err = 1;
+	}else if (!$_POST["old"]){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi password lama anda.";
+	}else if (!$new1){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi password baru anda.";
+	}else if (!$new2){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi konfirmasi password anda.";
+	}else if (!$rek){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi 4 digit no rekening anda.";
+	}else if ($oldp != $old2){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Password salah.";
+	}else if ($new1 != $new2){
+		$errorReport =  "<strong>Ganti password Gagal!</strong> Password baru tidak cocok.";
+	}else if($pv !== true){ 
+		$errorReport =  "<strong>Ganti password Gagal!</strong> ".$pv; 
+	}else if (strlen($new1) < 5) {
+		$errorReport = "<strong>Ganti password Gagal!</strong> Password mininum 5 Digit";
+	}else if ($rejpas > 0) { 
+		$errorReport = "<strong>User Error!</strong> tidak dapat menggunakan password ini!";
+	}else if ($rek != $rek2){
+		$errorReport = "<strong>Ganti password Gagal!</strong> Empat digit no rekening salah.";
+	}else{
+		sqlsrv_query($sqlconn, "update u6048user_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
+		sqlsrv_query($sqlconn, "update g846game_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
+		
+		// Log Login yang Lama (masa peralihan ke log login yang baru)
+		sqlsrv_query($sqlconn, "insert into j2365join_history (crttime,crtby,crtto,history) values (GETDATE(),'".$login."','".$login."','Change Password')");
+		sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$login."', '-', 'Reset Password', GETDATE())");
+		
+		// log Login (yang baru kalau data sudah stabil log lama dihapus)
+		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
+				 		  VALUES ('$login','" . $agentwlable . "','Change Password','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . " (Mobile Version)', 'Change Password From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
+		sqlsrv_query($sqlconn_db2,$queryLogLogin);
+
+		echo '<script>alert("Sukses ganti password,Silakan Login kembali.")</script>';
+		echo "<script>document.location='../logout.php'</script>";
+	}
+}
+
+if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img == "PTKP"){ $warna = "bg-red-panel"; }else{ $warna = "bg-purple";}
 ?>
 
 <div class="content" data-page="account">
@@ -157,7 +252,7 @@ if($link_img == "io"){ $warna = "bg-blue-panel"; }elseif($link_img == "PTKP"){ $
 
 					<label class="black">Konfirmasi Password Baru</label>
 					<div class="row bpadding-5">
-						<input class="form-control bg-light-gray" type="password" id="old" name="old" />
+						<input class="form-control bg-light-gray" type="password" id="new2" name="new2" />
 					</div>
 
 					<label class="black">4 digit di belakang rekening

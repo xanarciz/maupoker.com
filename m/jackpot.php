@@ -186,7 +186,7 @@ include("_header.php");
 </div>
 
 <?PHP 
-	if($link_img == "io"){ 
+	if(strtoupper($link_img) == "IO"){ 
 		$color1 = "#e6fdff";
 		$color2 = "#2eb9ca";
 	}elseif($link_img == "PTKP"){ 
