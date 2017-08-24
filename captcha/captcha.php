@@ -36,9 +36,13 @@
   require('./class/captcha.class.php');
 
   //Create a CAPTCHA
-  $captcha = new captcha();
+  $captcha = new Captcha();
 
   //Store the String in a session
-  $_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
+  if(isset($_GET['type']) and $_GET['type'] != ""){
+		$_SESSION[$_GET['type']] = $captcha->getCaptchaString();
+  }else{
+		$_SESSION['CAPTCHAString'] = $captcha->getCaptchaString();
+  }
 
 ?>

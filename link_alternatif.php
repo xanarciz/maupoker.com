@@ -16,10 +16,7 @@ include("header.php");
 
                             <div class="body-wrap text-justify">
                                 <div class="tabs">
-									<?php
-									$qry = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select link_alt from u6048user_agencyruntext where agent='$agentwlable'"),SQLSRV_FETCH_NUMERIC );
-									echo $qry[0];
-									?>
+                                    <?php  echo $infoweb['link_alt']; ?>
                                 </div>
                             </div>
                         </div>

@@ -137,26 +137,20 @@
 -->
 <?PHP
 if ($_SESSION["login"]) {
-    $q = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "SELECT img_main from u6048user_agencyruntext WHERE agent = '".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-    $running_txt = $q["menu_text"];
-    $footer_txt = $q["footer_text"];
-
-    $q2 = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select txh from u6048user_coin where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-    $coin = $q2["txh"];
+    $running_txt = $infoweb["running_txt_lgn"];
+    $footer_txt = $infoweb["footer_text"];
 } else {
-    $q = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "SELECT img_main from u6048user_agencyruntext WHERE agent = '".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-    $running_txt = $q["depan_text"];
-    $footer_txt = $q["footer_text"];
-	
+    $running_txt = $infoweb["running_txt_blgn"];
+    $footer_txt = $infoweb["footer_text"];
+
 	//check restricted area
-	include "../geoiploc.php";
+	include ("../geoiploc.php");
 }
 
-$q_script=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select script_text from u6048user_agencyruntext where agent='".$agentwlable."'"),SQLSRV_FETCH_ASSOC);
-$txt_script = explode("__lc.license = ",$q_script["script_text"]);
+$txt_script = explode("__lc.license = ",$infoweb["script_text"]);
 $lisence = substr($txt_script[1],0,7);
 
-$img_main = explode(";",$q["img_main"]);
+$img_main = explode(";",$infoweb["img_main"]);
 $android = "https://www.gameiosapk.com/android.php";
 $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com/iphone/manifest.plist"; 
 $name = 'Domino88';

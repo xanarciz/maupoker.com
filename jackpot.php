@@ -72,34 +72,113 @@ include("header.php");
                                             <div id="txh-winner">
                                                 <p><b>Texas Poker Jackpot Winner</b></p>
                                                 <?php
-    											$q = sqlsrv_query($sqlconn,"SELECT top 5 * from t6413txh_globaljackpothis where ket='Super Royal Flush' order by TDate desc",$params,$options);
-    											echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP SUPER ROYAL FLUSH</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-    											for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-    												$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-    												echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".$r["Ket"]."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-    											}
-                            					$q = sqlsrv_query($sqlconn,"SELECT top 5 * from t6413txh_globaljackpothis where ket='Royal Flush' order by TDate desc",$params,$options);
-                            					echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP ROYAL FLUSH</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                            					for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            						$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            						echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".$r["Ket"]."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                            					}
-                            					$q = sqlsrv_query($sqlconn,"SELECT top 5 * from t6413txh_globaljackpothis where ket='Straight Flush' order by TDate desc",$params,$options);
-                            					echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP STRAIGHT FLUSH</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                            					for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            						$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            						echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".$r["Ket"]."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                            					}
+    											echo "<center>
+                                                        <table width='470' style='margin-top:20px;color:#fff;'>
+                                                            <thead>
+                                                                <tr><td colspan='6' align='center' style='font-weight:bold;color: #fff;'>TOP SUPER ROYAL FLUSH</td></tr>
+                                                                <tr style='height:30px;'>
+                                                                <td width='30' style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                <td width='140' style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                <td width='140' style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                <td width='150' style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>";
 
-                            					echo "</table>";
-                            					$q = sqlsrv_query($sqlconn,"SELECT top 50 * from t6413txh_globaljackpothis order by TDate desc",$params,$options);
-                            					echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>LATEST JACKPOT</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                            					for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            						$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            						echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".$r["Ket"]."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                            					}
+    											$i = 1;
+    											$SRFwinner = getFirst($infoweb['latestWinner']['POKER']['SRF'], 5);
+    											foreach ($SRFwinner as $srfWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $srfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$srfWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$srfWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($srfWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo    "</tbody>
+                                                      </table>
+                                                      <table width='470' style='margin-top:20px;'>
+                                                            <thead>
+                                                                <tr><td colspan='6' align='center' style='font-weight:bold;color: #fff;'>TOP ROYAL FLUSH</td></tr>
+                                                                <tr style='height:30px;'>
+                                                                    <td width='30' style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width='140' style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width='140' style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width='150' style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
+                                                $i = 1;
+                                                $RFwinner = getFirst($infoweb['latestWinner']['POKER']['RF'], 5);
+                                                foreach ($RFwinner as $rfWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $rfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$rfWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$rfWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($rfWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo    "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;>
+                                                            <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>TOP STRAIGHT FLUSH</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
+                                                $i = 1;
+                                                $SFwinner = getFirst($infoweb['latestWinner']['POKER']['SF'], 5);
+                                                foreach ($SFwinner as $sfWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $sfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$sfWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$sfWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($sfWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo   "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;>
+                                                            <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>LATEST JACKPOT</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
+                                                $i = 1;
+                                                $T15winner = $infoweb['latestWinner']['POKER']['T15'];
+                                                foreach ($T15winner as $t15Winner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $t15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$t15Winner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$t15Winner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($t15Winner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
                             					?>
-                                                </table></center>
+                                                        </tbody>
+                                                    </table>
+                                                </center>
                                             </div>
                                         </div>
 
@@ -139,28 +218,87 @@ include("header.php");
                                             <div id="dmm-winner">
                                                 <p><b>Domino Jackpot Winner</b></p>
                                                 <?php
-                								$q = sqlsrv_query($sqlconn,"SELECT top 5 * from d338dmm_jackpothis where ket='murni_enam' order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP ENAM DEWA</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
-                								$q = sqlsrv_query($sqlconn,"SELECT top 5 * from d338dmm_jackpothis where ket='balak' order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP BALAK</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
+                                                echo "<center>
+                                                        <table width=470 style=margin-top:20px;>
+                                                            <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>TOP ENAM DEWA</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
 
-                								echo "</table>";
-                								$q = sqlsrv_query($sqlconn,"SELECT top 50 * from d338dmm_jackpothis order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>LATEST JACKPOT</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
+                                                $i = 1;
+                                                $DMEwinner = getFirst($infoweb['latestWinner']['DOMINO']['ME'], 5);
+                                                foreach ($DMEwinner as $dmeWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $dmeWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$dmeWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$dmeWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($dmeWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo   "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;>
+                                                          <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>TOP BALAK</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>";
+
+                                                $i = 1;
+                                                $DBLwinner = getFirst($infoweb['latestWinner']['DOMINO']['BL'], 5);
+                                                foreach ($DBLwinner as $dblWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $dblWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$dblWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$dblWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($dblWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo    "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;xmlns=\"http://www.w3.org/1999/html\">
+                                                            <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>LATEST JACKPOT</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
+
+                                                $i = 1;
+                                                $DT15winner = $infoweb['latestWinner']['DOMINO']['T15'];
+                                                foreach ($DT15winner as $dt15Winner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $dt15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$dt15Winner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$dt15Winner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($dt15Winner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
                 								?>
-                								</table></center>
+                                                        </tbody>
+                								    </table>
+                                                </center>
                                             </div>
                                         </div>
                                         <div id="tab3" class="tab">
@@ -198,28 +336,89 @@ include("header.php");
                                             <div id="dmm-winner">
                                                 <p><b>Ceme Jackpot Winner</b></p>
                                                 <?php
-                								$q = sqlsrv_query($sqlconn,"SELECT top 5 * from e303ebn_jackpothis where ket='murni_enam' order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP ENAM DEWA</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
-                								$q = sqlsrv_query($sqlconn,"SELECT top 5 * from e303ebn_jackpothis where ket='balak' order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>TOP BALAK</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
+                                                echo "<center>
+                                                        <table width=470 style=margin-top:20px;>
+                                                            <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>TOP ENAM DEWA</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>";
 
-                								echo "</table>";
-                								$q = sqlsrv_query($sqlconn,"SELECT top 50 * from e303ebn_jackpothis order by TDate desc",$params,$options);
-                								echo "<center><table width=470 style=margin-top:20px;><tr><td colspan=6 align=center style=font-weight:bold;>LATEST JACKPOT</td></tr><tr style=height:30px;><td width=30 style='border-bottom:1px solid #fff'>No.</td><td width=140 style='border-bottom:1px solid #fff'>Tanggal</td><td width=140 style='border-bottom:1px solid #fff'>Nama</td><td width=150 style='border-bottom:1px solid #fff'>Price</td><td style='border-bottom:1px solid #fff'>Win</td></tr>";
-                								for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                									$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                									echo "<tr><td>".($i+1)."</td><td>".date_format($r["TDate"],"d/m H:i")."</td><td>".$r["Userid"]."</td><td>".str_replace("_"," ",$r["Ket"])."</td><td>".number_format($r["Jackpot"])."</td></tr>";
-                								}
+                                                $i = 1;
+                                                $CMEwinner = getFirst($infoweb['latestWinner']['CEME']['ME'], 5);
+                                                foreach ($CMEwinner as $cmeWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $cmeWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$cmeWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$cmeWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($cmeWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo   "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;>
+                                                          <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>TOP BALAK</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                                </tr>
+                                                          </thead>
+                                                          <tbody>";
+
+                                                $i = 1;
+                                                $CBLwinner = getFirst($infoweb['latestWinner']['CEME']['BL'], 5);
+                                                foreach ($CBLwinner as $cblWinner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $cblWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$cblWinner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$cblWinner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($cblWinner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
+
+                                                echo    "</tbody>
+                                                      </table>
+                                                      <table width=470 style=margin-top:20px;xmlns=\"http://www.w3.org/1999/html\">
+                                                          <thead>
+                                                                <tr><td colspan=6 align=center style='font-weight:bold;color: #fff;'>LATEST JACKPOT</td></tr>
+                                                                <tr style=height:30px;>
+                                                                    <td width=30 style='border-bottom:1px solid #fff;color: #fff;'>No.</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Tanggal</td>
+                                                                    <td width=140 style='border-bottom:1px solid #fff;color: #fff;'>Nama</td>
+                                                                    <td width=150 style='border-bottom:1px solid #fff;color: #fff;'>Price</td>
+                                                                    <td style='border-bottom:1px solid #fff;color: #fff;'>Win</td>
+                                                               </tr>
+                                                          </thead>
+                                                          <tbody>";
+
+                                                $i = 1;
+                                                $CT15winner = $infoweb['latestWinner']['CEME']['T15'];
+                                                foreach ($CT15winner as $ct15Winner){
+                                                    echo    "<tr>
+                                                                <td style='color: #fff;'>".($i++)."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", $ct15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".$ct15Winner["Userid"]."</td>
+                                                                <td style='color: #fff;'>".$ct15Winner["Ket"]."</td>
+                                                                <td style='color: #fff;text-align: right;'>".number_format($ct15Winner["Jackpot"])."</td>
+                                                             </tr>";
+                                                }
                 								?>
-                								</table></center>
+                                                        </tbody>
+                								    </table>
+                                                </center>
                                             </div>
                                         </div>
                                     </div>

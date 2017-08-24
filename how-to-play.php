@@ -16,8 +16,7 @@ include("header.php");
 
                             <div class="body-wrap text-justify">
                                 <?php
-								$q_howtoplay=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select howtoplay_text from u6048user_agencyruntext where agent='".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-								echo str_replace("\r\n","<br>",$q_howtoplay["howtoplay_text"]);
+								echo str_replace("\r\n","<br>",$infoweb["howtoplay_text"]);
 								?>
                             </div>
                         </div>

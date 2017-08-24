@@ -1,7 +1,6 @@
 <?php
 $page='notifikasi';
 
-include("../config_db2.php");
 include("_metax.php");
 include("_header.php");
 
@@ -26,28 +25,20 @@ if(strtoupper($link_img) == "IO"){ $warna = "blue"; }elseif($link_img == "PTKP")
 						</tr>
 					</thead>
 					<tbody>
-					<?php
-					///MEMO-INBOX
-					$data_memo = sqlsrv_query($sqlconn, "select * from a83adm_newsinfo where subwebid = '".$subwebid."' order by waktu desc",$params,$options);
-					if (@sqlsrv_num_rows($data_memo) > 0){
-						$no = 1;
-						while($fetch_data_memo = sqlsrv_fetch_array($data_memo, SQLSRV_FETCH_ASSOC)){
-						if ($cread == 0){
-							$read = "<font color=red>Unread</font>";
-						}else{
-							$cread = "Read";
-						}
-						?>
-						<tr class="notif" onclick="set_id('<?php echo $fetch_data_memo["id"]; ?>')">
-							<td style="color:black;"><?php echo $no; ?></td>
-							<td style="color:black;text-align:left;"><?php echo $fetch_data_memo["title"];?></td>
-							<td style="color:black;"><?php echo date_format($fetch_data_memo["waktu"],"d/m H:i");?></td>
-						</tr>
-						<?php 
-							$no++;
-						}
-					}
-					?>
+                    <?php
+                    ///MEMO-INBOX
+                    $i = 1;
+                    foreach ($infoweb['newsAgent'] as $id => $notif){
+                        $date = date('d/m H:i', strtotime($notif["waktu"]))
+                        ?>
+                        <tr class="notif" onclick="set_id('<?php echo $id; ?>')">
+                            <td style="color:black;"><?php echo $i++; ?></td>
+                            <td style="color:black;text-align:left;"><?php echo $notif["title"];?></td>
+                            <td style="color:black;"><?php echo $date;?></td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
 					</tbody>
 				</table>
 				<input type="hidden" id="id_memo">

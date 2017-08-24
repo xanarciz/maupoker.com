@@ -5,13 +5,12 @@
 
 
 <?php
-session_start();
 $login = $_SESSION["login"];
-//$DalamGame = "../";
-if ($login){
+$frontSec = "../";
+include ("../config.php");
 
-	include ("config.php");
-	include($cfgProgDir."secure.php");
+if ($login){
+    include($cfgSecDir."secure.php");
 
 	if ($_SESSION["login"] && $message == "") {
 		$requiredUserLevel = array('U');
@@ -21,24 +20,13 @@ if ($login){
 			die();
 		}
 
-		$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select status,joindate,bankname,bankaccno,bankaccname,bankgrup,email,playerpt,usertype,min_depo,userpass,reflink_count,min_wdraw,save_deposit, xdeposit from u6048user_id where userid = '".$_SESSION["login"]."'"), SQLSRV_FETCH_ASSOC);
-		$status = $sqlu["status"];
-
+		$status = $status_block;
 		if ($status == 1){
 			$_GET["action"] = "logout";
 		}
-
 	}
-	$data = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select TXH from u6048user_coin where userid='".$login."'"), SQLSRV_FETCH_ASSOC);
 	$dir = substr($login,0,1);
-
-
 }
-else {
-
-	include ("config.php");
-}
-
 
 if($_GET["action"]=="logout"){
 		$_SESSION = array();

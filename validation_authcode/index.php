@@ -19,74 +19,37 @@ $xmlData = json_decode(json_encode(simplexml_load_string($dataPOST)), true);
 $authcode=$xmlData["authcode"];
 $userid=$xmlData["userid"];
 $minimum_grab=$xmlData["minimum_grab"];
+
 if($subwebid=='9002') {$web_code='RP'; $namegame = 'Remipoker';}
 if($subwebid=='9001') {$web_code='KP'; $namegame = 'Kartupoker';}
 if($subwebid=='172') {$web_code='DA'; $namegame = 'Domino88';}
 if($subwebid=='42') {$web_code='PKR'; $namegame = 'Pokerkeren';}
-$q=sqlsrv_query($sqlconn,"select id,authcode,userid from u6048user_id where loginid='".$userid."' and subwebid = '".$subwebid."' ");
-$r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-
-// For Get Authcode by POST loginid
-if($xmlData["get_authcode"]==TRUE)
-{
-	$generate_code = $r["authcode"];
-	header("Access-Control-Allow-Origin: *");
-	header("Content-Type: application/json; charset=UTF-8");
-	if ($r["userid"] && $generate_code){
-		$outp .= '{"Game":"'.$namegame.'",';
-		$outp .= '"UserId":"'.$userid.'",';
-		$outp .= '"Authcode":"'.$generate_code.'",';
-		$outp .= '"Message":"Authcode accepted"}'; 
-	}else{
-		$outp .= '{"Game":"'.$namegame.'",';
-		$outp .= '"Message":"Invalid UserID or Authcode not generated"}'; 
-	}
-	echo($outp);
-	exit;
-}
-//end of get authcode
-
-if ($r["id"]){
-	$v_userid = $r["userid"];
-	$generate_code = $r["authcode"];
-	if ($generate_code == $authcode){
-		$success = "Valid";
-		$q_poin = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select poin from u6048user_coin where userid = '".$v_userid."'"),SQLSRV_FETCH_ASSOC);
-		$poin = $q_poin["poin"];
-		if ($minimum_grab > 0){
-			if($poin >= $minimum_grab){
-				sqlsrv_query($sqlconn,"insert into j2365join_poinhistory (tdate,userid,amount,ket,subwebid) values (GETDATE(),'".$userid."','".$poin."','k88 $generate_code','".$subwebid."')");
-				sqlsrv_query($sqlconn,"update u6048user_coin set poin=0 where userid='".$v_userid."'");
-			}else{
-				$success = "";
-				$error = "Poin not enough minimum poin is $minimum_grab";
-			}
-		}else{
-			if ($poin > 0){
-				sqlsrv_query($sqlconn,"insert into j2365join_poinhistory (tdate,userid,amount,ket,subwebid) values (GETDATE(),'".$userid."','".$poin."','k88 $generate_code','".$subwebid."')");
-				sqlsrv_query($sqlconn,"update u6048user_coin set poin=0 where userid='".$v_userid."'");
-			}else $error = "Authcode rejected";
-		}
-	}else $error = "Authcode rejected";
-}else{
-	$error = "Authcode rejected";
-}
-
-//grab point
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-if ($success){
-	$outp .= '{"Game":"'.$namegame.'",';
-	$outp .= '"UserId":"'.$userid.'",';
-	$outp .= '"Authcode":"'.$generate_code.'",';
-	$outp .= '"Point":"'.$poin.'",';
-	$outp .= '"Message":"Authcode accepted"}'; 
+
+$Result = array(
+    "Game" => $namegame,
+);
+
+$reqAPIAuthcode = array(
+    "auth"    => $authapi,
+    "webid"   => $subwebid,
+    "loginid" => $xmlData["userid"],
+);
+
+if($xmlData["get_authcode"] == TRUE) {
+    $reqAPIAuthcode["type"] = 1;
 }else{
-	$outp .= '{"Game":"'.$namegame.'",';
-	$outp .= '"UserId":"'.$userid.'",';
-	$outp .= '"Authcode":"'.$authcode.'",';
-	$outp .= '"Message":"'.$error.'"}'; 
+    $reqAPIAuthcode["type"] = 2;
+    $reqAPIAuthcode["authcode"] = $xmlData["authcode"];
+    $reqAPIAuthcode["minimum_grab"] = $xmlData["minimum_grab"];
 }
-echo($outp);
+
+$respAPIAuthcode = sendAPI($url_Api . "/val-authcode", $reqAPIAuthcode, 'JSON', '02e97eddc9524a1e');
+
+// obj to array
+$res2 = json_decode(json_encode($respAPIAuthcode), true);
+unset($res2['status']);
+echo json_encode(array_merge($Result, $res2));
 ?>

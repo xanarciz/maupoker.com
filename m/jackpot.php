@@ -75,106 +75,105 @@ include("_header.php");
 			<div id="tabs-2" align="center">
 				<div class="bmargin-50">
 				<?php
-				
-                        echo "<h1 class='".$warna."' style='padding-top: 15px;'>Texas Poker Jackpot Winner</h1>";
-                        $q = sqlsrv_query($sqlconn,"SELECT top 5 TDate,Userid, Jackpot,Ket from t6413txh_globaljackpothis where ket='Super Royal Flush' order by TDate desc",$params,$options);
-                            echo "<center>
-                                    <table class='table'>
-                                        <thead>
-                                        	<tr><td colspan=6 align=center style=font-weight:bold;>TOP SUPER ROYAL FLUSH</td></tr>
-	                                        <tr>
-	                                            <td>No.</td>
-	                                            <td>Tanggal</td>
-	                                            <td>Nama</td>
-	                                            <td>Price</td>
-	                                            <td>Win</td>
-	                                        </tr>
-	                                    </thead>";
-                        for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            $r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            echo "<tr>
-	                                    <td>".($i+1)."</td>
-	                                    <td>".date_format($r["TDate"],"d/m H:i")."</td>
-	                                    <td>".$r["Userid"]."</td>
-	                                    <td>".$r["Ket"]."</td>
-	                                    <td align='right'>".number_format($r["Jackpot"])."</td>
-	                                </tr>";
-                        }
-                        echo "</table></center>";
-
-                        $q = sqlsrv_query($sqlconn,"SELECT top 5 TDate,Userid, Jackpot,Ket from t6413txh_globaljackpothis where ket='Royal Flush' order by TDate desc",$params,$options);
-                        echo "<center>
-                                <table class='table' style='padding-top: 10px;'>
-                                	<thead>
-	                                	<tr><td colspan=6 align=center style=font-weight:bold;>TOP ROYAL FLUSH</td></tr>
-	                                    <tr>
-	                                        <td>No.</td>
-	                                        <td>Tanggal</td>
-	                                        <td>Nama</td>
-	                                        <td>Price</td>
-	                                        <td>Win</td>
-	                                    </tr>
-	                            	</thead>";
-                        for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            $r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            echo "<tr>
-                                    <td>".($i+1)."</td>
-                                    <td>".date_format($r["TDate"],"d/m H:i")."</td>
+                    echo "<h1 class='".$warna."' style='padding-top: 15px;'>Texas Poker Jackpot Winner</h1>";
+                    echo "<center>
+                                <table class='table'>
+                                    <thead>
+                                        <tr><td colspan=6 align=center style=font-weight:bold;>TOP SUPER ROYAL FLUSH</td></tr>
+                                        <tr>
+                                            <td>No.</td>
+                                            <td>Tanggal</td>
+                                            <td>Nama</td>
+                                            <td>Price</td>
+                                            <td>Win</td>
+                                        </tr>
+                                    </thead>";
+                    $i = 1;
+                    $TXHJack = getFirst($infoweb['latestWinner']['POKER']['SRF'], 5);
+                    foreach ($TXHJack as $r){
+                        $date = date('d/m H:i', strtotime($r['TDate']));
+                        echo "<tr>
+                                    <td>".($i++)."</td>
+                                    <td>".$date."</td>
                                     <td>".$r["Userid"]."</td>
                                     <td>".$r["Ket"]."</td>
                                     <td align='right'>".number_format($r["Jackpot"])."</td>
-                                </tr>";
-                        }
-                        echo "</tabel></center>";
+                               </tr>";
+                    }
+                    echo "</table></center>";
 
-                        $q = sqlsrv_query($sqlconn,"SELECT top 5 TDate,Userid, Jackpot,Ket from t6413txh_globaljackpothis where ket='Straight Flush' order by TDate desc",$params,$options);
-                        echo "<center>
-                                <table class='table' style='padding-top: 10px;'>
-                                	<thead>
-	                                	<tr><td colspan=6 align=center style=font-weight:bold;>TOP STRAIGHT FLUSH</td></tr>
-	                                    <tr>
-	                                        <td>No.</td>
-	                                        <td>Tanggal</td>
-	                                        <td>Nama</td>
-	                                        <td>Price</td>
-	                                        <td>Win</td>
-	                                    </tr>
-	                                </thead>";
-                        for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            $r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            echo "<tr>
-                                    <td>".($i+1)."</td>
-                                    <td>".date_format($r["TDate"],"d/m H:i")."</td>
+                    echo "<center>
+                            <table class='table' style='padding-top: 10px;'>
+                                <thead>
+                                    <tr><td colspan=6 align=center style=font-weight:bold;>TOP ROYAL FLUSH</td></tr>
+                                    <tr>
+                                        <td>No.</td>
+                                        <td>Tanggal</td>
+                                        <td>Nama</td>
+                                        <td>Price</td>
+                                        <td>Win</td>
+                                    </tr>
+                                </thead>";
+                    $i = 1;
+                    foreach ($infoweb['latestWinner']['POKER']['RF'] as $r){
+                        $date = date('d/m H:i', strtotime($r['TDate']));
+                        echo "<tr>
+                                    <td>".($i++)."</td>
+                                    <td>".$date."</td>
+                                    <td>".$r["Userid"]."</td>
+                                    <td>".$r["Ket"]."</td>
+                                    <td align='right'>".number_format($r["Jackpot"])."</td>
+                               </tr>";
+                    }
+                    echo "</tabel></center>";
+
+                    echo "<center>
+                            <table class='table' style='padding-top: 10px;'>
+                                <thead>
+                                    <tr><td colspan=6 align=center style=font-weight:bold;>TOP STRAIGHT FLUSH</td></tr>
+                                    <tr>
+                                        <td>No.</td>
+                                        <td>Tanggal</td>
+                                        <td>Nama</td>
+                                        <td>Price</td>
+                                        <td>Win</td>
+                                    </tr>
+                                </thead>";
+                    $i = 1;
+                    foreach ($infoweb['latestWinner']['POKER']['SF'] as $r){
+                        $date = date('d/m H:i', strtotime($r['TDate']));
+                        echo "<tr>
+                                    <td>".($i++)."</td>
+                                    <td>".$date."</td>
                                     <td>".$r["Userid"]."</td><td>".$r["Ket"]."</td>
                                     <td align='right'>".number_format($r["Jackpot"])."</td>
-                                </tr>";
-                        }
+                               </tr>";
+                    }
 
-                        echo "</table></center>";
-                        $q = sqlsrv_query($sqlconn,"SELECT top 50 TDate,Userid, Jackpot,Ket from t6413txh_globaljackpothis order by TDate desc",$params,$options);
-                        echo "<center>
-                                <table class='table' style='padding-top: 10px;'>
-                                	<thead>
-	                                	<tr><td colspan=6 align=center style=font-weight:bold;>LATEST JACKPOT</td></tr>
-	                                    <tr>
-	                                        <td>No.</td>
-	                                        <td>Tanggal</td>
-	                                        <td>Nama</td>
-	                                        <td>Price</td>
-	                                        <td>Win</td>
-	                                    </tr>
-	                                </thead>";
-                        for ($i=0;$i<sqlsrv_num_rows($q); $i++){
-                            $r=sqlsrv_fetch_array($q,SQLSRV_FETCH_ASSOC);
-                            echo "<tr>
-                                    <td>".($i+1)."</td>
-                                    <td>".date_format($r["TDate"],"d/m H:i")."</td>
+                    echo "<center>
+                            <table class='table' style='padding-top: 10px;'>
+                                <thead>
+                                    <tr><td colspan=6 align=center style=font-weight:bold;>LATEST JACKPOT</td></tr>
+                                    <tr>
+                                        <td>No.</td>
+                                        <td>Tanggal</td>
+                                        <td>Nama</td>
+                                        <td>Price</td>
+                                        <td>Win</td>
+                                    </tr>
+                                </thead>";
+                    $i = 1;
+                    foreach ($infoweb['latestWinner']['POKER']['T15'] as $r){
+                        $date = date('d/m H:i', strtotime($r['TDate']));
+                        echo "<tr>
+                                    <td>".($i++)."</td>
+                                    <td>".$date."</td>
                                     <td>".$r["Userid"]."</td>
                                     <td>".$r["Ket"]."</td>
                                     <td align='right'>".number_format($r["Jackpot"])."</td>
-                                </tr>";
-                        }
-                        echo "</table></center>";
+                               </tr>";
+                    }
+                    echo "</table></center>";
 				?>
 			</div>
 			</div>

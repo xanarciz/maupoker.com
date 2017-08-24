@@ -36,7 +36,7 @@
   require('./class/captcha.class.php');
 
   //Create a CAPTCHA
-  $captcha = new captcha();
+  $captcha = new Captcha();
 
   //Store the String in a session
   $_SESSION['CAPTCHAStringLogin'] = $captcha->getCaptchaString();

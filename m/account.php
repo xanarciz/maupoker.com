@@ -2,139 +2,56 @@
 $page='akun';
 include("_metax.php");
 include("_header.php");
-include("../myaes.php");
-include_once("config_db2.php");
 
+// get history
+$reqAPITransHist = array(
+    "auth"     => $authapi,
+    "userid" 	=> $login,
+    "type"		=> 5,
+);
 
-$req4 = "<request>
-			<secret_key>88888111118888811111</secret_key>
-			<id>4</id>
-			<curr>IDR</curr>
-		</request>";
-$q_curr = myCurl($req4);
-$r_curr = $q_curr->currate;
-function myCurl($req)
-{
-	$url = "http://103.249.162.133/corexx/";
-	
-	//setting the curl parameters.
-	$ch = curl_init();
-
-	curl_setopt($ch, CURLOPT_URL, $url);
-	// Following line is compulsary to add as it is:
-	// $response = $req;
-	
-	$pkey = '2fb4f029ebf33b9a';
-	$myaes = new myaes();
-	$myaes->setPrivate($pkey);
-	$response = $myaes->getEnc($req);
-
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: ".$myaes->getHeaderPK(), 'Content-Type: text/plain; charset=utf-8'));
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	
-	curl_setopt($ch, CURLOPT_POSTFIELDS,"" . $response);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-	$data = curl_exec($ch);
-	curl_close($ch);
-
-	//convert the XML result into array
-	$array_data = simplexml_load_string($data);
-	return $array_data;
-}
-
-
-function pass_validation($user , $pass){
-	$ps = strtolower($pass);
-	$us = strtolower($user);
-	$pass_rejected_db = ["Abc123","ABc123","Asd123","ASd123"]; 
-	if (strpos($pass,$user) == false) {
-		$contain = true;
-	}else{
-		$contain = false;
-	}
-	if($pass == $user || $ps == $us || $contain == false || substr($pass,0,3) == substr($user,0,3)){
-		Return ("Password tidak boleh mengandung USERID");
-		
-		
-	}elseif (in_array($pass, $pass_rejected_db)) {
-		
-		Return ("Password di tolak, silahkan pilih password yang lain");
-		
-	}elseif (preg_match("(^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*_]).+$)",$pass) == false){
-		
-		Return ("Password harus kombinasi huruf angka dan simbol (ex : Ex@mple123)");
-		
-	}else{
-		
-		return true;
-		
-	}
-	
-}
+$respTransHis = sendAPI($url_Api."/history",$reqAPITransHist,'JSON','02e97eddc9524a1e');
+$iplist = getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
 if($_POST["ubahpass"]){
-	$uname = $login;
-	$old	= hash("sha256",md5($_POST["old"]).'8080');
+	$uname  = $login;
+	$old	= $_POST["old"];
 	$new1	= $_POST["new1"];
 	$new2	= $_POST["new2"];
-	$capt	= $_POST["capt"];
-	$rek = $_POST['rek'];
-	$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($new1)."'",$params,$options));
-	$bankno = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankaccno from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
+    $rek    = $_POST['rek'];
+    $capt	= $_POST["capt"];
 
-	if ($sql1 > 0){
-		$error	= 4;
-	}
-	$oldp;
-	$oldp	= $sqlu["userpass"];
-	$old2	= $old;
-	$rekV	= $bankno['bankaccno'];
-	$rekV 	= str_replace('-', '', $rekV); ;
-	$rek2 	= substr(strtoupper($rekV),strlen($rekV)-4,strlen($rekV));
-	$pv = pass_validation($uname , $new1);
-	
-
-	$rejpas = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($pass)."'",$params,$options));
-	if (!checkCaptcha('CAPTCHAString', $capt)){
-		$errorReport =  "<strong>Validasi anda salah!</strong>";
-		$err = 1;
-	}else if (!$_POST["old"]){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi password lama anda.";
-	}else if (!$new1){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi password baru anda.";
-	}else if (!$new2){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi konfirmasi password anda.";
-	}else if (!$rek){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Silakan isi 4 digit no rekening anda.";
-	}else if ($oldp != $old2){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Password salah.";
-	}else if ($new1 != $new2){
-		$errorReport =  "<strong>Ganti password Gagal!</strong> Password baru tidak cocok.";
-	}else if($pv !== true){ 
-		$errorReport =  "<strong>Ganti password Gagal!</strong> ".$pv; 
-	}else if (strlen($new1) < 5) {
-		$errorReport = "<strong>Ganti password Gagal!</strong> Password mininum 5 Digit";
-	}else if ($rejpas > 0) { 
-		$errorReport = "<strong>User Error!</strong> tidak dapat menggunakan password ini!";
-	}else if ($rek != $rek2){
-		$errorReport = "<strong>Ganti password Gagal!</strong> Empat digit no rekening salah.";
-	}else{
-		sqlsrv_query($sqlconn, "update u6048user_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
-		sqlsrv_query($sqlconn, "update g846game_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
-		
-		// Log Login yang Lama (masa peralihan ke log login yang baru)
-		sqlsrv_query($sqlconn, "insert into j2365join_history (crttime,crtby,crtto,history) values (GETDATE(),'".$login."','".$login."','Change Password')");
-		sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$login."', '-', 'Reset Password', GETDATE())");
-		
-		// log Login (yang baru kalau data sudah stabil log lama dihapus)
-		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
-				 		  VALUES ('$login','" . $agentwlable . "','Change Password','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . " (Mobile Version)', 'Change Password From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
-		sqlsrv_query($sqlconn_db2,$queryLogLogin);
-
-		echo '<script>alert("Sukses ganti password,Silakan Login kembali.")</script>';
-		echo "<script>document.location='../logout.php'</script>";
-	}
+    if (! checkCaptcha('CAPTCHAString', $capt)){
+        $errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
+        $err = 1;
+    }elseif ($capt == ''){
+        $errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
+        $err = 1;
+    }else{
+        $reqAPIResetPass = array(
+            "auth"   	=> $authapi,
+            "domain" 	=> $nonWWW,
+            "ip"		=> $iplist,
+            "device"	=> $device,
+            "type"		=> 2,
+            "userid"	=> $login,
+            "oldpass"	=> $old,
+            "npass"		=> $new1,
+            "cnpass"	=> $new2,
+            'bano'      => $rek,
+        );
+        $respResetPass = sendAPI($url_Api."/account",$reqAPIResetPass,'JSON','02e97eddc9524a1e');
+        if($respResetPass->status == 500){
+            $errorReport =  "<div class='error-report'>".$respResetPass->msg."</div>";
+        }else{
+            ?>
+            <script>
+                alert("Sukses ganti password,Silakan Login kembali.");
+            </script>
+            <?php
+            echo "<script>document.location='../logout.php'</script>";
+        }
+    }
 }
 
 if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img == "PTKP"){ $warna = "bg-red-panel"; }else{ $warna = "bg-purple";}
@@ -180,11 +97,7 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 					<i class="fa fa-code white" style="font-size:15px;"></i>
 				</div>
 				<div class="col-lg-11 tpadding-5 fs-13 yellow">
-					<?php 
-					$userAgent = sqlsrv_query($sqlconn, "SELECT userprefix,authcode  FROM u6048user_id WHERE loginid = '$user_login' and usertype = 'U' and subwebid = '".$subwebid."'",$params,$options);
-					$userAgent2 = sqlsrv_fetch_array($userAgent, SQLSRV_FETCH_ASSOC);
-					$my_authcode = $userAgent2["authcode"];
-					echo $my_authcode; ?>
+					<?php echo $authcode; ?>
 				</div>
 			</div>
 
@@ -197,7 +110,7 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 						<?php echo number_format($poin); ?>
 					</div>
 					<div class="col-lg-6" style="margin-top:-5px">
-						<a class="btn btn-mini btn-orange center tpadding-3 tmargin-2" href="https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>">Aktivasi</a>
+						<a class="btn btn-mini btn-orange center tpadding-3 tmargin-2" href="https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>">Aktivasi</a>
 					</div>
 				</div>
 			</div>
@@ -256,7 +169,7 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 					</div>
 
 					<label class="black">4 digit di belakang rekening
-						<?php $bankaccno = str_replace('-', '', $bankaccno); echo substr(strtoupper($bankaccno),0,strlen($bankaccno)-4)."xxxx"; ?> &nbsp;
+						<?php echo $bankaccnodis; ?> &nbsp;
 					</label>
 					<div class="row bpadding-5">
 						<input class="form-control bg-light-gray" type="password" id="rek" name="rek" maxlength="4" onkeypress='if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }' />
@@ -294,80 +207,6 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 		</a>
 		<div class="toggle-content history-deposit" style="display: none;">
 			<div class="row bpadding-10" style="max-height: 300px; overflow: scroll;">
-				<center>
-			        <?php
-				        $page = $_GET['page']?$_GET['page']:1;
-				        $count = sqlsrv_num_rows(sqlsrv_query($sqlconn, "SELECT amount FROM a83adm_deposit WHERE  userid = '".$login."' AND act = '".$id."'",$params,$options));
-				        $batas = 15;     //jumlah data yg muncul setiap page
-				        $maxtampil = 10; //jumlah list number page yg akan ditampilkan
-				        $jumptampil = 5; //pergeseran number page dari number page x 
-				        $link = "his-depo.php";
-				        $begin = $batas*($page-1);
-				        $end = $batas*$page;
-				        $next = $page+1;
-				        $prev = $page-1;
-				        $pages = ceil($count/$batas);
-
-				        if($pages==0) $pages=1;
-				        $querydpwd = "SELECT amount,date2,bank,rek,status
-				                      FROM (SELECT amount,date2,bank,rek,status, ROW_NUMBER() OVER (ORDER BY ID DESC) AS RowNum
-				                            FROM a83adm_deposit where userid ='$login'  and (act='1' or act='3') and stat!=0
-				                           ) AS MyDerivedTable
-				                      WHERE MyDerivedTable.RowNum > $begin AND MyDerivedTable.RowNum<= $end";
-				        $data = sqlsrv_query($sqlconn,$querydpwd ,$params,$options);
-
-				        if($page-($maxtampil-1) > 0) {if($page>($pages-$jumptampil))$bnum=$pages-($maxtampil-1); else $bnum=$page-$jumptampil;}
-				        else $bnum=1; 
-
-				        if($page+($maxtampil-1) <= $pages) {if($page<$jumptampil) $enum=$maxtampil; else $enum=$page+($jumptampil-1);}
-				        else $enum=$pages;
-
-				        if($page>$jumptampil && $enum!=$pages) {$bnum += 1;$enum += 1;}
-
-				        // echo "<style>
-				        //     .pagenumber ul {list-style-type: none; margin:5px}
-				        //     .pagenumber li {
-				        //       display: inline;
-				        //       padding:7px 10px;
-				        //       background:#6d6d6d;
-				        //       border:1px solid #7f7f7f;
-				        //     }
-				        //     .pagenumber li a{
-				        //       color:#ffffff; text-decoration:none;
-				        //     }
-				        //     .pagenumber li a:hover{
-				        //       color:#2cb0bb;
-				        //     }
-				        //     .pagenumber li:hover{
-				        //       background:none;
-				        //       border:0;
-				        //     }
-				        //   </style>";
-
-				        // echo "<div class='pagenumber' align=center style='font-size:13px;font-family:tahoma,arial,verdana;font-weight:bold;margin-bottom:10px;'><ul>";
-
-				        // if($page>1) {
-				        //   echo ("<li><a href='$link?page=1'>First</a></li>");
-				        //   echo ("<li><a href='$link?page=$prev'>&lt</a></li>");
-				        // }
-
-				        // if($bnum-1 !=0) echo "<li style='background:none;border:0;'><span style='color:gray;'>..</span></li>";
-				        
-				        // for($x=$bnum;$x<=$enum;$x++){
-				        //   if($page == $x) echo "<li style='background:none;border:0;'><span style='color:gray;'>$x</span></li>";
-				        //   else echo "<li><a href='$link?page=$x'>$x</a></li>";
-				        // }
-				        // if($enum<$pages) echo "<li style='background:none;border:0;'><span style='color:gray;'>..</span></li>";
-
-
-				        // if($page!=$pages){
-				        //   echo ("<li><a href='$link?page=$next'>&gt</a></li>");
-				        //   echo ("<li><a href='$link?page=$pages'>Last</a></li>");
-				        // }
-				        // echo "</ul></div>";
-			        ?>
-				</center>
-
 				<table class="table" cellspacing="0" cellpadding="0" border="0" id="table-lobby">
 					<thead>
 						<tr>
@@ -379,55 +218,42 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-							$no=1;
-							$record_depositraw = sqlsrv_query($sqlconn, "select amount,date1, bank, rek from a83adm_depositraw where userid = '".$login."' and act = '1'",$params,$options);
-							if (@sqlsrv_num_rows($record_depositraw) > 0){
-								$fetch_data_depositraw = sqlsrv_fetch_array($record_depositraw, SQLSRV_FETCH_ASSOC);
-								echo "
-								<tr>
-									<td>".$no."</td>
-									<td>";
-										if($fetch_data_depositraw["rek"]!='' && $fetch_data_depositraw["bank"]!==''){
-											echo substr($fetch_data_depositraw["rek"],0,8)."XXXX"."-- ".$fetch_data_depositraw["bank"];
-										}
-										else{
-											echo "-";
-										}
-										echo "</td>
-										<td>IDR ".number_format($fetch_data_depositraw["amount"])."</td>
-										<td>".date_format($fetch_data_depositraw["date1"], "d/m  H:i")."</td>
-										<td align='center'>PROCCESS</td>
-									</tr>";
-									$no++;
-							}
+                    <?php
+                    $no=1;
+                    if (count($respTransHis->dpp) > 0){
+                        $fetch_depositPending = $respTransHis->dpp[0];
+                        $date = strtotime($fetch_depositPending->date1);
+                        $rekNo = substr(str_replace('-', '', $fetch_depositPending->rek), 0,-4) . 'xxxx';
+                        $rekDis = bank_format($rekNo, $fetch_depositPending->bank);
+                        echo "
+                            <tr>
+                                <td align='center' height='23'>".$no++."</td>
+                                <td>".$rekDis." -- ".$fetch_depositPending->bank."</td>
+                                <td>IDR ".number_format($fetch_depositPending->amount)."</td>
+                                <td>".date("d/m  H:i", $date)."</td>
+                                <td align='center'>Proccess</td>
+                            </tr>";
+                    }
 
-							while($fetch_data_deposit = sqlsrv_fetch_array($data, SQLSRV_FETCH_ASSOC)){
-								$fetch_data_deposit["status"] != "REJECT" ? $clr = "green" : $clr = "red";
-
-								echo "
-								<tr>
-									<td>".$no."</td>
-									<td>";
-										if($fetch_data_deposit["rek"]!='' && $fetch_data_deposit["bank"]!==''){
-											echo substr($fetch_data_deposit["rek"],0,8)."XXXX"." -- ".$fetch_data_deposit["bank"];
-										}else{
-											echo "-";
-										}
-										echo "</td>
-										<td>IDR ".number_format($fetch_data_deposit["amount"])."</td>
-										<td>".date_format($fetch_data_deposit["date2"], "d/m H:i")."</td>
-										<td style='color:".$clr."'>".strtoupper($fetch_data_deposit["status"])."</td>
-									</tr>";
-
-								$no ++;
-							}
-							?>
+                    foreach ($respTransHis->dph as $depositHist){
+                        $date = strtotime($depositHist->date2);
+                        $rekNo = substr(str_replace('-', '', $depositHist->rek), 0,-4) . 'xxxx';
+                        $rekDis = bank_format($rekNo, $depositHist->bank);
+                        echo "
+                                <tr>
+                                    <td align='center' height='23'>".$no++."</td>
+                                    <td>".$rekDis." -- ".$depositHist->bank."</td>
+                                    <td>IDR ".number_format($depositHist->amount)."</td>
+                                    <td>".date("d/m  H:i", $date)."</td>
+                                    <td align='center'>" . $depositHist->status . "</td>
+                                </tr>";
+                    }
+                    ?>
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="4" align="right" style="color:black;"><b>Jumlah:</b></td>
-							<td style="color:black;"><span><b><?php echo sqlsrv_num_rows($data) ?></b></span></td>
+							<td style="color:black;"><span><b><?php echo count($respTransHis->dph) ?></b></span></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -449,73 +275,6 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 		</a>
 		<div class="toggle-content history-withdraw" style="display: none;">
 			<div class="row bpadding-10" style="max-height: 300px; overflow: scroll;">
-				<center>
-					<?php
-						$page = $_GET['page']?$_GET['page']:1;
-						$count = sqlsrv_num_rows(sqlsrv_query($sqlconn, "SELECT amount FROM a83adm_deposit WHERE  userid = '".$login."' AND act = '1'",$params,$options));
-						$batas = 15;     //jumlah data yg muncul setiap page
-						$maxtampil = 10; //jumlah list number page yg akan ditampilkan
-						$jumptampil = 5; //pergeseran number page dari number page x 
-						$link = "his-depo.php";
-						$begin = $batas*($page-1);
-						$end = $batas*$page;
-						$next = $page+1;
-						$prev = $page-1;
-						$pages = ceil($count/$batas);
-						if($pages==0) $pages=1;
-						$querydpwd = "SELECT amount,date2,bank,rek,status
-						              FROM (SELECT amount,date2,bank,rek,status, ROW_NUMBER() OVER (ORDER BY ID DESC) AS RowNum
-						                    FROM a83adm_deposit where userid ='$login'  and (act='2' or act='3') and stat!=0
-						                   ) AS MyDerivedTable
-						              WHERE MyDerivedTable.RowNum > $begin AND MyDerivedTable.RowNum<= $end";
-						$data = sqlsrv_query($sqlconn,$querydpwd ,$params,$options);
-
-						if($page-($maxtampil-1) > 0) {if($page>($pages-$jumptampil))$bnum=$pages-($maxtampil-1); else $bnum=$page-$jumptampil;}
-						else $bnum=1; 
-						if($page+($maxtampil-1) <= $pages) {if($page<$jumptampil) $enum=$maxtampil; else $enum=$page+($jumptampil-1);}
-						else $enum=$pages;
-
-						// if($page>$jumptampil && $enum!=$pages) {$bnum += 1;$enum += 1;}
-						// echo "<style>
-						//     .pagenumber ul {list-style-type: none; margin:5px}
-						//     .pagenumber li {
-						//       display: inline;
-						//       padding:7px 10px;
-						//       background:#6d6d6d;
-						//       border:1px solid #7f7f7f;
-						//     }
-						//     .pagenumber li a{
-						//       color:#ffffff; text-decoration:none;
-						//     }
-						//     .pagenumber li a:hover{
-						//       color:#2cb0bb;
-						//     }
-						//     .pagenumber li:hover{
-						//       background:none;
-						//       border:0;
-						//     }
-						//   </style>";
-						// echo "<div class='pagenumber' align=center style='font-size:13px;font-family:tahoma,arial,verdana;font-weight:bold;margin-bottom:10px;'><ul>";
-
-						// if($page>1) {
-						//   echo ("<li><a href='$link?page=1'>First</a></li>");
-						//   echo ("<li><a href='$link?page=$prev'>&lt</a></li>");
-						// }
-						// if($bnum-1 !=0) echo "<li style='background:none;border:0;'><span style='color:gray;'>..</span></li>";
-						// for($x=$bnum;$x<=$enum;$x++){
-						//   if($page == $x) echo "<li style='background:none;border:0;'><span style='color:gray;'>$x</span></li>";
-						//   else echo "<li><a href='$link?page=$x'>$x</a></li>";
-						// }
-						// if($enum<$pages) echo "<li style='background:none;border:0;'><span style='color:gray;'>..</span></li>";
-
-
-						// if($page!=$pages){
-						//   echo ("<li><a href='$link?page=$next'>&gt</a></li>");
-						//   echo ("<li><a href='$link?page=$pages'>Last</a></li>");
-						// }
-						// echo "</ul></div>";
-					?>
-				</center>
 				<table class="table" cellspacing="0" cellpadding="0" border="0" id="table-lobby">
 					<thead>
 						<tr>
@@ -527,52 +286,42 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 						</tr>
 					</thead>
 					<tbody>
-						<?php
-						$no=1;
-						$record_depositraw = sqlsrv_query($sqlconn, "select amount,date1, bank, rek from a83adm_depositraw where userid = '".$login."' and act = '2'",$params,$options);
-						if (@sqlsrv_num_rows($record_depositraw) > 0){
-							$fetch_data_depositraw = sqlsrv_fetch_array($record_depositraw, SQLSRV_FETCH_ASSOC);
-							echo "
-							<tr>
-								<td align='center' height='23'>".$no."</td>
-								<td>";
-									if($fetch_data_depositraw["rek"]!='' && $fetch_data_depositraw["bank"]!==''){
-										echo substr($fetch_data_depositraw["rek"],0,8)."XXXX"."-- ".$fetch_data_depositraw["bank"];
-									}
-									else{
-										echo "-";
-									}
-									echo "</td>
-									<td>IDR ".number_format($fetch_data_depositraw["amount"])."</td>
-									<td>".date_format($fetch_data_depositraw["date1"], "d/m  H:i")."</td>
-									<td align='center'>PROCCESS</td>
-								</tr>";
-								$no++;
-							}
-							while($fetch_data_deposit = sqlsrv_fetch_array($data, SQLSRV_FETCH_ASSOC)){
-								echo "
-								<tr>
-									<td align='center' height='23'>".$no."</td>
-									<td>";
-										if($fetch_data_deposit["rek"]!='' && $fetch_data_deposit["bank"]!==''){
-											echo substr($fetch_data_deposit["rek"],0,8)."XXXX"." -- ".$fetch_data_deposit["bank"];
-										}else{
-											echo "-";
-										}
-										echo "</td>
-										<td>IDR ".number_format($fetch_data_deposit["amount"])."</td>
-										<td>".date_format($fetch_data_deposit["date2"], "d/m H:i")."</td>
-										<td align='center'>".strtoupper($fetch_data_deposit["status"])."</td>
-									</tr>";
+                    <?php
+                    $no = 1;
 
-								$no ++;
-							}
-						?>
+                    foreach ($respTransHis->wdp as $fetch_withdrawPending){
+                        $date = strtotime($fetch_withdrawPending->date1);
+                        $rekNo = substr(str_replace('-', '', $fetch_withdrawPending->rek), 0,-4) . 'xxxx';
+                        $rekDis = bank_format($rekNo, $fetch_withdrawPending->bank);
+                        echo "
+                                <tr>
+                                    <td align='center' height='23'>".$no++."</td>
+                                    <td>".$rekDis." -- ".$fetch_withdrawPending->bank."</td>
+                                    <td>IDR ".number_format($fetch_withdrawPending->amount)."</td>
+                                    <td>".date("d/m  H:i", $date)."</td>
+                                    <td align='center'>Proccess</td>
+                                </tr>";
+                    }
+
+                    foreach ($respTransHis->wdh as $withdrawHist){
+                        $date = strtotime($withdrawHist->date2);
+                        $rekNo = substr(str_replace('-', '', $withdrawHist->rek), 0,-4) . 'xxxx';
+                        $rekDis = bank_format($rekNo, $withdrawHist->bank);
+                        echo "
+                                <tr>
+                                    <td align='center' height='23'>".$no++."</td>
+                                    <td>".$rekDis." -- ".$withdrawHist->bank."</td>
+                                    <td>IDR ".number_format($withdrawHist->amount)."</td>
+                                    <td>".date("d/m  H:i", $date)."</td>
+                                    <td align='center'>" . $withdrawHist->status . "</td>
+                                </tr>";
+                    }
+                    ?>
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="4" align="right" style="color:black;"><b>Jumlah:</b></td>
-							<td style="color:black;"><span><b><?php echo sqlsrv_num_rows($data) ?></b></span></td>
+							<td style="color:black;"><span><b><?php echo count($respTransHis->wdh) ?></b></span></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -605,29 +354,24 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 					</thead>
 
 					<tbody>
-						<?php
-							$req13 = "<request>
-							<secret_key>88888111118888811111</secret_key>
-							<id>13</id>
-							<userid>".$login."</userid>
-							<curr_rate>".$r_curr."</curr_rate>
-						</request>";
-							$transDays = myCurl($req13);
+                    <?php
+                    $totalDepo = $totalWD = $totalWinLose = 0;
+                    foreach($respTransHis->gmh as $report){
+                        $totalDepo += $report->deposit;
+                        $totalWD += $report->withdraw;
+                        $totalWinLose += $report->winlose;
+                        ?>
 
-							foreach($transDays->transaction as $report)
-							{
-						?>
+                        <tr>
+                            <td><?php echo $report->date1;?></td>
+                            <td><?php echo number_format($report->deposit);?></td>
+                            <td><?php echo number_format($report->withdraw);?></td>
+                            <td style='color:<?php $report->color;?>'><?php echo number_format($report->winlose);?></td>
+                        </tr>
 
-						<tr>
-							<td><?php echo $report->date;?></td>
-							<td><?php echo $report->deposit;?></td>
-							<td><?php echo $report->withdraw;?></td>
-							<td style='color:<?php $report->color;?>'><?php echo $report->winlose;?></td>
-						</tr>
-
-						<?php
-							}
-						?>
+                        <?php
+                    }
+                    ?>
 					</tbody>
 
 					<tfoot>

@@ -1,137 +1,61 @@
 <?php
-if ($_POST["logout"]){
-	session_destroy();
-	echo "<script>window.location='../index.php'</script>"; 
-}
 
-$table_userid = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select validation,logx,hp from u6048user_id where userid='".$login."'"),SQLSRV_FETCH_ASSOC);
-$logx=$table_userid["logx"];
-$validation=$table_userid["validation"];
-$pin_pembuka=$table_userid["hp"];
+if ($_POST["logout"]){
+	echo "<script>window.location='../logout.php'</script>";
+}
+$pin_pembukax 	= $pin;
+$iplist 		= getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
 if ($_POST["input_pin"]){
-	if ($pin_pembuka == $_POST["pin"]){
-		$_SESSION["pin"]=$pin_pembuka;
-		sqlsrv_query($sqlconn,"update u6048user_id set logx=0 where userid='".$login."'");
-		
-		$userx=sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select userid,xdeposit from u6048user_id where xdeposit>=0 and userid='".$login."' order by xdeposit desc"), SQLSRV_FETCH_NUMERIC);
-		$q_grup=sqlsrv_query($sqlconn, "select distinct(grup),xdeposit from a83adm_grupbank where subweb='".$subwebid."' order by xdeposit asc", $param, $option);
-		$index_group = 0;
-		while($r_grup=sqlsrv_fetch_array($q_grup,SQLSRV_FETCH_ASSOC)){
-			
-			
-			if ($r_grup["grup"] == 0)$r_grup["grup"]=1;
-			
-			if ($userx[1] == 0)$userx[1]=1;
-			
-			
-			if($userx[1] > $index_group && $userx[1] <= $r_grup["xdeposit"]){
-				sqlsrv_query($sqlconn, "update u6048user_id set bankgrup='".$r_grup["grup"]."' where userid='".$login."'");
-			}
-			$index_group = $r_grup["xdeposit"];
-		}
-		//$r_grup["grup"] = $r_grup["grup"]-1;
-		
-		echo "<script>window.location='../rules.php'</script>"; 
-	}else{
-		if ( ($logx+1) >= 5 ){
-			sqlsrv_query($sqlconn,"update u6048user_id set logx='5',lastlogin=GETDATE(),status='1' where userid ='".$login."'");
-			sqlsrv_query($sqlconn,"insert into g846log_internal (userid,username,waktu,ket) values ('".$login."','".$_SERVER['REMOTE_ADDR']."',GETDATE(),'Validation Pin Fail')");
-			
-			include_once("config_db2.php");
-			// log Login (yang baru kalau data sudah stabil log lama dihapus) / Dewadev insert ke 56 Live ke 142
-			$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
-			VALUES ('$login','" . $agentwlable . "','Block','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Wrong PIN 5 time. From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
-			
-			sqlsrv_query($sqlconn_db2,$queryLogLogin);
-			
-			session_destroy();
+		// validasi pin
+		$reqAPIPin = array(
+			"auth"   	=> $authapi,
+			"domain" 	=> $nonWWW,
+			"ip"		=> $iplist,
+			"device"	=> $device,
+			"type"		=> 6,
+			"userid"	=> $login,
+			"pin"       => $_POST["pin"],
+			"webid"     => $subwebid,
+		);
+		$respPin = sendAPI($url_Api."/account",$reqAPIPin,'JSON','02e97eddc9524a1e');
+
+		if($respPin->status == 200){
+			$_SESSION["pin"] = $pin_pembukax;
+			echo "<script>window.location='../rules.php'</script>"; 
 		}else{
-			sqlsrv_query($sqlconn,"update u6048user_id set logx=(logx+1) where userid='".$login."'");
-			$logx++;
+			if($respPin->actstat == 6){
+                echo "<script>window.location='../logout.php'</script>";
+            }else{
+				$error = $respPin->debugMsg;
+			}
 		}
-	}
-	
+	 
 }else if ($_POST["submit_data"]){
 	$question=$_POST["question"];
 	$pin=$_POST["pin"];
-	if (strlen($pin) != 6){
-		$error="Pin harus 6 digit angka.";
+	
+	// update pin
+	$reqAPIPin = array(
+		"auth"  	=> $authapi,
+		"domain" 	=> $nonWWW,
+		"ip"		=> $iplist,
+		"device"	=> 2,
+		"type"		=> 5,
+		"userid"	=> $login,
+		"pin"       => $_POST["pin"],
+	);
+	$respPin = sendAPI($url_Api."/account",$reqAPIPin,'JSON','02e97eddc9524a1e');
+
+	
+	if($respPin->status == 500){
+		// $error="Pin harus 6 digit angka.";
+		$error = $respPin->msg;
 	}else{
-		
-		sqlsrv_query($sqlconn,"update u6048user_id set hp='".$pin."',logx='0' where userid='".$login."'");
 		echo "<script>
 		alert('Sukses untuk setting data pribadi anda');
 		window.location='../index.php';</script>"; 
 	}
-}else{
-	//TXHLASTORDER
-	sqlsrv_query($sqlconn, "if exists (select userid from t6413txh_lastorder where userid = '".$login."')
-		begin
-		select '1' as hasil
-		end
-		else
-			begin
-		INSERT INTO t6413txh_lastorder (userid, bdate, info, status, amount, total) SELECT userid, GETDATE(), 'new-add','new-add', TXH, TXH FROM u6048user_coin WHERE (userid = '".$login."')
-		end",$params,$options);
-	//END TXHLASTORDER
-
-	//GAMEID AND GAMEDATA
-	$userid_gamex = sqlsrv_query($sqlconn, "if exists (select userid from g846game_id where userid = '".$login."')
-		begin
-		select '1' as hasil
-		end
-		else
-			begin
-		INSERT INTO g846game_id SELECT * FROM u6048user_id where userid='".$login."'
-		INSERT INTO g846game_data SELECT * FROM u6048user_data where userid='".$login."'
-		end",$params,$options);
-
-	$userid_gamex2 = sqlsrv_query($sqlconn, "SELECT playerpt,userprefix from g846game_id where userid='".$login."'",$params,$options);
-	$userid_game2 =  sqlsrv_fetch_array($userid_gamex2,SQLSRV_FETCH_ASSOC);
-	if($userid_game2["playerpt"] == 0){
-
-		sqlsrv_query($sqlconn, "if exists (select userid from g846game_id where userid='".$userid_game2["userprefix"]."')
-			begin
-			select '1' as hasil
-			end
-			else
-				begin
-			INSERT INTO g846game_id SELECT * FROM u6048user_id where userid='".$userid_game2["userprefix"]."'
-			INSERT INTO g846game_data SELECT * FROM u6048user_data where userid='".$userid_game2["userprefix"]."'
-			end",$params,$options);
-		
-		sqlsrv_query($sqlconn, "if exists (select userid from g846game_id where userid='".substr($userid_game2["userprefix"],0,3)."')
-			begin
-			select '1' as hasil
-			end
-			else
-				begin
-			INSERT INTO g846game_id SELECT * FROM u6048user_id where userid='".substr($userid_game2["userprefix"],0,3)."'
-			INSERT INTO g846game_data SELECT * FROM u6048user_data where userid='".substr($userid_game2["userprefix"],0,3)."'
-			end",$params,$options);
-		
-		sqlsrv_query($sqlconn, "if exists (select userid from g846game_id where userid='".substr($userid_game2["userprefix"],0,1)."')
-			begin
-			select '1' as hasil
-			end
-			else
-				begin
-			INSERT INTO g846game_id SELECT * FROM u6048user_id where userid='".substr($userid_game2["userprefix"],0,1)."'
-			INSERT INTO g846game_data SELECT * FROM u6048user_data where userid='".substr($userid_game2["userprefix"],0,1)."'
-			end",$params,$options);
-		
-	}
-	//END GAMEID AND GAMEDATA
-}
-
-if ($logx > 0){
-	$error="Anda melakukan kesalahan ".$logx." x";
-}
-
-if($logx >= 5){
-	session_destroy();
-	echo "<script>window.location='../index.php'</script>"; 
 }
 ?>
 
@@ -163,13 +87,8 @@ if($logx >= 5){
 									<td colspan=2 align="center">
 										
 										<?php 
-											if ($pin_pembuka){ 
-												$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id,status,bankname, bankaccno, bankaccname, bankgrup,playerpt,userpass,email,joindate,save_deposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-												$bankname = $sqlu["bankname"];
-												$bankaccno = $sqlu["bankaccno"];
-												$bankaccname = $sqlu["bankaccname"];
-
-												if($bankaccno != null && $bankname != null && $bankaccname != null) {
+											if($pin_pembukax!='' && $pin_pembukax!='0' ){
+												if($status_bank == '1') {
 										?>
 													<style>													
 														.valpin, .openpin{
@@ -195,7 +114,7 @@ if($logx >= 5){
 																</div>
 																<div class="row">
 																	<label class="lbl">Bank Account </label> 
-																	<input type="text" class="frm-input" value="<?PHP echo substr($bankaccno, 0, 8)."XXXX"; ?>" readonly>
+																	<input type="text" class="frm-input" value="<?PHP echo $bankaccnodis; ?>" readonly>
 																</div>
 																
 																<div class="row"></div>
@@ -255,8 +174,9 @@ if($logx >= 5){
 					</div>
 					
 					<div class="pin-container">
-						<?php if ($pin_pembuka){ 
-								if($bankaccno != null && $bankname != null && $bankaccname != null) {
+						<?php 
+							if($pin_pembukax!='' && $pin_pembukax!='0'){
+								if($status_bank == '1') {
 						?>
 								
 									<div class="btnbank">

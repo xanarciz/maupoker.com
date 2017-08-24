@@ -1,5 +1,3 @@
-<?php include_once("../config_db2.php");?>
-
 <style type="text/css">
   .fa-withdraw{
     background: url('img/<?PHP echo $link_img;?>/icons/widraw.png') no-repeat;
@@ -106,8 +104,7 @@
 </style>
 
 <?php
-    $q_script=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select script_text from u6048user_agencyruntext where agent='".$agentwlable."'"),SQLSRV_FETCH_ASSOC);
-    $txt_script = explode("__lc.license = ",$q_script["script_text"]);
+    $txt_script = explode("__lc.license = ",$infoweb["script_text"]);
     $lisence = substr($txt_script[1],0,7);
 
     //after login
@@ -127,17 +124,14 @@
         <i class="fa fa-seal icon-16"></i> <?php echo number_format($poin); ?>
       </div>
       <div class="col-lg-5 padding-0 margin-0">
-        <?php 
-            $q = sqlsrv_num_rows(sqlsrv_query($sqlconn,"select top 1 userid from j2365join_poinhistory where userid = '".$login."'",$params,$options));
-            if ($q > 1){
+        <?php
+            if ($hispoin > 1){
         ?>
             <input class="btn btn-mini pull-left btn-orange" value="Reedem Poin" type="button" onclick="window.location.href='https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="border-radius: 5px;" />
-
         <?php
             }else{
         ?>
             <a target="_blank" class="btn btn-mini btn-orange center tpadding-3" href="https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="vertical-align: middle;">Aktivasi</a>
-
         <?php
             }
         ?>
@@ -157,10 +151,8 @@
   <div class="navigation-item <?php if($page=='notifikasi'){ ?> active <?php } ?>">
     <a class="nav-item" href="notification.php"><i class="fa fa-bell" ></i> NOTIFIKASI 
       <!-- if conditional here: when notification > 0 -->
-	  <?php 
-		$data_memo = sqlsrv_query($sqlconn, "select id from a83adm_newsinfo where waktu >= '".date('Y-m-d', strtotime("-1 week"))."' and subwebid = '".$subwebid."'",$params,$options);
-		$fetch_data_memo = sqlsrv_num_rows($data_memo);
-		if ($fetch_data_memo > 0){
+	  <?php
+		if ($countmemo > 0){
 			?>
 			<b class="pull-right" style="margin-right: 50px;margin-top: 10px;background: red;height: 22px;width: 22px;border-radius: 10px;"></b>
 			<b class="pull-right white" style="width: 19px;margin-right: -20px;text-align:center;"> <?php echo $fetch_data_memo; ?> </b>

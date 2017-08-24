@@ -15,15 +15,12 @@ include("header.php");
 				</div>
 
 				<div class="body-wrap text-justify" style="overflow-x: auto;">
-				<?php 
-					//echo "select * from a83adm_promotion where subwebid ='$subwebid' and lang = '".$_COOKIE[$cookie_name]."' and status = 1 ";
-					$no = 0;
-					$allgamsql = sqlsrv_query($sqlconn,"select * from a83adm_promotion where subwebid ='$subwebid' and status = 1 ORDER BY waktu DESC");
-					while($dataallgam=sqlsrv_fetch_array($allgamsql)){
-						$no++;
+				<?php
+					$no = 1;
+					foreach ($infoweb['promo'] as $promo){
 				?>
 					<div class="content-promo">
-						<img class="img-promo" src="<?php echo $dataallgam["img"]?>">
+						<img class="img-promo" src="<?php echo $promo["img"]?>">
 						<div class="content-btn">
 							<button class="deploy-toggle<?PHP echo $no; ?> btn btn-promo btn-login">MORE INFO</button>
 							<?PHP if($login){ ?>
@@ -32,17 +29,15 @@ include("header.php");
 								<button class="btn btn-promo btn-login" onclick="location.href='register.php'">JOIN NOW</button>
 							<?PHP } ?>
 						</div>
-						<div class="toggle-content content<?PHP echo $no; ?>">
+						<div class="toggle-content content<?PHP echo $no++; ?>">
 							<p>
-								<?php echo $dataallgam["berita"];?>
+								<?php echo $promo["berita"];?>
 							</p>
 						</div>
 					</div>
-					
 				<?php
 					}
 				?>
-					
 				</div>
 			</div>
 		</div>

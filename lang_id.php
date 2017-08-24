@@ -1,7 +1,6 @@
 <?php
 //=========================================================================
-$P_DATA = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select * from a83adm_config"),SQLSRV_FETCH_ASSOC);
-$P_EDIDAY = $P_DATA["editplayershareday"];
+$P_EDIDAY = $infoweb["editplayershareday"];
 if($P_EDIDAY == "Monday")$P_EDIDAY = "Senin";
 else if($P_EDIDAY == "Tuesday")$P_EDIDAY = "Selasa";
 else if($P_EDIDAY == "Wednesday")$P_EDIDAY = "Rabu";
@@ -9,8 +8,8 @@ else if($P_EDIDAY == "Thursday")$P_EDIDAY = "Kamis";
 else if($P_EDIDAY == "Friday")$P_EDIDAY = "Jum`at";
 else if($P_EDIDAY == "Saturday")$P_EDIDAY = "Sabtu";
 else if($P_EDIDAY == "Sunday")$P_EDIDAY = "Minuggu";
-$P_EDITIM1 = $P_DATA["editplayersharetime1"];
-$P_EDITIM2 = $P_DATA["editplayersharetime2"];
+$P_EDITIM1 = $infoweb["editplayersharetime1"];
+$P_EDITIM2 = $infoweb["editplayersharetime2"];
 $P_NEWPLA="Tambah Pemain";
 $P_PLALIS="Nama Pemain ";
 $P_ADDTRA="Add Transaction";

@@ -31,7 +31,7 @@
   require('./class/filter.class.php');  
   require('./class/error.class.php');
 
-  class captcha
+  class Captcha
   {
 
     var $Length;
@@ -39,7 +39,7 @@
     var $fontpath;
     var $fonts;
 
-    function captcha ($length = 5)
+    function __construct ($length = 5)
     {
 
       header('Content-type: image/png');

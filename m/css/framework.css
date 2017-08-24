@@ -1282,11 +1282,13 @@ table tr:hover td{
 	background-color:#c0392b;
 	color:#FFFFFF;
 	margin-bottom:20px;
+	padding:1px;
 }
 
 .static-notification-red p{
 	margin-top:10px;
 	margin-bottom:10px;
+	color:#fff;
 }
 
 .static-notification-green{

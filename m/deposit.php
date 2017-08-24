@@ -7,11 +7,7 @@ if (!$login){
 	include("_meta.php");
 } else {
 	include("_metax.php");
-	$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankname, bankaccno, bankaccname from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-	$bankname = $sqlu["bankname"];
-	$bankaccno = $sqlu["bankaccno"];
-	$bankaccname = $sqlu["bankaccname"];
-	if($bankaccno == null && $bankname == null && $bankaccname == null) {
+	if($status_bank == 0) {
 		echo "<script>window.location = 'bank-setting.php'</script>";
 		$_SESSION['urlPrev'] = 'deposit.php';
 		die();
@@ -20,382 +16,177 @@ if (!$login){
 
 include("_header.php");
 
-function get_client_ip() {
-    $ipaddress = '';
-    if (getenv('HTTP_CLIENT_IP'))
-        $ipaddress = getenv('HTTP_CLIENT_IP');
-    else if(getenv('HTTP_X_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-    else if(getenv('HTTP_X_FORWARDED'))
-        $ipaddress = getenv('HTTP_X_FORWARDED');
-    else if(getenv('HTTP_FORWARDED_FOR'))
-        $ipaddress = getenv('HTTP_FORWARDED_FOR');
-    else if(getenv('HTTP_FORWARDED'))
-       $ipaddress = getenv('HTTP_FORWARDED');
-    else if(getenv('REMOTE_ADDR'))
-        $ipaddress = getenv('REMOTE_ADDR');
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+$reqAPILastOrder = array(
+    "auth"   => $authapi,
+    "userid" => $login,
+    "agent"  => $agentwlable,
+    "curr"   => $curr,
+    "bankgroup" => $bankgroup,
+    "minutes"=> 1
+);
+$transaction = sendAPI($url_Api . "/transaction", $reqAPILastOrder, 'JSON', '02e97eddc9524a1e');
+
+$err = 0;
+if ($transaction->msg != 'OK') {
+    $success_deposit = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>" . $transaction->msg . "</p></div>";
+    $err = 1;
 }
-// if (!$_SESSION["login"]){
-// 		echo "<script>window.location = 'index.php'</script>";
-// 		die();
-// 	}
 
-$sql1 = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select amount from a83adm_depositraw where userid='".$login."' and stat='0' AND act='1'"), SQLSRV_FETCH_ASSOC);
-if ($sql1["amount"] > 0){
-		 $success_deposit =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Tidak Dapat melakukan deposit,<br> anda masih memiliki 1 deposit yang sedang di proses</p></div>"; //<div style='height:680px;'></div>
-		 $err = 1;
-		}
+if ($q_maintenance == "1") {
+    $success_withdraw = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Connection Time out.</p></div>";
+    $err = 1;
+}
 
-		if ($sqlu["status"] == 2 || $sqlu["status"] == 3){
-			$success_deposit =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Account anda masi dalam proses validasi.<br>Anda hanya bisa mengakses menu MEMO.</p></div>";
-			$err = 1;
+if ($status_block == 2 || $status_block == 3) {
+    $success_deposit = "
+        <div class='static-notification-red tap-dismiss-notification'>
+            <p class='center-text uppercase'>Account anda masi dalam proses validasi.<br>Anda hanya bisa mengakses menu MEMO.</p>
+        </div>";
+    $err = 1;
+} else if ($status_block == 4) {
+    $success_deposit = "
+        <div class='static-notification-red tap-dismiss-notification'>
+            <p class='center-text uppercase'>Account anda Bermasalah.<br> Harap hubungi kami.</p>
+        </div>";
+    $err = 1;
+} else if ($status_block == 5) {
+    $success_deposit = "
+        <div class='static-notification-red tap-dismiss-notification'>
+             <p class='center-text uppercase'>Account anda masih dalam proses lupa password<br>sementara anda hanya bisa mengakses menu MEMO</p>
+         </div>";
+    $err = 1;
+}
 
-		}else if ($sqlu["status"] == 4){
+$defaultOpen = 0;
+if ($xdeposit > 0) {
+    $firstdepo = 1;
+    $maxdepo = $transaction->minmaxDepo->max_depo;
+} else {
+    $firstdepo = 0;
+    $maxdepo = $transaction->first_max_depo;
+}
 
-			$success_deposit =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Account anda Bermasalah.<br> Harap hubungi kami.</p></div>";
-			$err = 1;
+if ($_POST["submit"] && $err == 0) {
+    $name = $login;
 
-		}else if ($sqlu["status"] == 5){
-			$success_deposit =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Account anda masih dalam proses lupa password<br>sementara anda hanya bisa mengakses menu MEMO</p></div>";
-			$err = 1;
-		}
+    $amount = str_replace('.', '', $_POST["amount"]);
+    $accname1 = $bankaccname;
+    $rek1 = $bankaccno;
+    $bname1 = $bankname;
+    $capt = $_POST["captcha1"];
+    $remark = "Deposit";
 
-	//$sqlbank = mssql_fetch_array(mssql_query("select bankname, bankaccno, bankaccname, bankgrup from u6048user_id where userid ='".$login."'"));
-		$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-		$bankname = $sqlu["bankname"];
-		$bankaccno = $sqlu["bankaccno"];
-		$bankaccname = $sqlu["bankaccname"];
-		$bankgrup = $sqlu["bankgrup"];
-		$playerpt	= $sqlu["playerpt"];
-		$xdepo = $sqlu["xdeposit"];
-		
-		$sqlg = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select val from a83adm_config3 where name = 'xdeposit_pertama'"),SQLSRV_FETCH_ASSOC);
+    $databank = explode(",", $_POST["data-bank"]);
+    $bname2 = $databank[0];
+    $rek2 = $databank[1];
+    $accname2 = $databank[2];
+    $condition = $databank[3];
 
-		$xfirst = $sqlg["val"];
-		$firstdepo = 1;
+    $err = 0;
+    if ($capt == '') {
+        $err = 1;
+        $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Captcha harus diisi</p></div>");
+    } else if (!checkCaptcha('CAPTCHAString', $capt)) {
+        $err = 1;
+        $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'> Captcha tidak sama</p></div>");
+    } else {
 
-		$sqlcektrans = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select userid from a83adm_moneyhistory where userid = '".$login."'",$params,$options));
-		if ($sqlcektrans > 0) {
-			$firstdepo = 0;
-		}else {
-			$sqlcektrans2 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select userid from a83adm_deposit where userid = '".$login."'"));
-			if ($sqlcektrans2 > 0) {
-				$firstdepo = 0;
-			}
-		}
-		$firstdepo = 1;
+        $reqAPIRegister = array(
+            "auth" => $authapi,
+            "webid" => $subwebid,
+            "act" => 1,
+            "agent" => $agentwlable,
+            "userid" => strtoupper($name),
+            "amount" => $amount,
+            "bankgroup" => $bankgroup,
+            "bankaccname" => $bankaccname,
+            "bankaccno" => $bankaccno,
+            "bankname" => $bankname,
+            "banktuj" => $bname2,
+            "rektuj" => $rek2,
+            "firstdepo" => $xdeposit,
+            "minutes" => 1,
+            "device" => $device
+        );
 
-		if ($xdepo > $xfirst) {
-			$firstdepo = 0;
-		}
-		$sqlmaxdepo = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select first_max_depo, max_depo from a83adm_config2"), SQLSRV_FETCH_ASSOC);
-		$maxdepo = $sqlmaxdepo["first_max_depo"];
-		$maxdepo2 = $sqlmaxdepo["max_depo"];
+        $response = sendAPI($url_Api . "/cashier", $reqAPIRegister, 'JSON', '02e97eddc9524a1e');
+        if ($response->status == 200) {
+            $err = 0;
+            $errorReport = '';
+            $success_deposit = "
+                <div class='deposit-success-report' style='color:#000;'>Deposit $amount sukses. <br><br>
+                    <font style='font-size:12px;'>Rekening Tujuan : </font>
+                    <table style='font-size:14px;' align=center>
+                        <tr>
+                            <td align=left style=font-size:12px;>Bank</td><td>:</td><td align=left>" . strtoupper($bname2) . "</td>
+                        </tr>
+                        <tr>
+                            <td align=left style=font-size:12px;>Nomor Rekening</td><td>:</td><td align=left>" . strtoupper($rek2) . "</td>
+                        </tr>
+                        <tr>
+                            <td align=left style=font-size:12px;>Nama Rekening</td><td>:</td><td align=left>" . strtoupper($accname2) . "</td>
+                        </tr>
+                    </table>
+            
+                    Deposit anda paling maximal akan di proses dalam 24 jam
+                </div>";
+        } else {
+            $err = 1;
+            $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'> <strong>Deposit gagal!</strong> " . $response->msg . "</p></div>");
+        }
+    }
+}
 
-		if ($_POST["submit"] && !$err) {
-			$name = $login;
+if ($_POST["subform"]) {
+    $voucher_code = str_replace(" ", "", $_POST["voucher_code"]);
+    $pin = str_replace(" ", "", $_POST["pin"]);
+    $captcha = str_replace(" ", "", $_POST["captcha"]);
 
-			$amount		= str_replace('.','',$_POST["amount"]);
-			$waktu		= $_POST["ttgl"]."-".$_POST["tmon"]."-".$_POST["tyear"];
-		//$time		= $_POST["tjam"];
-			$accname1	= $bankaccname;
-			$rek1		= $bankaccno;
-			$bname1		= $bankname;
-		/*$accname2	= $_POST["hBAcc"];
-		$rek2		= $_POST["hBNo"];
-		$bname2		= $_POST["tBName"];*/
-		//$remark		= $_POST["remark"];
-		$capt		= $_POST["captcha1"];
-		$time = date("d/m h:i");
-		$remark = "Deposit";
+    $err = 0;
+    if ($voucher_count >= 5) {
+        $errorReportvouc = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Maaf voucher deposit di tutup sementara</p></div>";
+        $err = 1;
+    } else {
+        if ($captcha == '') {
+            $errvouc = 1;
+            $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> Captcha harus diisi</p></div>");
+        } else if (!checkCaptcha('CAPTCHAString', $captcha)) {
+            $errvouc = 1;
+            $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> Captcha tidak sama</p></div>");
+        } else {
 
-		$databank = explode(",",$_POST["data-bank"]);
-		$bname2		= $databank[0];
-		$rek2		= $databank[1];
-		$accname2	= $databank[2];
-		$condition	= $databank[3];
+            $reqAPIRegister = array(
+                "auth"    => $authapi,
+                "webid"   => $subwebid,
+                "act"     => 3,
+                "app_id"  => '610727387664706',
+                "app_scr" => 'hUfxqqtupO4wlM1lkyfkMBP1ff0KclwS',
+                "agent"   => $agentwlable,
+                "userid"  => strtoupper($login),
+                "loginid" => strtoupper($user_login),
+                "voucCode"=> $voucher_code,
+                "voucPin" => $pin,
+                "ip"      => getUserIP2(),
+                "minutes" => 1,
+            );
 
-
-		if ($remark == "Others")
-			$remark = "Others";
-		else
-			$remark = "Deposit";
-
-		$err = 0;
-
-		$sqlm = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select maint from a83adm_config"), SQLSRV_FETCH_ASSOC);
-		$maintenance = $sqlm["maint"];
-
-		if ($maintenance == "1") {
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Connection Timeout.</p></div>";
-			$err = 1;
-			die();
-		}
-		if (!checkCaptcha('CAPTCHAString', $capt)){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Validasi anda salah.</p></div>";
-			$err = 1;
-		}else if ($amount == "" || $amount <= 0){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi jumlah deposit.</p></div>";
-			$err = 1;
-		}/*else if ($waktu == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi tanggal deposit.</p></div>";
-			$err = 1;
-		}*/else if ($time == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi waktu pengiriman deposit.</p></div>";
-			$err = 1;
-		}else if ($accname1 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi nama account</p></div>";
-			$err = 1;
-		}else if ($rek1 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi nomor rekening</p></div>";
-			$err = 1;
-		}else if ($bname1 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Isi nama bank</p></div>";
-			$err = 1;
-		}else if ($accname2 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Harap memilih bank tujuan</p></div>";
-			$err = 1;
-		}else if ($rek2 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Harap memilih bank tujuan</p></div>";
-			$err = 1;
-		}else if ($bname2 == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Harap memilih bank tujuan</p></div>";
-			$err = 1;
-		}else if ($remark == ""){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>pilih keterangan.</p></div>";
-			$err = 1;
-		}else if ($amount > $maxdepo2){
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>Maksimum adalah $maxdepo2.</p></div>";
-			$err = 1;
-		}
-
-		if ($amount > 0){
-		}else{
-			$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br>isi jumlah deposit.</p></div>";
-			$err = 1;
-		}
-
-		if ($err == 0) {
-			$ket	= "From : ".$accname1." - ".$rek1." ( ".$bname1." ) <br>";
-			//$ket = $remark;
-			$tgl	= $waktu;
-
-			$email=$sqlu["email"];
-			$playerpt=$sqlu["playerpt"];
-			if ($sqlu["status"] == 2){
-				$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal.</p></div>";
-				$err = 1;
-			}
-
-			$sql3	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select curr,userprefix from u6048user_data where userid = '".$name."'"), SQLSRV_FETCH_ASSOC);
-			$curr=$sql3["curr"];
-			$agent=$sql3["userprefix"];
-			$kalikan = 1;
-			
-			if ($playerpt == "1"){
-				$sql5	= "select min_wdraw from a83adm_config";
-			}else{
-				$sql5	= "select min_depo,max_depo,email from u6048user_id where userid='".$agent."'";
-			}
-			
-			$sql6	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, $sql5), SQLSRV_FETCH_ASSOC);
-
-			$mindep = $sql6["min_depo"];
-			if ($amount < $mindep) {
-				$errorReport =  "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Deposit gagal<br> Minimal deposit = $mindep.</p></div>";
-				$err = 1;
-			}
-
-			if ($err == 0) {
-				$rek	= $rek1;
-				$tp 	= '';
-				$axx	= 0;
-				$temp;
-				for($i=0; $i<2; $i++){
-					$temp	=  substr($rek, $axx, 4);
-					if ($tp == ""){
-						$tp	= $temp;
-					}else{
-						$tp	= $tp."-".$temp;
-					}
-					$axx = 4;
-				}
-
-				$panj	= strlen($rek);
-				$temt	= substr($rek, 8, $panj);
-				$rot	= $tp."-".$temt;
-
-				$myDate1	= Date("d m y");
-				$sekarang	= $myDate1;
-				if ($playerpt == 1){
-					$prefx = "ADMIN";
-				}
+            $response = sendAPI($url_Api . "/cashier", $reqAPIRegister, 'JSON', '02e97eddc9524a1e');
+            if ($response->status == 200) {
+                $success_deposit = $response->msg . '<br>' . 'Voucher di terima, saldo sebesar ' . $response->amount . ' telah di tambahkan';
+            } else {
+                $errvouc = 1;
+                $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> " . $response->msg .'</p></div>');
+            }
+        }
+    }
+}
 
 
-				/*$to1 = "== DEPOSIT, SLIP untuk ".$prefx." ==<br>";
-				$to1 .= "(Memo ini dikirim otomatis, berkaitan dengan permintaan deposit.)<br>";
-				$to1 .= "Tanggal : ".$sekarang." <br>";
-				$to1 .= "User id : ".$name." <br>";
-				$to1 .= "E-mail : ".$email." <br>";
-				$to1 .= "Jumlah Coin : ".$amount." <br>";
-				$to1 .= "Tanggal bayar : ".$tgl." <br>";
-				$to1 .= "Dari rekening : ".sanitize($accname1)." ".$bname1." ".$rek1."<br>";
-				$to1 .= "Ke rekening : ".$accname2." ".$bname2." ".$rek2."<br>";
-				$to1 .= "Keperluan : ".$remark."<br>";
-
-				$subject	= "#--PERMINTAAN DEPOSIT--#";
-				if ($playerpt == "1"){
-					$sql7	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bmemo from a83adm_config"), SQLSRV_FETCH_ASSOC);
-					$bmemo	= $sql7["bmemo"];
-					$bill =  explode(",", $bmemo);
-					sqlsrv_query($sqlconn, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('*,".$bmemo.",*','".$name."','','".$subject."','".$to1."','0',GETDATE())");
-				}else{
-					sqlsrv_query($sqlconn, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".$agent."','".$name."','','".$subject."','".$to1."','0',GETDATE())");
-				}
-
-				$to2 = "(Memo ini dikirim otomatis, berkaitan dengan permintaan deposit.)";
-				$to2 .= "<br> == DEPOSIT, SLIP untuk member ==";
-				$to2 .= "<br> Tanggal : ".$sekarang ;
-				$to2 .= "<br> User Id : ".$name;
-				$to2 .= "<br> E-mail : ".$email ;
-				$to2 .= "<br> Jumlah : ".$amount." ";
-				$to2 .= "<br> Tanggal bayar : ".$tgl;
-				$to2 .= "<br> Dari rekening : ".sanitize($accname1)." ".$bname1." ".$rek1;
-				$to2 .= "<br> Ke rekening : ".$accname2." ".$bname2." ".$rek2;
-				$to2 .= "<br> Keperluan : ".$remark;
-				$subject2	= '#--DEPOSIT--#';*/
-				$mgrup = 0;
-				$amountx = $amount;
-				sqlsrv_query($sqlconn, "insert into a83adm_depositraw (act,userid,userprefix,date1,amount,ket,nama,bank,rek,stat,status,date2,banktuj,datesent,rektuj,playerpt,grup,device) values ('1','".$name."','".$agent."',GETDATE(),'".$amountx."','".$ket."','".sanitize($accname1)."','".$bname1."','".$rek1."','0','','','".$bname2."',GETDATE(),'".$rek2."','".$playerpt."','".$mgrup."',1)");
-				//echo "insert into a83adm_depositraw (act,userid,userprefix,date1,amount,ket,nama,bank,rek,stat,status,date2,banktuj,datesent,rektuj,playerpt) values ('1','".$name."','".$agent."',GETDATE(),'".$amountx."','".$ket."','".sanitize($accname1)."','".$bname1."','".$rek1."','0','','','".$bname2."','".$tgl."','".$rek2."','".$playerpt."')";
-				$success_deposit = "<div class='deposit-success-report'>Deposit $amountx sukses. <br><br>
-				<font style='font-size:12px;'>Rekening Tujuan : </font>
-				<table style=font-size:14px;color:white; align=center>
-					<tr>
-						<td align=left style=font-size:12px;>Bank</td><td>:</td><td align=left>".strtoupper($bname2)."</td>
-					</tr>
-					<tr>
-						<td align=left style=font-size:12px;>Nomor Rekening</td><td>:</td><td align=left>".strtoupper($rek2)."</td>
-					</tr>
-					<tr>
-						<td align=left style=font-size:12px;>Nama Rekening</td><td>:</td><td align=left>".strtoupper($accname2)."</td>
-					</tr>
-				</table>
-
-				Deposit anda paling maximal akan di proses dalam 24 jam</div>";
-			}
-		}
-		echo"<BR>";
-	}
-	if ($_POST["subform"]){
-		echo "<br><br>";
-		$voucher_code=str_replace(" ","",$_POST["voucher_code"]);
-		$pin=str_replace(" ","",$_POST["pin"]);
-		$captcha=str_replace(" ","",$_POST["captcha"]);
-
-		if (strtolower($_SESSION['CAPTCHAString']) != $captcha || $_SESSION['CAPTCHAString'] == "" || $captcha == "") {
-			$valkey = 1;
-			$err = 1;
-			$errorReport = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Validation not match</p></div>";
-		}else{
-			
-			$ip_address = get_client_ip();
-			sqlsrv_query($sqlconn_db2,"insert into a443api_voucher88_log (tdate,subwebid,remark) values (GETDATE(),'".$subwebid."','".$login.",".$voucher_code.",".$pin."') ");
-			$url = "http://vock88.com/VOU_GRB_WBOZPVN80D3NR3TKPSID";
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $url);
-			$response=http_build_query(array(
-				'app_id' 	=> "610727387664706",
-				'app_secret'=> "hUfxqqtupO4wlM1lkyfkMBP1ff0KclwS",
-				'code' 		=> $voucher_code,
-				'pin' 		=> $pin,
-				'username'	=> $user_login,
-				'use_ipaddress' => $ip_address
-				));
-			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-			curl_setopt($ch, CURLOPT_POSTFIELDS,"" . $response);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-			$data_curl = curl_exec($ch);
-			curl_close($ch);
-			$obj = json_decode($data_curl);
-			$validate_code = $obj->{'status'};
-			sqlsrv_query($sqlconn_db2,"insert into a443api_voucher88_log (tdate,subwebid,remark) values (GETDATE(),'".$subwebid."','".$login.",".$voucher_code.",".$pin."(".$validate_code.")') ");
-			if($validate_code && $validate_code != ''){
-				function memo($to,$from,$subject,$body,$read = 0) {
-					sqlsrv_query($sqlconn_db2,"insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".addslashes($to)."','".$from."','','".addslashes($subject)."','".$body."','".$read."',GETDATE())");
-				}
-				$amount = json_decode( $obj->{"value"} );
-				$code = $voucher_code;
-				$cek=sqlsrv_query($sqlconn,"select top 1 total from j2365join_lastorder where userid='".$login."' order by id desc",$params,$options);
-				$cekRows2 = sqlsrv_num_rows($cek);
-				if ($cekRows2 > 0){
-					$bsql = @sqlsrv_fetch_array($cek,SQLSRV_FETCH_ASSOC);
-					$user_id = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select save_deposit from u6048user_id where userid = '".$login."'"),SQLSRV_FETCH_ASSOC);
-					$selisih=($bsql["total"] - $user_id["save_deposit"]);
-					$abso=abs($selisih);
-					if(($bsql["total"] != $user_id["save_deposit"])and($abso>500)){
-						$errorReport = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><font color=red size=2 face=arial><b><i>".P_FATERR." !!! ".P_BALPRO." !!!</b></i></font></p></div>";
-						$err= 1;
-					}
-				}
-				if($err != 1){		
-					$tobj ="DENGAN HORMAT<br><br>";
-					$tobj.="Slip Voucher Deposit";
-					$tobj.="<br>Tanggal : ".Date("d/m/y h:i");	
-					$tobj.="<br>Userid : $login";	
-					$tobj.="<br>Amount : $amount";	
-					$tobj.="<br>Selamat Account anda telah diisi dengan voucher senilai ".$amount."";	
-					$gantix=str_replace("'", "''",$tobj);
-					
-					memo($login,"ADMIN","Voucher Deposit", $gantix);
-					
-					$idxsql = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select save_deposit,playerpt from u6048user_id where userid = '".$login."'"),SQLSRV_FETCH_ASSOC);
-					$balbaru = $idxsql["save_deposit"] + $dbq["amount"];
-					$playerpt = $idxsql["playerpt"];
-					$totalbaru = $balbaru;
-
-
-					sqlsrv_query($sqlconn,"update u6048user_data set credit = '".number_format($totalbaru, 0,'.', '')."' where userid = '".$login."'");
-					sqlsrv_query($sqlconn,"update u6048user_id set deposit_pending = '1',xdeposit=(xdeposit+1) where userid = '".$login."'");
-					//sqlsrv_query($sqlconn,"insert into u6048user_transfer (receiver,mes,date) values ('".$login."','12, ,".$amount."',GETDATE())");
-					$balance_voucher = $coin + $amount;
-
-					sqlsrv_query($sqlconn,"update u6048user_coin set txh='".$balance_voucher."' where userid='".$login."'");
-					sqlsrv_query($sqlconn,"insert into t6413txh_lastorder (Userid,bdate,info,status,amount,gametype,total) values ('".$login."',GETDATE(), '-', 'VOUCHER', '".$amount."', 'TXH', '".$balance_voucher."')");
-					sqlsrv_query($sqlconn,"insert into j2365join_adminlog (UserId,Tgl,Aksi,Ket) values ('$login',GETDATE(),'Accept Voucher','$login')");
-					sqlsrv_query($sqlconn,"insert into a83adm_deposit (act,playerpt,userid,userprefix,date1,amount,ket,nama,bank,rek,stat,status,date2,banktuj,datesent,rektuj,operator) values ('1','1','".$login."','".$agentwlable."',GETDATE(),'".$amount."','Voucher $code','','','',1,1,GETDATE(),'',GETDATE(),'','voucher')");
-					sqlsrv_query($sqlconn,"insert into cas2_db.dbo.t6413txh_transaction_old".(date("d")*1)." (TDate, Periode, RoomId, TableNo, UserId, GameType, Status, Bet, v_bet, Card, Prize, Win, Lose, Cnt, Chip, PTShare, SShare, MShare, AShare, Autotake, DSMaster, DMaster, DAgent, DPlayer, Agent, Master, Smaster) values (GETDATE(), '0', '0', '0', '".$login."', 'TXH', 'Voucher', '0', '".$amount."', '-', '-', '0', '0', '1', $balance_voucher , '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '', '')");
-					
-					$cek_trans = sqlsrv_num_rows(sqlsrv_query($sqlconn,"select user from a83adm_moneyhistory where userid='".$login."' and bulan='".date("m")."' and tahun='".date("Y")."'",$params,$options));
-					if ($cek_trans > 0) sqlsrv_query($sqlconn,"update a83adm_moneyhistory set deposit=(deposit + '".$dbq["amount"]."') where userid='".$login."' and bulan='".date("m")."' and tahun='".date("Y")."'");
-					else sqlsrv_query($sqlconn,"insert into a83adm_moneyhistory (userid, deposit, bulan, tahun) values ('".$login."', '".$dbq["amount"]."', '".date("m")."', '".date("Y")."')");
-					
-					$success_deposit ="<div class='deposit-success-report'><font color=white>Voucher di terima, saldo sebesar $amount telah di tambahkan.</font></div>";
-				}
-			}else{
-				sqlsrv_query($sqlconn,"update u6048user_id set voucher_count=isnull(voucher_count,0)+1,voucher_date=GETDATE() where userid='".$login."'");
-				$errorReport = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Voucher not valid</p></div>";
-				$err=1;
-			}
-		}
-	}
-
-	$q_check_validation=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select voucher_count from u6048user_id where userid='".$login."'"),SQLSRV_FETCH_ASSOC);
-	if ($q_check_validation["voucher_count"]>="5"){
-		$q_1=sqlsrv_num_rows(sqlsrv_query($sqlconn,"select voucher_date from u6048user_id where userid='".$login."' and voucher_date<DATEADD(minute,-10,GETDATE())",$params,$options));
-		if ($q_1 == 1) sqlsrv_query($sqlconn,"update u6048user_id set voucher_count=0 where userid='".$login."'");
-		$errorReport = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Maaf voucher deposit di tutup sementara</p></div>";
-		$err=1;
-	}
-
-	$idb = $bankgrup;
-	$bankaccnox = substr($bankaccno,0,-4);
-	?>
+if ($voucher_count >= "5") {
+    $errorReportvouc = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Maaf voucher deposit di tutup sementara</p></div>";
+    $errvouc = 1;
+}
+?>
 
 <div class="content-2" data-id="deposit" id="page">
 	<div class="lpadding-15 tpadding-5">
@@ -406,9 +197,6 @@ if ($sql1["amount"] > 0){
 			if ($success_deposit){
 				echo $success_deposit;
 			}else{
-				if ($err == 1){
-					echo $errorReport;
-				}
 	?>
 
 	<hr class="margin-0 tmargin-2 bmargin-3 bg-brown-panel">
@@ -421,8 +209,13 @@ if ($sql1["amount"] > 0){
 			</ul>
 
 			<div id="tabs-1">
-				<div class="tpadding-10 lpadding-15 rpadding-15 row">
-					<form method="post" id="fcash" name="fcash">
+                <div class="tpadding-10 lpadding-15 rpadding-15 row">
+                    <?php
+                    if ($err == 1){
+                        echo $errorReport;
+                    }
+                    ?>
+                    <form method="post" id="fcash" name="fcash">
 
 						<div class="row margin0">
 							<div class="col-lg-5">
@@ -457,13 +250,7 @@ if ($sql1["amount"] > 0){
 							</div>
 							<div class="col-lg-6">
 								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> 
-								<?php
-									if($bankname == "BCA"){
-										echo substr($bankaccno,0,8)."xxxx";
-									}else{
-										echo substr($bankaccno,0,8)."xxx-xxxx";
-									}
-								?>
+								<?php echo $bankaccnodis; ?>
 								</label>
 								<input type="hidden" name="bank_accnumber" value="<?php echo $bankaccno;?>" />
 							</div>
@@ -479,105 +266,20 @@ if ($sql1["amount"] > 0){
 								<label class="black tmargin-10 lmargin-5">IDR</label>
 							</div>
 						</div>
-
-						<!-- <label class="light-gray fs-13 fs-normal  tmargin-10">Tanggal</label>
-						<div class="row margin-0">
-							<div class="col-lg-3">
-								<select name='ttgl' class="form-control bg-light-gray" required>
-									<?php
-										$date = date("d");
-										$month = date("M");
-										$year = date("Y");
-
-										for ($d=1; $d<32; $d++){
-											$select = "";
-											if ($d == $date){
-												$select ="selected";
-											}
-										echo "<option value='".$d."' ".$select.">".$d."</option>";
-										}
-									?>
-								</select>
-							</div>
-							<div class="col-lg-4">
-								<select name='tmon' class="form-control bg-light-gray" required>
-									<?php
-										$armon = Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-										for ($m=0; $m<12; $m++){
-											$select = "";
-											if ($armon[$m] == $month){
-												$select ="selected";
-											}
-											echo "<option value='".$armon[$m]."' ".$select.">".$armon[$m]."</option>";
-
-										}
-									?>
-								</select>
-							</div>
-							<div class="col-lg-5">
-								<select name='tyear' class="form-control bg-light-gray" required>
-									<?php
-										$yearx = $year-1;
-										for ($m=0; $m<3; $m++){
-											$select = "";
-											if ($yearx == $year){
-												$select ="selected";
-											}
-											echo "<option value='".$yearx."' ".$select.">".$yearx."</option>";
-
-											$yearx = $yearx+1;
-										}
-									?>
-								</select>
-							</div>
-						</div> -->
-
-						<?php
-							if ($playerpt == 1){
-								$sql2	= sqlsrv_query($sqlconn, "select bank, bankaccno, bankaccname,status from a83adm_configbank where (code = 'Company' or code = 'COMPANY' or code = 'company') and (curr = 'IDR') and idx='".$idb."' order by status asc, id asc",$params,$options);
-							}else if ($playerpt	== 0){
-								$q		= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select userprefix from u6048user_data where userid = '".$login."'"), SQLSRV_FETCH_ASSOC);
-								$userx		= $q["userprefix"];
-								$sql2		= sqlsrv_query($sqlconn, "select bank, bankaccno, bankaccname,status from a83adm_configbank where code = '".$userx."' and idx ='".$idb."' and (curr = 'IDR')",$params,$options); 
-							}
-
-							$jumbank = sqlsrv_num_rows($sql2);
-							$check = "checked";
-						?>
-
 						<label class="black fs-13 fs-normal">Pilihan Bank</label>
 						<div class="row margin0">
 							<div class="col-lg-12">
 								<select class="form-control bg-light-gray" name="data-bank" id="data-bank" required>
 									<option value="" selected> Pilih Bank </option>
 									<?PHP
-										for($i=0; $i<$jumbank; $i++){
-											$tempRow = sqlsrv_fetch_array($sql2, SQLSRV_FETCH_ASSOC);
-											$hbno[$i] = $tempRow["bankaccno"];
-											$hbacc[$i] = $tempRow["bankaccname"];
-											$status = $tempRow["status"];
-
-											if ($i == ($jumbank - 1)){
-												$line_color = "";
-											}else{
-												$line_color = "border-bottom:1px solid #16edfe";
-											}
-
-											if(strtoupper($hbno[$i]) == "OFFLINE"){
-												$clas = "disabled";
-												$ket = "OFFLINE";
-											}else{
-												$clas = "";
-												$ket = "";
-											}
-											
-											if(strtoupper($bankname) == strtoupper($tempRow["bank"])){
-												$sel = "selected";
-											}else{
-												$sel = "";
-											}
-
-											echo '<option value="'.strtoupper($tempRow["bank"]).",".strtoupper($hbno[$i]).",".strtoupper($hbacc[$i]).",".$status.'" '.$clas.' '.$sel.'>'.strtoupper($tempRow["bank"]).' '.$ket.'</option>';
+                                    foreach ($transaction->list_bank as $bankDetails){
+                                        $sel = '';
+                                        if(strtoupper($bankname) == strtoupper($bankDetails->BankId)) {
+                                            $sel = "selected";
+                                            $bankSelected = $bankDetails->BankId;
+                                            $bankLink = $bankDetails->BankLink;
+                                        }
+                                        echo '<option value="'.strtoupper($bankDetails->BankId).",".$bankDetails->BankAccNo.",".$bankDetails->BankAccName.'" '.$sel.' dt-link="'.$bankDetails->BankLink.'">'.strtoupper($bankDetails->BankName).'</option>';
 										}
 									?>
 								</select>
@@ -625,54 +327,18 @@ if ($sql1["amount"] > 0){
 							</div>
 						</div>
 
-						<div class="row margin0 tpadding-5">
-							<div class="col-lg-12 dropdown">
-								<a href="https://ib.bri.co.id/ib-bri/" target="_blank" class="dropbtn fs-14" id="btn-bri" style="display: none; height: 50px;">
-									<div class="col-lg-3 col-lg-offset-2">
-										<img src="img/banks/bri - blue.png" class="bank pull-left" style="height:25px;!important">
-									</div>
-									<div class="col-lg-3">
-										<p class="margin-0 tmargin-3">Login E-Bank</p>
-									</div>
-								</a>
-
-								<a href="https://ibank.bni.co.id/MBAWeb/FMB" target="_blank" class="dropbtn fs-14" id="btn-bni" style="display: none; height: 50px;">
-									<div class="col-lg-3 col-lg-offset-2">
-										<img src="img/banks/bni - blue.png" class="bank pull-left" style="height:25px;!important">
-									</div>
-									<div class="col-lg-3">
-										<p class="margin-0 tmargin-3">Login E-Bank</p>
-									</div>
-								</a>
-
-								<a href="https://ib.bankmandiri.co.id" target="_blank" class="dropbtn fs-14" id="btn-mandiri" style="display: none; height: 50px;">
-									<div class="col-lg-3 col-lg-offset-2">
-										<img src="img/banks/mandiri - blue.png" class="bank pull-left" style="height:25px;!important">
-									</div>
-									<div class="col-lg-3">
-										<p class="margin-0 tmargin-3">Login E-Bank</p>
-									</div>
-								</a>
-
-								<a href="https://ibank.klikbca.com/" target="_blank" class="dropbtn fs-14" id="btn-bca" style="display: none; height: 50px;">
-									<div class="col-lg-3 col-lg-offset-2">
-										<img src="img/banks/bca - blue.png" class="bank pull-left" style="height:25px;!important">
-									</div>
-									<div class="col-lg-3">
-										<p class="margin-0 tmargin-3">Login E-Bank</p>
-									</div>
-								</a>
-								
-								<a href="https://www.cimbclicks.co.id/ib-cimbniaga/Login.html" target="_blank" class="dropbtn fs-14" id="btn-cimb" style="display: none; height: 50px;">
-									<div class="col-lg-3 col-lg-offset-2">
-										<img src="img/banks/cimb.png" class="bank pull-left tmargin-5" style="width: 100px; margin-left: -10px;">
-									</div>
-									<div class="col-lg-3">
-										<p class="margin-0 tmargin-3" style="margin-left: 30px;">Login E-Bank</p>
-									</div>
-								</a>
-							</div>
-						</div>
+                        <div class="row margin0 tpadding-5">
+                            <div class="col-lg-12 dropdown">
+                                <a href="<?php echo $bankLink; ?>" target="_blank" class="dropbtn fs-14 elogin" id="btn-<?php echo strtolower($bankSelected);?>" style="display: none; height: 50px;">
+                                    <div class="col-lg-3 col-lg-offset-2 dimg">
+                                        <img src="img/banks/<?php echo strtolower($bankSelected); ?> - blue.png" class="bank pull-left" style="height:25px;!important" ">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <p class="margin-0 tmargin-3">Login E-Bank</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
 
 						<div class="row"><label class="black fs-13 pull-left tmargin-10">Validasi</label></div>
 						<div class="row">
@@ -779,7 +445,12 @@ if ($sql1["amount"] > 0){
 
 			<div class="tabs-2" id="tabs-2-content" style="display: none;">
 				<div class="tpadding-10 lpadding-15 rpadding-15 row">
-					<form method="post" id="fvoucher" name="fvoucher">
+                    <?php
+                    if ($errvouc == 1){
+                        echo $errorReportvouc;
+                    }
+                    ?>
+                    <form method="post" id="fvoucher" name="fvoucher">
 						<label class="black fs-13 pull-left tmargin-10">Voucher Code</label>
 						<div class="row">
 							<div class="col-lg-12">
@@ -801,7 +472,7 @@ if ($sql1["amount"] > 0){
 							</div>
 						
 							<div class="col-lg-5 tpadding-3 lpadding-5">
-								<img src='../../captcha/captcha.php?.png' alt='CAPTCHA' width='100%' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
+								<img src='../captcha/captcha.php?.png' alt='CAPTCHA' width='100%' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
 							</div>
 						</div>
 						<div class="row">
@@ -960,58 +631,28 @@ if ($sql1["amount"] > 0){
 		$('#amount').val(finalres);
 	})
 
-	$( "#data-bank" ).change(function() {
-		var isi = $(this).val();
-		var res = isi.split(",");
+    $( "#data-bank" ).change(function() {
+        var isi = $(this).val();
+        var res = isi.split(",");
+        var bnlink = $(this).find('option:selected').attr('dt-link');
 
-		if( res[0] ){
-			$(".bank-detail").css('display', 'block');
+        if( res[0] ){
+            $(".bank-detail").css('display', 'block');
+            $(".elogin").css('display', 'block');
+            if(res[0] == 'CIMB') $('.dimg').attr('class', 'col-lg-5 col-lg-offset-2 dimg');
+            else $('.dimg').attr('class', 'col-lg-3 col-lg-offset-2 dimg');
+            $('.elogin').attr('href', bnlink);
+            $('.elogin').attr('id', 'btn-' + res[0].toLowerCase());
+            $('.elogin img').attr('src', 'img/banks/'+ res[0].toLowerCase()+' - blue.png');
+        }else{
+            $(".bank-detail").css('display', 'none');
+            $(".elogin").css('display', 'none');
+        }
 
-			if( res[0] == 'BRI' ){
-				$( '#btn-bri' ).css('display', 'block');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'BNI' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'block');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'MANDIRI' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'block');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'BCA' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'block');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'CIMB' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'block');
-			}
-
-		}else{
-			$(".bank-detail").css('display', 'none');
-			$( '#btn-bri' ).css('display', 'none');
-			$( '#btn-bni' ).css('display', 'none');
-			$( '#btn-mandiri' ).css('display', 'none');
-			$( '#btn-bca' ).css('display', 'none');
-			$( '#btn-cimb' ).css('display', 'none');
-		}
-
-  		$( "#bkil" ).html( res[0] );
-  		$( "#nare" ).html( res[2] );
-  		$( "#nore" ).html( res[1] );
-	});
+        $( "#bkil" ).html( res[0] );
+        $( "#nare" ).html( res[2] );
+        $( "#nore" ).html( res[1] );
+    });
 
 	$( ".deploy-toggle-1" ).click(function() {
 		if ( $('.toggle-content').css('display') != 'block' ) {
@@ -1098,57 +739,26 @@ if ($sql1["amount"] > 0){
 	
 	
 	$( document ).ready(function() {
-		
-		var isi = $("#data-bank" ).val();
-		var res = isi.split(",");
+        var isi = $("#data-bank" ).val();
+        var res = isi.split(",");
+        var bnlink = $(this).find('option:selected').attr('dt-link');
 
-		if( res[0] ){
-			$(".bank-detail").css('display', 'block');
+        if( res[0] ){
+            $(".bank-detail").css('display', 'block');
+            $(".elogin").css('display', 'block');
+            if(res[0] == 'CIMB') $('.dimg').attr('class', 'col-lg-5 col-lg-offset-2 dimg');
+            else $('.dimg').attr('class', 'col-lg-3 col-lg-offset-2 dimg');
+            $('.elogin').attr('href', bnlink);
+            $('.elogin').attr('id', 'btn-' + res[0].toLowerCase());
+            $('.elogin img').attr('src', 'img/banks/'+ res[0].toLowerCase()+' - blue.png');
+        }else{
+            $(".bank-detail").css('display', 'none');
+            $(".elogin").css('display', 'none');
+        }
 
-			if( res[0] == 'BRI' ){
-				$( '#btn-bri' ).css('display', 'block');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'BNI' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'block');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'MANDIRI' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'block');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'BCA' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'block');
-				$( '#btn-cimb' ).css('display', 'none');
-			}else if( res[0] == 'CIMB' ){
-				$( '#btn-bri' ).css('display', 'none');
-				$( '#btn-bni' ).css('display', 'none');
-				$( '#btn-mandiri' ).css('display', 'none');
-				$( '#btn-bca' ).css('display', 'none');
-				$( '#btn-cimb' ).css('display', 'block');
-			}
-
-		}else{
-			$(".bank-detail").css('display', 'none');
-			$( '#btn-bri' ).css('display', 'none');
-			$( '#btn-bni' ).css('display', 'none');
-			$( '#btn-mandiri' ).css('display', 'none');
-			$( '#btn-bca' ).css('display', 'none');
-			$( '#btn-cimb' ).css('display', 'none');
-		}
-
-  		$( "#bkil" ).html( res[0] );
-  		$( "#nare" ).html( res[2] );
-  		$( "#nore" ).html( res[1] );
+        $( "#bkil" ).html( res[0] );
+        $( "#nare" ).html( res[2] );
+        $( "#nore" ).html( res[1] );
 	});
 </script>
 

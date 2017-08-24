@@ -1,14 +1,32 @@
 <?php
-//$DalamGame = "../";
 include("config.php");
-include_once("config_db2.php");
 include($cfgProgDir."secure.php");
 
-if (!$_SESSION["login"]){
-	exit ("Please login first");
+// preparing response
+$res['status'] = 500;
+$res['_tok'] = '';
+
+if(! isset($_SESSION['login']) || $_SESSION['login'] == '') {
+    $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Login First</div>";
+    exit (json_encode($res));
 }
-if ($_POST["submit"]){
-	$subject = $_POST["title"];
+
+
+// validation is login
+if (!$_SESSION["login"]){
+    $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Please login first</div>";
+    exit (json_encode($res));
+}
+
+if (checkCaptcha('scrTok', $_POST['_tok'])){
+    // create new auth token
+    $_SESSION['scrTok'] = base64_encode(md5(session_id(). str_shuffle('memo'.time())));
+
+    // preparing response
+    $res['_tok'] = $_SESSION['scrTok'];
+
+    // validation
+    $subject = $_POST["title"];
 	$body = $_POST["descr"];
 	
 	$subject = str_replace("http://", "", $subject);
@@ -17,38 +35,44 @@ if ($_POST["submit"]){
 	$body = str_replace("http://", "", $body);
 	$body = str_replace("<", "(", $body);
 	$body = str_replace(">", ")", $body);
-	if (!$subject){
-		exit ("<font color=red>Please fill subject!</font>");
-	}else if (!$body){
-		exit ("<font color=red>Please fill meessage!</font>");
-	}else{
-		$jum = sqlsrv_num_rows(sqlsrv_query($sqlconn_db2, "select id from j2365join_memo where mfrom = '".$login."' and mdate > dateadd(minute,-2,GETDATE()) and mto = '".$agentwlable."'",$params,$options));
-		if ($jum > 0) {
-			exit ("Send memo failed, try again 5 minutes later.");
-		}else {
-		
-			$nama = "";
-			$sql1	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select memo from a83adm_config") , SQLSRV_FETCH_ASSOC);
-			$userx3	= $sql1["memo"]. "";
-			$userx	="*,".$userx3.",*";
-			$fuser = substr($login, 0,1);
 
-				$sql2 = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select val from a83adm_config3 where name='memogrupconfig'",$params,$options),SQLSRV_FETCH_NUMERIC);
-					$_group = explode("#", $sql2[0]);
-					for ($_g=0; $_g<count($_group); $_g++){
-						if (ereg(",".$fuser.",",$_group[$_g])) {
-							$mgrup = ($_g + 1);
-							break;
-						}
-					}
-					$userx2 = sqlsrv_query($sqlconn,"select userprefix,playerpt from u6048user_id where userid = '".$login."'");
-					$userxx=sqlsrv_fetch_array($userx2,SQLSRV_FETCH_ASSOC);
-					if($userxx["playerpt"]==0){
-						$userx= $userxx["userprefix"];
-					}
-			sqlsrv_query($sqlconn_db2, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate,grup) values ('".$userx."','".$login."','','".$subject."','".$body."','0',GETDATE(),'".$mgrup."')");
-			exit ("Send Memo Successful!!!");
+
+	if (!$subject){
+        $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Please fill subject!</div>";
+		exit (json_encode($res));
+	}else if (!$body){
+        $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Please fill meessage!</div>";
+        exit (json_encode($res));
+	}else{
+        // submit process
+		$reqAPIMemoSend = array(
+		    "auth"      => $authapi,
+            "userid" 	=> $login,
+			"mto" 		=> $agentwlable,
+			"mfrom" 	=> $login,
+			"subject" 	=> $subject,
+			"content" 	=> $body,
+			"type"		=> 1,
+		);
+
+		$respMemoSend = sendAPI($url_Api."/memo",$reqAPIMemoSend,'JSON','02e97eddc9524a1e');
+		
+		// print_r($respMemoSend);exit();
+		
+		// error response
+		if( $respMemoSend->status != 200 ){
+            $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>" . $respMemoSend->msg . "</div>";
+            exit (json_encode($res));
 		}
+
+		// success response
+        $res['status'] = 200;
+        $res['response'] = "<div class='alert alert-success' style='margin-left: 0px;'>" . $respMemoSend->msg . "</div>";
+        exit (json_encode($res));
 	}
 }
+
+$res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Authentication Failed</div>";
+exit (json_encode($res));
+
 ?>

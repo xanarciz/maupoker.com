@@ -10,261 +10,80 @@ if (!$_SESSION["login"]){
 	die();
 }
 
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id, bankname, bankaccno, bankaccname from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-$bankname = $sqlu["bankname"];
-$bankaccno = $sqlu["bankaccno"];
-$bankaccname = $sqlu["bankaccname"];
+$reqAPILastOrder = array(
+    "auth"      => $authapi,
+    "agent"     => $agentwlable,
+    "userid"    => $login,
+    "curr"      => $curr,
+    "bankgroup" => $bankgroup,
+    "minutes"   => 1
+);
+$transaction = sendAPI($url_Api."/transaction",$reqAPILastOrder,'JSON','02e97eddc9524a1e');
 
-if($bankaccno == null && $bankname == null && $bankaccname == null) {
-	echo "<script>window.location = 'bank-setting.php'</script>";
-	$_SESSION['urlPrev'] = 'withdraw.php';
-	die();
-}
-	
-function currx($val) {
-if (!strpos($val,".")) return number_format($val, 0,'.', ',');
-else return number_format($val, 1,'.', ',');
-}
-$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select amount from a83adm_depositraw where stat='0' AND act='2'",$params,$options));
-/*$sqlc = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select withdraw_ctrl, withdraw_text from a83adm_config2"), SQLSRV_FETCH_ASSOC);
-if ($sql1 >= $sqlc["withdraw_ctrl"]){
-	 $success_withdraw = "<div class='error-report'>$sqlc[withdraw_text]</div>";
-	 $err = 1;
-}*/
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select id, userpass, bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
-$query = sqlsrv_query($sqlconn,"select sqltable from a83adm_configgame");
-
-while($row = sqlsrv_fetch_array($query,SQLSRV_FETCH_ASSOC)){		
-	$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select Sit from ".$row['sqltable']."_usersit where Userid='".$login."'",$params,$options));
-	
-	if ($sql1 > 0){
-		 $errorReport = " Failed Withdraw. Please logout the game first!";
-		 $err = 1;
-	}
-	
+if ($transaction->msg != 'OK'){
+    $errorReport = "<div class='error-report'>".$transaction->msg."</div>";
+    $err = 1;
 }
 
-	
-	$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select inEBN, inBJK, inCAP, inWAR, inSAM from u6048user_coin where Userid='".$login."' AND (inEBN>0 OR inBJK>0 OR inCAP>0 OR inWAR>0 OR inSAM>0 OR inBTM>0)",$params,$options));
-	if ($sql1 > 0){
-		 $success_withdraw = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Withdraw gagal.<br>Mohon Keluar Dari Game</p></div>";
-		 $err = 1;
-	}
-	
-
-$sql3 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select id from t6413txh_lastorder where userid='".$login."' and bdate > dateadd(minute,-1,GETDATE())",$params,$options));	
-if ($sql3 > 0){
-	 $success_withdraw = "<div class='error-report'>Cannot withdraw.<br>Don't enter the game and try again 5 minutes later </div>";
-	 $err = 1;
+if($status_bank == 0) {
+    $_SESSION['urlPrev'] = 'withdraw.php';
+    echo "<script>window.location = 'bank-setting.php'</script>";
+    die();
 }
 
-if (!$err){
-	$firstdepo = 1;
-	$sqlcektrans = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select userid from a83adm_moneyhistory where userid = '".$login."'",$params,$options));
-	if ($sqlcektrans > 0) {
-		$firstdepo = 0;
-	}else {
-		$sqlcektrans2 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select userid from a83adm_deposit where userid = '".$login."'"));
-		if ($sqlcektrans2 > 0) {
-			$firstdepo = 0;
-		}
-	}
-	
-	$sqlmaxdepo = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select first_max_depo, max_depo from a83adm_config2"), SQLSRV_FETCH_ASSOC);
-	$maxdepo = $sqlmaxdepo["first_max_depo"];
-	$maxdepo2 = $sqlmaxdepo["max_depo"];
-	
-	$dataUang = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select TXH from u6048user_coin where userid = '".$login."'"), SQLSRV_FETCH_ASSOC);
-	$chip = $dataUang["TXH"];
+$defaultOpen = 0;
+
 	if ($_POST["submit"]) {
 		$name		= $login;
 		//$amount		= substr(str_replace('.','',$_POST["amount"]),4);
 		$amount		= $_POST["amount"];
-		$pass		= hash("sha256",md5($_POST["pass"]).'8080');
+		$pass		= $_POST["pass"];
 		$capt		= $_POST["captcha"];
-		$bankaccname = $sqlu["bankaccname"];
 		$bankacc	= $bankaccname;
 		$rek		= $bankaccno;
 		$error = 0;
-		$sqlm = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select maint from a83adm_config"), SQLSRV_FETCH_ASSOC);
-		$maintenance = $sqlm["maint"];
-		if ($maintenance == "1") {
-			 $errorReport = "<div class='error-report'>Connection Time out.</div>";
-			 $err = 1;
-			 die();
-		}
-		/* if (!checkCaptcha('CAPTCHAString', $capt)){
-			$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
-			$err = 1;
-		} */
-		if ($amount == "" || $amount <= 0){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Withdraw failed.<br>Please fill amount.</div>";
-		}else if ($pass	== ""){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Withdraw failed.<br>isi password.</div>";
-		}
-	
-		if ($amount > 0){
-		}else{
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Gagal Withdraw.<br>isi amount.</div>";
-		}
-
-		$p = $sqlu["userpass"];
-	
-		if ($p != $pass){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Gagal Withdraw.<br>Password Salah.</div>";
-		}
-	
-		$sql3	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select curr,userprefix from u6048user_data where userid = '".$name."'"), SQLSRV_FETCH_ASSOC);
-		$curr	= $sql3["curr"];
-		$agent	= $sql3["userprefix"];
-		$balance	= $chip;
 		
-		$balancebaru	= $balance - $amount;
-	
-		if ($balancebaru < 0){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Gagal Withdraw.<br>Balance not enough.</div>";
-		}
-		$email=$sqlu["email"];
-		$playerpt=$sqlu["playerpt"];
 		
-		if ($playerpt == "1"){
-			$sql5	= "select min_wdraw from a83adm_config";
+		if($capt == ''){
+			$errorReport = ("<strong>Withdraw gagal!</strong> Captcha harus diisi");
+		}else if(!checkCaptcha('CAPTCHAString', $capt)){
+			$errorReport = ("<strong>Withdraw gagal!</strong> Captcha tidak sama");
 		}else{
-			$sql5	= "select min_wdraw,max_wdraw,email from u6048user_id where userid='".$agent."'";
-		}
-		$query5	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, $sql5), SQLSRV_FETCH_ASSOC);
-		$minwit	= $query5["min_wdraw"];
-		$maxwit	= $query5["max_wdraw"];
+		
+			$reqAPIRegister = array(
+				"auth"       => $authapi,
+				"webid"      => $subwebid,
+				"act"		 => 2,
+				"agent"		 => $agentwlable,
+				"userid"     => strtoupper($name),
+				"amount"     => $amount,
+				"bankaccname"=> $bankaccname,
+				"bankaccno"  => $bankaccno,
+				"bankname" 	 => $bankname,
+				"banktuj" 	 => "",
+				"rektuj" 	 => "",
+				"firstdepo"  => "",
+				"password"   => $pass,
+                "minutes"    => 1,
+				"device"	 => $device
+			);
 
-		if ($amount < $minwit){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Gagal Withdraw.<br>Minimum withdraw adalah ".currx($minwit)."</div>";
-		}
-			if ($amount > $maxwit){
-			$error	= 1;
-			$errorReport =  "<div class='error-report'>Gagal Withdraw.<br>Maksimal withdraw adalah ".currx($maxwit)."</div>";
-		}
-		if ($error == 0) {
-		$ket	= "To : ".$bankacc." - ".$rek."(".$bankname." )<hr>";
-		$tp 	= "";
-		$axx	= 0;
-		for($i=0; $i<2; $i++){
-			$temp	= substr($rek, $axx, 4);
-			if ($tp == ""){
-				$tp	= $temp;
+			$response = sendAPI($url_Api."/cashier",$reqAPIRegister,'JSON','02e97eddc9524a1e');
+			if($response->status == 200){
+                $success_withdraw = "<div class='error-report'>Withdraw Berhasil.<br> Permintaan withdraw anda akan di proses dalam 1x24 jam .</div>";
+                echo"<BR>";
+                echo "<script src=\"https://d3qycynbsy5rsn.cloudfront.net/OptiRealApi-1.1.0.js\" type=\"text/javascript\"></script>";
+                echo "<script>
+                        $(document).ready(function(){
+                            OptiRealApi.reportEvent(9, null, '" . $login . "', \"7ae87a05e42bd455d041884a1f62da6a30bc2ff5a20dc47e8b12620cf82066bc\");
+                        });
+		             </script>";
 			}else{
-				$tp	= $tp ."-".$temp;
+				$errorReport =	("<strong>Withdraw gagal!</strong> " . $response->msg);
 			}
-			$axx	= 4;
 		}
-		$panj	= strlen($rek);
-		$temt	= substr($rek, 8,$panj);
-		$rot	= $tp."-".$temt;
-		
-		$sekarang	= Date("d M Y");
-		
-		$to1 = "== WITHDRAW, SLIP untuk Agent ==";
-		$to1 .= "<BR> (Memo ini dikirim otomatis, berkaitan dengan penarikan dana.)";
-		$to1 .= "<BR> Tanggal : ".$sekarang ;
-		$to1 .= "<BR> Username : ".$name;
-		$to1 .= "<BR> E-mail : ".$email ;
-		$to1 .= "<BR> Jumlah : ".$amount." ";
-		$to1 .= "<BR> Bank : ".$bankname ;
-		$to1 .= "<BR> Nama rekening : ".$bankacc ;
-		$to1 .= "<BR> No. rekening : ".$rot ;
-		$to1 .= "<BR> ";
-		
-		$subject = "#--WITHDRAW--# ".$amount;
-		if ($playerpt == 1){
-			$sql_1	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select bmemo from a83adm_config"), SQLSRV_FETCH_ASSOC);
-			$userx	= $sql_1["bmemo"]."";
-			$nama	= explode(",",$userx);
-			sqlsrv_query($sqlconn, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('*,".$userx.",*','".$name."','','".$subject."','".$to1."','0',GETDATE())");
-		}else
-			sqlsrv_query($sqlconn, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".$agent."','".$name."','','".$subject."','".$to1."','0',GETDATE())");
-
-		$to2 = "== WITHDRAW, SLIP untuk member ==";
-		$to2 .= "<BR> (Memo ini dikirim otomatis, berkaitan dengan penarikan dana.)";
-		$to2 .= "<BR> Tanggal : ".$sekarang ;
-		$to2 .= "<BR> Username : ".$name." ";
-		$to2 .= "<BR> E-mail : ".$email ;
-		$to2 .= "<BR> Jumlah : " .$amount." ";
-		$to2 .= "<BR> Bank : ".$bankname;
-		$to2 .= "<BR> Nama rekening : ".$bankacc ;
-		$to2 .= "<BR> No. rekening : ".$rot;
-		$to2 .= "<BR> ";
-		$to2 .= "Permintaan penarikan dana sudah diterima.";
-
-		sqlsrv_query($sqlconn, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".$name."','billing','','#--WITHDRAW--#','".$to2."','0',GETDATE())");
-		$amountx = $amount;
-		$withd	= $amountx * -1;
-
-			$fuser = substr($login, 0,1);
-			$sql2 = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select val from a83adm_config3 where name='wdgrupconfig'",$params,$options),SQLSRV_FETCH_NUMERIC);
-			$_group = explode("#", $sql2[0]);
-			for ($_g=0; $_g<count($_group); $_g++){
-				if (ereg(",".$fuser.",",$_group[$_g])) {
-					$mgrup = ($_g + 1);
-					break;
-				}
-			}
-			
-		require_once 'mobile_detect.php';
-		$detect = new Mobile_Detect;
-		$check_mobile = $detect->isMobile();
-		$check_tablet = $detect->isTablet();
-		$mobile = 2;
-		if($check_mobile == 1 || $check_tablet == 1){
-			$mobile = 1;
-		}
-			
-		sqlsrv_query($sqlconn, "insert into a83adm_depositraw (act,userid,date1,amount,ket,nama,bank,rek,stat,status,playerpt, userprefix, device) values ('2','".$name."',GETDATE(),'".$withd."','".$ket."','".$bankacc."','".$bankname."','".$rek."','0','','".$playerpt."','".$agent."',".$mobile.")");
-		$totalbaru	= $balancebaru;
-		
-		sqlsrv_query($sqlconn, "insert into ".$db2.".dbo.t6413txh_transaction_old".date("j")." (TDate, Periode, RoomId, TableNo, UserId, GameType, Status, Bet, v_bet, Card, Prize, Win, Lose, Cnt, Chip, PTShare, SShare, MShare, AShare, Autotake, DSMaster, DMaster, DAgent, DPlayer, Agent, Master, Smaster) values (GETDATE(), '0', '0', '0', '".$name."', 'TXH', 'Withdraw', '0', '".$withd."', '-', '-', '0', '0', '1', '".$totalbaru."', '0', '0', '0', '0', '0', '0', '0', '0', '0', '".$agentwlable."', '".$masterwlable."', '')");
-		
-		$sql8	= sqlsrv_query($sqlconn, "select id from t6413txh_lastorder where userid='".$name."'",$params,$options);
-		if (sqlsrv_num_rows($sql8) > 2){
-			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
-			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
-			$idx = $tempRow["id"];
-			sqlsrv_query($sqlconn, "delete from t6413txh_lastorder where id='".$idx."'");
-		}
-		
-		
-		sqlsrv_query($sqlconn, "insert into t6413txh_lastorder (userid,bdate,info,status,amount,total,gametype) values ('".$name."',GETDATE(),'-','Withdraw2','".$amount."','".$totalbaru."','TXH')");
-		sqlsrv_query($sqlconn, "insert into j2365join_lastorder (userid,bdate,info,status,amount,total,gametype) values ('".$name."',GETDATE(),'-','Withdraw','0','0','TXH')");
-
-		$sql8	= sqlsrv_query($sqlconn, "select id from j2365join_lastorder where userid='".$name."'",$params,$options);
-		if (sqlsrv_num_rows($sql8) > 2){
-			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
-			$tempRow = sqlsrv_fetch_array($sql8, SQLSRV_FETCH_ASSOC);
-			$idx = $tempRow["id"];
-			sqlsrv_query($sqlconn, "delete from j2365join_lastorder where id='".$idx."'");
-		}
-		
-		
-		sqlsrv_query($sqlconn, "update u6048user_coin set TXH = '".$balancebaru."' where userid = '".$name."'");
-		
-		$success_withdraw = "<div class='error-report'>Withdraw Berhasil.<br> Permintaan withdraw anda akan di proses dalam 1x24 jam .</div>";
-		
-		echo "<script src=\"https://d3qycynbsy5rsn.cloudfront.net/OptiRealApi-1.1.0.js\" type=\"text/javascript\"></script>";
-		echo "<script>
-			$(document).ready(function(){
-				OptiRealApi.reportEvent(9, null, '" . $sqlu["id"] . "', \"7ae87a05e42bd455d041884a1f62da6a30bc2ff5a20dc47e8b12620cf82066bc\");
-			});
-		</script>";
-
-		}
-		echo"<BR>";
 		
 	}
-}
 ?>
 
 <script language="JavaScript" type="text/javascript">
@@ -398,8 +217,6 @@ if (!$err){
 								</div>
 							<?php
 							}
-
-							$conf_depo = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select max_depo , min_depo , min_wdraw , max_wdraw FROM u6048user_id WHERE userid = '".$agentwlable."'"),SQLSRV_FETCH_ASSOC);
 							?>
 
 							<div class="form-group-full">
@@ -421,7 +238,8 @@ if (!$err){
 								<label class="col-lg-1 control-label">Jumlah Withdraw</label>
 								<div class="col-lg-2"> : &nbsp;
 									<input type="text" name="ui_amount" id="ui_amount" placeholder="Jumlah Withdraw" data-required="true" class="form-control" style="width:96%;" onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }"> <br>&nbsp;&nbsp;&nbsp;
-									<font color="#dfbf61" size="2" style="font-style:italic;">*Minimal withdraw Rp <?php echo number_format($conf_depo['min_wdraw'], 0, '.', '.'); ?>, Maksimal withdraw Rp <?php echo number_format ($conf_depo['max_wdraw'], 0, '.', '.'); ?></font>
+									<font color="#dfbf61" size="2" style="font-style:italic;">
+												*Minimal withdraw Rp <?php echo number_format ($transaction->minmaxDepo->min_wdraw, 0, '.', '.'); ?>, Maksimal withdraw Rp <?php echo number_format ($transaction->minmaxDepo->max_wdraw, 0, '.', '.'); ?></font>
 									<input type="hidden" name="amount" id="amount" placeholder="Jumlah Withdraw" data-required="true" class="form-control" style="width:96%;">
 								</div>
 							</div>
@@ -458,6 +276,21 @@ if (!$err){
 					<div id="history" class="tabcontent">
 						<br>
 						<div id="table_list">
+						<?php
+						// get history
+						$reqAPITransHist = array(
+							"auth"      => $authapi,
+							"userid" 	=> $login,
+							"type"		=> 2,
+						);
+
+						$respTransHis = sendAPI($url_Api."/history",$reqAPITransHist,'JSON','02e97eddc9524a1e');
+
+						$errorReport2 = '';
+						if($respTransHis->status != 200){
+							echo "<div class='alert alert-danger' style='margin-left: 0px;'>" . $respTransHis->msg . "</div>";
+						}
+						?>
 							<form onsubmit="submitfilter('', '#table_list', 'preloader'); return false;">
 								<table width="100%" cellpadding="0" cellspacing="0" border="0" id="table" style="font-size:12px;">
 									<thead align="left">
@@ -473,49 +306,34 @@ if (!$err){
 									<tbody align="left">
 										<?php
 										$no = 1;
-										$record_depositraw = sqlsrv_query($sqlconn, "select amount,date1, bank, rek from a83adm_depositraw where userid = '".$login."' and act = '2'",$params,$options);
-										if (@sqlsrv_num_rows($record_depositraw) > 0){
-											while($fetch_data_depositraw = sqlsrv_fetch_array($record_depositraw, SQLSRV_FETCH_ASSOC)){
-												echo "
+
+										foreach ($respTransHis->wdp as $fetch_withdrawPending){
+											$date = strtotime($fetch_withdrawPending->date1);
+											$rekNo = substr(str_replace('-', '', $fetch_withdrawPending->rek), 0,-4) . 'xxxx';
+											$rekDis = bank_format($rekNo, $fetch_withdrawPending->bank);
+											echo "
 												<tr>
-												<td align='center' height='23'>".$no."</td>
-												<td>";
-												if($fetch_data_depositraw["rek"]!='' && $fetch_data_depositraw["bank"]!==''){
-													echo $fetch_data_depositraw["rek"]."-- ".$fetch_data_depositraw["bank"];
-												}
-												else{
-													echo "-";
-												}
-												echo "</td>
-												<td>IDR ".number_format($fetch_data_depositraw["amount"])."</td>
-												<td>".date_format($fetch_data_depositraw["date1"], "d/m H:i")."</td>
-												<td align='center'>PROCCESS</td>
+													<td align='center' height='23'>".$no++."</td>
+													<td>".$rekDis."<br />".$fetch_withdrawPending->bank."</td>
+													<td>IDR ".number_format($fetch_withdrawPending->amount)."</td>
+													<td>".date("d/m  H:i", $date)."</td>
+													<td align='center'>Proccess</td>
 												</tr>";
-												$no++;
-											}
 										}
 
-										$record_deposit = sqlsrv_query($sqlconn, "select amount,date2,bank,rek,status from a83adm_deposit where userid = '".$login."' and (act = '2' or act = '3') and stat != 0 order by id desc",$params,$options);
-											if (@sqlsrv_num_rows($record_deposit) > 0){
-												while($fetch_data_deposit = sqlsrv_fetch_array($record_deposit, SQLSRV_FETCH_ASSOC)){
-													echo "
-													<tr>
-													<td align='center' height='23'>".$no."</td>
-													<td>";
-													if($fetch_data_deposit["rek"]!='' && $fetch_data_deposit["bank"]!==''){
-														echo $fetch_data_deposit["rek"]." -- ".$fetch_data_deposit["bank"];
-													}else{
-														echo "-";
-													}
-													echo "</td>
-													<td>IDR ".number_format($fetch_data_deposit["amount"])."</td>
-													<td>".date_format($fetch_data_deposit["date2"], "d/m H:i")."</td>
-													<td align='center'>".strtoupper($fetch_data_deposit["status"])."</td>
-													</tr>";
-
-													$no ++;
-												}
-											}
+										foreach ($respTransHis->wdh as $withdrawHist){
+											$date = strtotime($withdrawHist->date2);
+											$rekNo = substr(str_replace('-', '', $withdrawHist->rek), 0,-4) . 'xxxx';
+											$rekDis = bank_format($rekNo, $withdrawHist->bank);
+											echo "
+												<tr>
+													<td align='center' height='23'>".$no++."</td>
+													<td>".$rekDis."<br />".$withdrawHist->bank."</td>
+													<td>IDR ".number_format($withdrawHist->amount)."</td>
+													<td>".date("d/m  H:i", $date)."</td>
+													<td align='center'>" . $withdrawHist->status . "</td>
+												</tr>";
+										}
 										?>
 									</tbody>
 

@@ -2,79 +2,67 @@
 include("meta.php");
 include("header.php");
 include("function/jcd-umum.php");
-include_once("config_db2.php");
+
+$iplist = getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
 if ($_POST["reset_pin"]){
-	sqlsrv_query($sqlconn,"update u6048user_id set hp='' where userid = '".$login."'");
-	
-	// log Login (yang baru kalau data sudah stabil log lama dihapus)
-	$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
-					  VALUES ('$login','" . $agentwlable . "','Reset PIN','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Reset PIN From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
-	sqlsrv_query($sqlconn_db2,$queryLogLogin);
-	
-	$_SESSION["pin"]="";
-	exit ("<script>window.location='../index.php'</script>");
-	
+	$reqAPIResetPin = array(
+		"auth" 	    => $authapi,
+		"domain" 	=> $nonWWW,
+		"ip"		=> $iplist,
+		"device"	=> $device,
+		"type"		=> 1,
+		"userid"	=> $login,
+	);
+	$respResetPin = sendAPI($url_Api."/account",$reqAPIResetPin,'JSON','02e97eddc9524a1e');
+	if($respResetPin->status == 500){
+		$error = $respResetPin->msg;
+	}else{
+		$_SESSION["pin"]="";
+		exit ("<script>window.location='../index.php'</script>");
+	}
 }
-$sqlu = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select userpass, bankname, bankaccno, bankaccname, bankgrup,playerpt,xdeposit from u6048user_id where userid ='".$login."'"), SQLSRV_FETCH_ASSOC);
 if($_POST["submit"]){
+	
 	$uname = $login;
-	$old	= hash("sha256",md5($_POST["old"]).'8080');
+	$old	= $_POST["old"];
 	$new1	= $_POST["new1"];
 	$new2	= $_POST["new2"];
+    $bano 	= $_POST["bano"];
 	$capt	= $_POST["captcha"];
-	$sql1 = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($new1)."'",$params,$options));
-	if ($sql1 > 0){
-		$error	= 4;
-	}
-	$oldp;
-	$oldp	= $sqlu["userpass"];
-	$old2	= $old;
-	$pv = pass_validation($uname , $new1);
 	
-	$rejpas = sqlsrv_num_rows(sqlsrv_query($sqlconn, "select pass from a83adm_rejectpass where pass='".strtoupper($pass)."'",$params,$options));
-	if (!checkCaptcha('CAPTCHAString', $capt)){
+	if (! checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
 		$err = 1;
-	}else if (!$_POST["old"]){
-		$errorReport =  "<div class='error-report'>Silakan isi password lama anda.</div>";
-	}else if (!$new1){
-		$errorReport =  "<div class='error-report'>Silakan isi password baru anda.</div>";
-	}else if (!$new2){
-		$errorReport =  "<div class='error-report'>Silakan konfirmasi password anda.</div>";
-	}else if ($oldp != $old2){
-		$errorReport =  "<div class='error-report'>Password salah</div>";
-	}else if ($new1 != $new2){
-		$errorReport =  "<div class='error-report'>Password baru tidak cocok.</div>";
-	}else if($pv !== true){ 
-		$errorReport =  "<div class='error-report'>".$pv."</div>"; 
-	}else if (strlen($new1) < 5) {
-		$errorReport = "<div class='error-report'>Pendaftaran Gagal.<br> Password mininum 5 Digit</div>";
-	}else if ($rejpas > 0) { 
-		$errorReport = "<div class='error-report'>User Error, tidak dapat menggunakan password ini!</div>";
+	}elseif ($capt == ''){
+		$errorReport =  "<div class='error-report'>Validasi anda salah.</div>";
+		$err = 1;
 	}else{
-		sqlsrv_query($sqlconn, "update u6048user_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
-		sqlsrv_query($sqlconn, "update g846game_id set userpass ='".hash("sha256",md5($new1).'8080')."' where userid='".$login."'");
-		
-		// Log Login yang Lama (masa peralihan ke log login yang baru)
-		sqlsrv_query($sqlconn, "insert into j2365join_history (crttime,crtby,crtto,history) values (GETDATE(),'".$login."','".$login."','Change Password')");
-		sqlsrv_query($sqlconn,"insert into g846log_player (userid, username, ket, waktu) values ('".$login."', '-', 'Reset Password', GETDATE())");
-		
-		// log Login (yang baru kalau data sudah stabil log lama dihapus)
-		$queryLogLogin = "INSERT INTO j2365join_playerlog (userid,userprefix,action,ip,client_ip,forward_ip,remote_ip,Info,CreatedDate) 
-				 		  VALUES ('$login','" . $agentwlable . "','Change Password','" . getUserIP2() ."','" . getUserIP2('HTTP_CLIENT_IP') . "','" . getUserIP2('HTTP_X_FORWARDED_FOR') . "','" . getUserIP2('REMOTE_ADDR') . "', 'Change Password From " . $_SERVER['SERVER_NAME'] . "', GETDATE())";
-		sqlsrv_query($sqlconn_db2,$queryLogLogin);
-		?>
-		<script>
-			alert("Sukses ganti password,Silakan Login kembali.");
-		</script>
-		<?php
-		echo "<script>document.location='../logout.php'</script>";
+		$reqAPIResetPass = array(
+			"auth"   	=> $authapi,
+			"domain" 	=> $nonWWW,
+			"ip"		=> $iplist,
+			"device"	=> $device,
+			"type"		=> 2,
+			"userid"	=> $login,
+			"oldpass"	=> $old,
+			"npass"		=> $new1,
+			"cnpass"	=> $new2,
+            'bano'      => $bano,
+		);
+		$respResetPass = sendAPI($url_Api."/account",$reqAPIResetPass,'JSON','02e97eddc9524a1e');
+		if($respResetPass->status == 500){
+			$errorReport =  "<div class='error-report'>".$respResetPass->msg."</div>";
+		}else{
+			?>
+			<script>
+				alert("Sukses ganti password,Silakan Login kembali.");
+			</script>
+			<?php
+			echo "<script>document.location='../logout.php'</script>";
+		}
 	}
 }
-// if($login == "AQUILAD8"){
-	// echo $nonWWW;
-// }
 
 ?>
             <div id="content">
@@ -170,6 +158,19 @@ if($_POST["submit"]){
                                             <input type="password" name="new2" placeholder="Confirm Password" data-required="true" class="form-control">
                                         </div>
                                     </div>
+									
+									<div class="form-group-full">
+                                        <label class="col-lg-1 control-label">No Rekening Bank</label>
+                                        <div class="col-lg-3">
+                                            <?php
+                                                    $bankno = substr(str_replace('-', '', $bankaccnodis), 0, -4);
+                                                    $bankdisplay = bank_format($bankno, $bankname);
+                                                ?>
+                                                <input type="text" class="form-control" value="<?php echo substr($bankdisplay, 0, -1); ?>" disabled style="width: 270px"> -
+                                                <input type="password" class="form-control" placeholder="4 Digit" maxlength="4" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }"  name='bano' style="width: 115px">
+                                        </div>
+                                    </div>
+									
 									<div class="form-group-full">
                                         <label class="col-lg-1 control-label">Captcha</label>
                                         <div class="col-lg-3">

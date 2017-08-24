@@ -35,16 +35,13 @@ include("header.php");
 											if($whatsapp_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_6.png'></td><td><h4>$whatsapp_id</h4></td></tr>";
 											if($facebook_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_7.png'></td><td><h4>$facebook_id</h4></td></tr>";
 											if($twitter_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_8.png'></td><td><h4>$twitter_id</h4></td></tr>";
-											/*$q_howtoplay=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select howtoplay_text from u6048user_agencyruntext where agent='".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-											echo str_replace("/r/n","<br>",$q_howtoplay["howtoplay_text"]);*/
 											?>
 											</table>
                                         </div>
 
                                         <div id="tab2" class="tab">
 												<?php
-												$q_howtoplay=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select howtoplay_text from u6048user_agencyruntext where agent='".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-												echo str_replace("\r\n","<br>",$q_howtoplay["howtoplay_text"]);
+												echo str_replace("\r\n","<br>",$infoweb["howtoplay_text"]);
 												?>
                                         </div>
                                     </div>

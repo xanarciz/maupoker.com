@@ -1,43 +1,66 @@
 <?php
-//$DalamGame = "../";
 $page ="memo";
 include("config.php");
-include_once("config_db2.php");
-include($cfgProgDir."secure.php");
+include($cfgSecDir."secure.php");
+
+// preparing result
+$res['status'] = 500;
+$res['_tok'] = '';
+
+if(! isset($_SESSION['login']) || $_SESSION['login'] == '') {
+    $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Login First</div>";
+    exit (json_encode($res));
+}
 
 if (!$_SESSION["login"]){
-	exit ("Please login first");
+    $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Please login first</div>";
+    exit(json_encode($res));
 }
-if ($_POST["submit"]){
-	if ( !$_POST["id"] ){
-		exit ("Please login first");
-	}
-	$id = $_POST["id"];
-	if ($id > 0){
-		$data_memo_old = sqlsrv_fetch_array(sqlsrv_query($sqlconn_db2, "select mbody,msubject from j2365join_memo where id = '".$id."' and mfrom = '".$agentwlable."'"), SQLSRV_FETCH_ASSOC);
-	}
 
-	$body = $_POST["descr"];
+
+if (checkCaptcha('scrTok', $_POST['_tok'])){
+    // create new auth token
+    $_SESSION['scrTok'] = base64_encode(md5(session_id(). str_shuffle('memo'.time())));
+
+    // preparing result
+    $res['_tok'] = $_SESSION['scrTok'];
+
+    $id = $_POST["memtok"];
+    $body = $_POST["descr"];
+
+    // validation
+	if ( !$_POST["memtok"] ){
+        $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Reply Memo Failed</div>";
+        exit(json_encode($res));
+	}
 	if (!$body){
-		exit ("<font color=red>Please fill meessage!</font>");
+        $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Please fill meessage!</div>";
+        exit(json_encode($res));
 	}else{
-		$jum = sqlsrv_num_rows(sqlsrv_query($sqlconn_db2, "select id from j2365join_memo where mfrom = '".$login."' and mdate > dateadd(minute,-2,GETDATE()) and mto = '".$agentwlable."'",$params,$options));
-		if ($jum > 0) {
-			exit ("Send memo failed, try again 5 minutes later.");
-		}else {
-			$nama = "";
-			$sql1	= sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select memo from a83adm_config") , SQLSRV_FETCH_ASSOC);
-			$userx3	= $sql1["memo"]. "";
-			$userx	="*,".$userx3.",*";
-			
-			$userx2 = sqlsrv_query($sqlconn,"select userprefix,playerpt from u6048user_id where userid = '".$login."'");
-			$userxx=sqlsrv_fetch_array($userx2,SQLSRV_FETCH_ASSOC);
-			if($userxx["playerpt"]==0){
-				$userx= $userxx["userprefix"];
-			}
-			sqlsrv_query($sqlconn_db2, "insert into j2365join_memo (mto,mfrom,status,msubject,mbody,mread,mdate) values ('".$userx."','".$login."','','".$data_memo_old["msubject"]."','".$data_memo_old["mbody"].'##quote##'.$body."','0',GETDATE())");
-			exit ("Send Memo Successful!!!");
+	    // subnmit process
+		$reqAPIMemoSend = array(
+		    "auth"      => $authapi,
+			"agent" 	=> $agentwlable,
+			"userid" 	=> $login,
+			"id" 		=> $id,
+			"content" 	=> $body,
+			"type"		=> 6,
+		);
+
+		$respMemoSend = sendAPI($url_Api."/memo",$reqAPIMemoSend,'JSON','02e97eddc9524a1e');
+		// error reply
+		if( $respMemoSend->status != 200 ){
+            $res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>$respMemoSend->msg</div>";
+            exit(json_encode($res));
 		}
+
+		// success reply
+        $res['status'] = 200;
+        $res['response'] = "<div class='alert alert-success' style='margin-left: 0px;'>$respMemoSend->msg</div>";
+        exit(json_encode($res));
 	}
 }
+
+$res['response'] = "<div class='alert alert-danger' style='margin-left: 0px;'>Authentication Failed</div>";
+exit(json_encode($res));
 ?>

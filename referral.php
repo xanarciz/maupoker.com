@@ -10,26 +10,18 @@ function currx($val) {
 }
 
 if ( $login ){
-	$_GET = sanitize($_GET);
-	$_POST = sanitize($_POST);
-	/*$user = $_GET["userid"];
-	$date = $_GET["date"];*/
-	//if($user == "" || $date == "")die(" <font color=white>Access Denied</font>");
-	$userpass = $upass;
-	//if($userpass != $date)die("<font color=white>Access Denied</font>");
+    $page = !isset($_GET['page']) ? 1 : $_GET['page'];
 
-	$sub = $_GET["st"];
-	if(!$sub)$sub=5;
-	$j = $_GET["j"];
-	if(!$j)$j=1;
-	$batas = $_GET["batas"];
-	$sql = sqlsrv_query($sqlconn, "select userid from u6048user_id where referral_agent = '".$login."'",$params,$options);
-	$row = sqlsrv_num_rows($sql);
-	$time = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select paycom_date from a83adm_config"), SQLSRV_FETCH_ASSOC);
-	$subtotal = 0;
-	$commision = 0;
-	$subcomm = 0;
-	$grandcomm = 0;
+    //get Referral data
+    $reqAPIReferralData = array(
+        "auth" => $authapi,
+        "userid"=> $login,
+        "type"  => 1,
+    );
+
+    $respReferralData = sendAPI($url_Api . "/referral?page=".$page, $reqAPIReferralData, 'JSON', '02e97eddc9524a1e');
+    $dataReferral = $respReferralData->data;
+    $total_page = $dataReferral->last_page;
 }
 ?>
 			<div id="content">
@@ -99,7 +91,6 @@ if ( $login ){
 										<tr valign="top">
 											<td width="540">
 												<a class="btn btn-login" href="referral.php?date=<?php echo"".$userpass."";?>&userid=<?php echo"".$login."";?>&st=5&j=1&batas=5&ref=getdate()">Data</a>&nbsp;
-												<a class="btn btn-login" href="referral-komisi.php?date=<?php echo"".$userpass."";?>&userid=<?php echo"".$login."";?>&st=5&j=1&batas=5&ref=getdate()">Komisi</a>&nbsp;
 												<a class="btn btn-login" href="referral-daftar.php?date=<?php echo"".$userpass."";?>&userid=<?php echo"".$login."";?>&type=star">Daftar</a>
 												<div style="height:20px;"></div>
 
@@ -110,20 +101,8 @@ if ( $login ){
 														<div style="margin-bottom:2px;">
 
 														<?php
-														
-															if ($j > 5){
-																echo "<a href=?userid=".$_GET["userid"]."&date=".$_GET["date"]."&st=".($sub - 5)."&j=".($j - 5)."> << Back </a>";
-															}else{
-																echo "<font color=grey style='font-size:12px'><< Back</font>";
-															}
-															echo "<font size=1>&nbsp;&nbsp;|&nbsp;</font>";
-															if ($row > $sub){
-																echo "<a href=?userid=".$_GET["userid"]."&date=".$_GET["date"]."&st=".($sub + 5)."&j=".($j + 5)."> Next >> </a> ";
-															}else{
-																echo "<font color=grey style='font-size:12px'> Next >></font>";
-															}
-
-														?>
+                                                                getPaging($total_page, $page, 'referral.php', array('showMore' => true));
+															?>
 
 														</div>
 															<table width="100%" cellpadding="0" cellspacing="0" border="0" id="table" style="font-size:12px;color:#000;">
@@ -138,30 +117,20 @@ if ( $login ){
 																</thead>
 																<tbody align="left">
 																<?php
-
-																$grand = 0;
-																for ($i=1; $i<=$row; $i++){
-																	$array=sqlsrv_fetch_array($sql, SQLSRV_FETCH_ASSOC);
-																	$data1[$i] = $array["userid"];
-																	$tover[$i] = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select isnull(sum(tover),0)as ttl, isnull(sum(aref_comm),0)as cmm from ".$db2.".dbo.j2365join_transaction_old where player = '".$data1[$i]."' and pdate >= '".date_format($time["paycom_date"],"Y-m-d")."'"), SQLSRV_FETCH_ASSOC);
-																	$grand += $tover[$i]["ttl"];
-																	$commison[$i] = $tover[$i]["cmm"];
-																	$grandcomm += $commison[$i];
-																}
-
-																for ($k=$j; $k<=$sub;  $k++){
-																	$user_id = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select joindate, save_deposit from u6048user_id where userid = '".$data1[$k]."'"), SQLSRV_FETCH_ASSOC);
-																	$tover[$k] = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select isnull(sum(tover),0)as ttl from ".$db2.".dbo.j2365join_transaction_old where player = '".$data1[$k]."' and pdate >= '".date_format($time["paycom_date"],"Y-m-d")."'"), SQLSRV_FETCH_ASSOC);
-																	if ($user_id["joindate"]== null)break;
-																	$subtotal += $tover[$k]["ttl"];
-																	$subcomm += $commison[$k];
-																?>
+																		$no = $dataReferral->from;
+                                                                        $subtotal = $subcomm = 0;
+																		foreach ($dataReferral->data as $ref){
+                                                                            $dateJoin = strtotime($ref->joindate);
+                                                                            $date = date('d/m/Y', $dateJoin);
+                                                                            $subtotal += $ref->ttl;
+                                                                            $subcomm += $ref->cmm;
+																	?>
 																	<tr style="color:#000">
-																		<td height="23" style="color:#000"><span><?php echo"".$k."";?></span></td>
-																		<td style="color:#000"><span><?php echo"".$data1[$k]."";?></span></td>
-																		<td style="color:#000"><span><?php echo"".date_format($user_id["joindate"], "d/m/Y")."";?></span></td>
-																		<td style="color:#000"><span><?php echo"".currx($tover[$k]["ttl"])."";?></span></td>
-																		<td style="color:#000"><span><?php echo"".currx($commison[$k])."";?></span></td>
+																		<td height="23" style="color:#000"><span><?php echo $no++;?></span></td>
+																		<td style="color:#000"><span><?php echo $ref->player;?></span></td>
+																		<td style="color:#000"><span><?php echo $date;?></span></td>
+																		<td style="color:#000"><span><?php echo"".currx($ref->ttl)."";?></span></td>
+																		<td style="color:#000"><span><?php echo"".currx($ref->cmm)."";?></span></td>
 																	</tr>
 																<?php
 																}
@@ -169,15 +138,15 @@ if ( $login ){
 																</tbody>
 																<tfoot>
 																	<tr>
-																		<td colspan=3 align=right height="23" style="color:#000"><b>SubTotal</b></td>
-																		<td style="color:#000"><span><b><?php echo"".currx($subtotal)."";?></b></span></td>
-																		<td style="color:#000"><span><b><?php echo"".currx($subcomm)."";?></b></span></td>
-																	</tr>
-																	<tr>
-																		<td colspan=3 align=right style="color:#000"><b>Grand Total</b></td>
-																		<td style="color:#000"><b><?php echo"".currx($grand)."";?></b></td>
-																		<td style="color:#000"><span><b><?php echo"".currx($grandcomm)."";?></b></span></td>
-																	</tr>
+																			<td colspan=3 align=right height="23" style="color:#000"><b style="color:#000">SubTotal</b></td>
+																			<td style="color:#000"><span><b style="color:#000"><?php echo"".currx($subtotal)."";?></b></span></td>
+																			<td style="color:#000"><span><b style="color:#000"><?php echo"".currx($subcomm)."";?></b></span></td>
+																		</tr>
+																		<tr>
+																			<td colspan=3 align=right style="color:#000"><b style="color:#000">Grand Total</b></td>
+																			<td style="color:#000"><b style="color:#000"><?php echo currx($respReferralData->grandTot->ttl);?></b></td>
+																			<td style="color:#000"><span><b style="color:#000"><?php echo currx($respReferralData->grandTot->cmm);?></b></span></td>
+																		</tr>
 																</tfoot>
 															</table>
 														</form>

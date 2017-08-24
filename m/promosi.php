@@ -1,6 +1,5 @@
 <?php
 $page='promosi';
-session_start();
 $login = $_SESSION["login"];
 
 if (!$login){
@@ -15,11 +14,11 @@ include("_header.php");
 	<div class="lpadding-15 tpadding-5">
 		<label class="ntf fs-13 tmargin-10">PROMOSI</label>
 	</div>
-	
-	<!-- TOURANMENT --><?php 
-		//echo "select * from a83adm_promotion where subwebid ='$subwebid' and lang = '".$_COOKIE[$cookie_name]."' and status = 1 ";
-		$allgamsql = sqlsrv_query($sqlconn,"select * from a83adm_promotion where subwebid ='$subwebid'  and status = 1 order by waktu desc");
-		while($dataallgam=sqlsrv_fetch_array($allgamsql)){
+
+	<!-- TOURANMENT -->
+    <?php
+    $i = 1;
+    foreach ($infoweb['promo'] as $dataallgam){
 	?>
 	<div class="row promo padding-10">
 		<div class="col-lg-12">
@@ -41,8 +40,6 @@ include("_header.php");
 			</div>
 		</div>
 	</div>
-
-					
 	<?php
 		}
 	?>

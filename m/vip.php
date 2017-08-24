@@ -1,6 +1,5 @@
 <?php
 $page='vip';
-session_start();
 $login = $_SESSION["login"];
 
 if (!$login){

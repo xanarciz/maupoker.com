@@ -14,8 +14,6 @@ include("config.inc.php");
 	<center><div class="logo-rules"><a href="#"></a></div></center>
 	<div class="center">
 		<?php
-		$term = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select rules_text from u6048user_agencyruntext where agent='".$agentwlable."' "), SQLSRV_FETCH_ASSOC);
-
 		if (isset($_GET["tekan"]))
 			$tekan = $_GET["tekan"];
 
@@ -26,7 +24,7 @@ include("config.inc.php");
 		if($tekan == "Tidak Setuju"){
 			echo "<script>document.location='logout.php'</script>";
 		}
-		$term = str_replace("\r\n","<br>",$term["rules_text"]);
+		$term = str_replace("\r\n","<br>",$infoweb["rules_text"]);
 		//die($term);
 		?>
 		<center>

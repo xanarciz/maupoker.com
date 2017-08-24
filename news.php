@@ -18,10 +18,14 @@ include("header.php");
                                 <?php
 								$id=$_GET["id"];
 								if ($id){
-									$q=sqlsrv_fetch_array(sqlsrv_query($sqlconn,"select title,berita,waktu from a83adm_newsinfo where subwebid='".$subwebid."' and id='".$id."'"),SQLSRV_FETCH_ASSOC);
-									echo "<div class='right pt10'><strong>".date_format($q["waktu"],"d/m/y")."</strong></div>";
-									echo "<div><h3>".$q["title"]."</h3></div>";
-									echo "<div>".str_replace("\r\n","<br>",$q["berita"])."</div>";
+                                    if(isset($infoweb['newsAgent']['id_'.$id])) {
+                                        $q = $infoweb['newsAgent']['id_' . $id];
+                                        echo "<div class='right pt10'><strong>" . date('d/m/y', strtotime($q["waktu"])) . "</strong></div>";
+                                        echo "<div><h3>" . $q["title"] . "</h3></div>";
+                                        echo "<div>" . str_replace("\r\n", "<br>", $q["berita"]) . "</div>";
+                                    }else{
+                                        echo "<div><h3>404 Not Found</h3></div>";
+                                    }
 								}
 								?>
                             </div>

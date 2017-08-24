@@ -8,15 +8,11 @@ $ios = "itms-services://?action=download-manifest&url=https://www.gameiosapk.com
 $linkpanduan_a = "http://infodomino88.com/bermain-di-smartphone/"; 
 $linkpanduan_i = "http://infodomino88.com/bermain-di-apple-ios/"; 
 
-session_start();
-$login = $_SESSION["login"];
 include '../dewafortune/dewafortune.php';
 
 $tiket = getTicket();
 
-$q = sqlsrv_fetch_array(sqlsrv_query($sqlconn,"SELECT sessid FROM u6048user_active WHERE userid='".$_SESSION['login']."'"),SQLSRV_FETCH_ASSOC);
-$sid = $q["sessid"];
-$param = $_SESSION['login'].",".$sid;
+$param = $login.",".$sessid;
 ?>
 
 <style type="text/css">
@@ -96,14 +92,6 @@ $param = $_SESSION['login'].",".$sid;
   <!-- END SLIDER -->
 
   <!-- JACKPOT -->
-    <?php
-        $delete = sqlsrv_query($sqlconn,"delete from u6048user_active where gametime < dateadd(minute,-10,GETDATE()) and usertype='U'");
-        $sqljack = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select globaljackpot as jack from t6413txh_gjackpot "),SQLSRV_FETCH_ASSOC);
-        $sqljack2 = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select globaljackpot as jack from d338dmm_gjackpot "),SQLSRV_FETCH_ASSOC);
-        $sqljack3 = sqlsrv_fetch_array(sqlsrv_query($sqlconn, "select globaljackpot as jack from e303ebn_gjackpot "),SQLSRV_FETCH_ASSOC);
-
-        $ttljack = $sqljack["jack"]+$sqljack2["jack"]+$sqljack3["jack"];
-    ?>
   <div class="clear-both"></div>
   <div class="jackpot">
     <div class="row">
@@ -114,7 +102,7 @@ $param = $_SESSION['login'].",".$sid;
         </div>
       </div>
       <div class="col-lg-9">
-        <h1><?php echo number_format($ttljack); ?></h1>
+        <h1><?php echo number_format($infoweb['globalJack']); ?></h1>
       </div>
     </div>
   </div>

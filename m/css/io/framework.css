@@ -1143,12 +1143,14 @@ table tr:hover td {
 .static-notification-red {
     background-color: #c0392b;
     color: #FFF;
-    margin-bottom: 20px
+    margin-bottom: 20px;
+    padding:1px;
 }
 
 .static-notification-red p {
     margin-top: 10px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    color:#fff;
 }
 
 .static-notification-green {

@@ -1,7 +1,8 @@
 <?PHP 
 require("config.php");
 $logout = true; 
-include($cfgProgDir."secure.php");
+include($cfgSecDir."secure.php");
 exit();
- ?>
-
+ ?>
+
+
