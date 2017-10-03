@@ -1,4 +1,5 @@
 <?php
+session_start();
 $page='daftar';
 include("_meta.php");
 include("_header.php");

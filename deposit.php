@@ -61,6 +61,7 @@ if ($_POST["submit"] && !$err) {
 	$capt		= $_POST["captcha"];
 	$time       = date("d/m h:i");
 	$remark     = "Deposit";
+	$noresi 	= $_POST["noresi"];
 
 	$bname2		= $_POST['data_bank'];
 	$rek2 = str_replace('-','', $_POST['hBNo']);
@@ -87,13 +88,14 @@ if ($_POST["submit"] && !$err) {
 			"banktuj" 	 => $bname2,
 			"rektuj" 	 => $rek2,
 			"firstdepo"  => $xdeposit,
+			"noresi" 	 => $noresi,
             "minutes"    => 1,
 			"device"	 => $device
 		);
 
 		$response = sendAPI($url_Api."/cashier",$reqAPIRegister,'JSON','02e97eddc9524a1e');
 		if($response->status == 200){
-			$success_deposit = "<div class='deposit-success-report'><strong>Deposit $amountx sukses.</strong><br><br>
+			$success_deposit = "<div class='deposit-success-report'><strong style='margin:auto;'>Deposit $amountx sukses.</strong><br><br>
 				
 				<table style=font-family:tahoma;font-size:14px; align=center>
 					<tr><td colspan=3 align=center>Rekening Tujuan</td></tr>
@@ -156,6 +158,11 @@ if(isset($_POST['subform'])){
 
 		if(tmp != '<?php echo $bankname ?>') $('.newterm').show();
 		else $('.newterm').hide();
+		if(tmp == "BRI" || tmp == "CIMB"){
+			$('.nores').show();
+		}else{
+			$('.nores').hide();
+		}
 	}
 
 	function openCity(evt, target_) {
@@ -176,6 +183,11 @@ if(isset($_POST['subform'])){
 	$(document).ready(function(){
 		document.getElementById("defaultOpen").click();
 		var bnk = $("#data_bank" ).val().toLowerCase();
+		if(bnk == "BRI" || bnk == "CIMB"){
+			$('.nores').show();
+		}else{
+			$('.nores').hide();
+		}
 		$("."+bnk).css('display', 'block');
 	});
 
@@ -264,6 +276,9 @@ if(isset($_POST['subform'])){
         margin-bottom: 10px;
         margin-left: 18px;
     }
+	#table td{
+		color:#000;
+	}
 </style>
 
 <?php 
@@ -511,6 +526,20 @@ if(isset($_POST['subform'])){
 											<label class="col-lg-1 control-label">Nomor Rekening</label>
 											<div class="col-lg-2"> : &nbsp;
 												<span id="nAccNo"><?php echo $bankNoSel; ?></span>
+											</div>
+										</div>
+																						
+										<div class="form-group-full nores" align="left">
+											<label class="col-lg-1 control-label">No. Resi / No. Kartu ATM</label>
+											<div class="col-lg-2"> : &nbsp;
+												<input type="text" name="noresi" class="form-control" style="width:96%;">
+											</div>
+										</div>
+										<div class="form-group-full nores" align="left">
+											<label class="col-lg-1 control-label"></label>
+											<div class="col-lg-2">&nbsp;
+												<font size="2" style="font-style: italic; color: red; margin-left: 10px;">*Isi 5 digit terakhir nomor kartu atm anda.</font><br>
+												<font size="2" style="font-style: italic; color: red; margin-left: 20px;">Khusus bagi yang transfer menggunakan mesin atm.</font>
 											</div>
 										</div>
 										

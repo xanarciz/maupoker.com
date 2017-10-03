@@ -2,7 +2,7 @@
 include("meta.php");
 include("header.php");
 
-$string = $login.",".$userpass.",".$subwebid.",".$_SERVER["SERVER_NAME"];
+$string = $login.",".$userpass.",".$subwebid.",".$_SERVER["SERVER_NAME"].",https";
 $encrypt = urlencode( base64_encode( $string ) );
 ?>
 <div id="content">

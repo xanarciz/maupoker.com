@@ -75,6 +75,7 @@ if ($_POST["submit"] && $err == 0) {
     $bname1 = $bankname;
     $capt = $_POST["captcha1"];
     $remark = "Deposit";
+	$noresi 	= $_POST["noresi"];
 
     $databank = explode(",", $_POST["data-bank"]);
     $bname2 = $databank[0];
@@ -105,6 +106,7 @@ if ($_POST["submit"] && $err == 0) {
             "banktuj" => $bname2,
             "rektuj" => $rek2,
             "firstdepo" => $xdeposit,
+			"noresi" => $noresi,
             "minutes" => 1,
             "device" => $device
         );
@@ -285,6 +287,17 @@ if ($voucher_count >= "5") {
 								</select>
 							</div>
 						</div>
+						
+						
+
+						<label class="black fs-13 pull-left tmargin-10 nores">Nomor Resi</label>
+						<div class="row nores">
+							<div class="col-lg-13">
+								<input type="text" name="noresi" class="form-control bg-light-gray" >
+							</div>
+						</div>
+						<label class="black fs-13 fs-normal nores" style="display: none;">*Isi 5 digit terakhir nomor kartu atm anda.</label>
+						<label class="black fs-13 fs-normal nores" style="display: none;">Khusus bagi yang transfer menggunakan mesin atm.</label>
 
 						<label class="black fs-13 fs-normal tmargin-10 bank-detail" style="display: none;">Silakan deposit ke:</label>
 						<div class="row margin0 bank-detail" style="display: none;">
@@ -635,6 +648,7 @@ if ($voucher_count >= "5") {
         var isi = $(this).val();
         var res = isi.split(",");
         var bnlink = $(this).find('option:selected').attr('dt-link');
+		$('.nores').hide();
 
         if( res[0] ){
             $(".bank-detail").css('display', 'block');
@@ -644,6 +658,9 @@ if ($voucher_count >= "5") {
             $('.elogin').attr('href', bnlink);
             $('.elogin').attr('id', 'btn-' + res[0].toLowerCase());
             $('.elogin img').attr('src', 'img/banks/'+ res[0].toLowerCase()+' - blue.png');
+			if(res[0] == "BRI" || res[0] == "CIMB"){
+				$('.nores').show();
+			}
         }else{
             $(".bank-detail").css('display', 'none');
             $(".elogin").css('display', 'none');
@@ -742,6 +759,7 @@ if ($voucher_count >= "5") {
         var isi = $("#data-bank" ).val();
         var res = isi.split(",");
         var bnlink = $(this).find('option:selected').attr('dt-link');
+		$('.nores').hide();
 
         if( res[0] ){
             $(".bank-detail").css('display', 'block');
@@ -751,6 +769,9 @@ if ($voucher_count >= "5") {
             $('.elogin').attr('href', bnlink);
             $('.elogin').attr('id', 'btn-' + res[0].toLowerCase());
             $('.elogin img').attr('src', 'img/banks/'+ res[0].toLowerCase()+' - blue.png');
+			if(res[0] == "BRI" || res[0] == "CIMB"){
+				$('.nores').show();
+			}
         }else{
             $(".bank-detail").css('display', 'none');
             $(".elogin").css('display', 'none');

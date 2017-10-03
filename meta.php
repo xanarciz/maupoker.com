@@ -13,7 +13,7 @@ session_start();
 $login = $_SESSION["login"];
 include_once("config.php");
 if (!$login && !$_POST["entered_login"]){
-	if (isset($freePage)){include_once($cfgProgDir."secure.php");}
+	if (!isset($freePage)){include_once($cfgProgDir."secure.php");}
 }else{
 	include_once($cfgProgDir."secure.php");
 }

@@ -1,7 +1,7 @@
 <?php
-$_SESSION['scrTok'] = base64_encode(md5(session_id(). str_shuffle('memo'.time())));
 include_once ('config.php');
 include_once ($cfgSecDir.'secure.php');
+$_SESSION['scrTok'] = base64_encode(md5(session_id(). str_shuffle('memo'.time())));
 
 if(! isset($_SESSION['login']) || $_SESSION['login'] == ''){
     echo "<script>window.location = 'index.php'</script>";

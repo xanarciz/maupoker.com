@@ -49,7 +49,7 @@
       //$this->fontpath = dirname($_SERVER['SCRIPT_FILENAME']) . '/fonts/';
       $this->fontpath = './font/';      
       $this->fonts    = $this->getFonts();
-      $errormgr       = new error;
+      // $errormgr       = new error;
 
       if ($this->fonts == FALSE)
       {

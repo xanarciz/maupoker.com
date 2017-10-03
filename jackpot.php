@@ -91,7 +91,7 @@ include("header.php");
     											foreach ($SRFwinner as $srfWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $srfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($srfWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$srfWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$srfWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($srfWinner["Jackpot"])."</td>
@@ -117,7 +117,7 @@ include("header.php");
                                                 foreach ($RFwinner as $rfWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $rfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($rfWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$rfWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$rfWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($rfWinner["Jackpot"])."</td>
@@ -143,7 +143,7 @@ include("header.php");
                                                 foreach ($SFwinner as $sfWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $sfWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($sfWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$sfWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$sfWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($sfWinner["Jackpot"])."</td>
@@ -169,7 +169,7 @@ include("header.php");
                                                 foreach ($T15winner as $t15Winner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $t15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($t15Winner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$t15Winner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$t15Winner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($t15Winner["Jackpot"])."</td>
@@ -237,7 +237,7 @@ include("header.php");
                                                 foreach ($DMEwinner as $dmeWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $dmeWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($dmeWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$dmeWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$dmeWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($dmeWinner["Jackpot"])."</td>
@@ -262,7 +262,7 @@ include("header.php");
                                                 foreach ($DBLwinner as $dblWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $dblWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($dblWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$dblWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$dblWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($dblWinner["Jackpot"])."</td>
@@ -289,7 +289,7 @@ include("header.php");
                                                 foreach ($DT15winner as $dt15Winner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $dt15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($dt15Winner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$dt15Winner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$dt15Winner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($dt15Winner["Jackpot"])."</td>
@@ -355,7 +355,7 @@ include("header.php");
                                                 foreach ($CMEwinner as $cmeWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $cmeWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($cmeWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$cmeWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$cmeWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($cmeWinner["Jackpot"])."</td>
@@ -382,7 +382,7 @@ include("header.php");
                                                 foreach ($CBLwinner as $cblWinner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $cblWinner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($cblWinner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$cblWinner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$cblWinner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($cblWinner["Jackpot"])."</td>
@@ -409,7 +409,7 @@ include("header.php");
                                                 foreach ($CT15winner as $ct15Winner){
                                                     echo    "<tr>
                                                                 <td style='color: #fff;'>".($i++)."</td>
-                                                                <td style='color: #fff;'>".date("d/m H:i", $ct15Winner["TDate"])."</td>
+                                                                <td style='color: #fff;'>".date("d/m H:i", strtotime($ct15Winner["TDate"]))."</td>
                                                                 <td style='color: #fff;'>".$ct15Winner["Userid"]."</td>
                                                                 <td style='color: #fff;'>".$ct15Winner["Ket"]."</td>
                                                                 <td style='color: #fff;text-align: right;'>".number_format($ct15Winner["Jackpot"])."</td>

@@ -319,14 +319,15 @@ $param = $_SESSION['login'].",".$sid;
                 <ul class="sf-menu">
                     <?php
                     //active new lobby (true = redirect to new lobby, false = redirect to old lobby)
-                    $newLob = true;
-                    $pkey = '02e97eddc9524a1e';
-                    $myaes = new myaes();
-                    $myaes->setPrivate($pkey);
-                    $pin = $_SESSION["pin"];
-                    $valuex = $login.','.$key.','.$pin.',id,'.$urlBack;
-                    $encvalue = $myaes->getEnc($valuex);
-                    $url_lobby .= '/lobby.php?vp='.rawurlencode($encvalue);
+                    // include("myaes.php");
+					$pkey = '02e97eddc9524a1e';
+					$myaes = new myaes();
+					$myaes->setPrivate($pkey);
+					$pin = $_SESSION["pin"];
+					$valuex = $login.','.$_SESSION["sessid"].','.$pin.',id,'.$protocol.','.$urlBack;
+					$encvalue = $myaes->getEnc($valuex);
+					
+					$url_lobby = $url_lobby.'/lobby.php?vp='.rawurlencode($encvalue);
 
                     if ($register == 1){
                         if ($login){

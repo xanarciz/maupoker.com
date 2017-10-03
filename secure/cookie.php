@@ -9,6 +9,7 @@ function ipx($a){
 	return $d;
 }
 
+
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0"); // HTTP/1.1
@@ -39,13 +40,14 @@ $reqAPIActive = array(
     "webid"     => $subwebid,
     "domain"	=> $nonWWW,
     "userid"	=> $login,
-    "sessid"	=> $_SESSION['sessid'],
+    "sessid"	=> $sessid,
     "ip"		=> getUserIP2(),
     "www"		=> 1,
     "device"    => $device,
 );
 
-$responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','02e97eddc9524a1e');
+$responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','');
+// print_r($responsewebx);exit();
 if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $flag 			= $responsewebx->resp->flag;
     $userpass		= $responsewebx->resp->userpass;
@@ -66,9 +68,6 @@ if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $bankgroup 		= $responsewebx->resp->bankgroup;
     $saham_share	= $responsewebx->resp->saham_share;
     $voucher_count	= $responsewebx->resp->voucher_count;
-
-    $waktucookiex=time()+(60*60*24*31*12);
-    setcookie("livecasinouser",$entered_login,$waktucookiex);
 }else{
     if(isset($responsewebx->resp)){
         $message = $responsewebx->resp->msg;

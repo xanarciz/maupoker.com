@@ -1,5 +1,6 @@
 <?php
 $page='referral';
+session_start();
 $login = $_SESSION["login"];
 
 if (!$login){

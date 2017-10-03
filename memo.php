@@ -16,7 +16,7 @@ if (!$_GET["id"]){
 		$id_memo = 2;
 	}
 	
-	if($id_memo == 1) { $type = 4; $staRep = 'rep';}
+	if($id_memo == 1) { $type = 4; $statRep = 'rep';}
 	if($id_memo == 2) { $type = 5; $statRep = 'fwd';}
 }
 

@@ -1,12 +1,12 @@
 <?php
 session_start();
+$login = $_SESSION['login'];
+if (!$login) $freePage = 1;
+else exit("<script>location.href='index.php'</script>");
 include("meta.php");
 include("header.php");
 include("function/jcd-umum.php");
 
-$login = $_SESSION['login'];
-if (!$login) $freePage = 1;
-else exit("<script>location.href='index.php'</script>");
 
 if (!$register)exit("<script>location.href='index.php'</script>");
 

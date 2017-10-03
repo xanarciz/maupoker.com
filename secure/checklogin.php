@@ -117,6 +117,9 @@ else
 		exit;
 	}
 
+    if (isset($_COOKIE["livecasinouser"])) $cooks = $_COOKIE["livecasinouser"];
+    else $cooks="";
+
 	$sessid = base64_encode(md5(session_id().time()));
 	
 	$reqAPILogin = array(
@@ -133,16 +136,17 @@ else
 		"www"		=> 1,
 		"device"	=> $device,
 		"sessid"	=> $sessid,
+        "lastuser"  => $cooks
 	);
 	
-	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','02e97eddc9524a1e');
-	if($responseweb->status == 200 && $responseweb->resp->status == 00)
+	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','');
+	if($responseweb->status == '200' && $responseweb->resp->status == '00')
 	{
 		// session 
 		$_SESSION['user_login'] = strtoupper($responseweb->resp->loginid);
 		$_SESSION['login'] = strtoupper($responseweb->resp->userid);
 		$_SESSION['password'] = $password;
-		$_SESSION['sessid'] = $responseweb->resp->sessid;
+		$_SESSION['sessid'] = $responseweb->resp->session;
 		$_SESSION['captcha'] = $captcha;
 		
 		$login 		= $_SESSION['login'];
@@ -150,7 +154,11 @@ else
 		$user_login = $_SESSION['user_login'];
 		$sessid 	= $_SESSION['sessid'];
         $_SESSION['optLogin'] = str_shuffle(time());
+
+        $waktucookiex=time()+(60*60*24*31*12);
+        setcookie("livecasinouser",$entered_login,$waktucookiex);
 	}else{
+		
 		if(isset($responseweb->resp)){
 			$message = $responseweb->resp->msg;
 		}else{
@@ -171,6 +179,7 @@ if (!$login) {
 	include($cfgProgDir . "interface.php");
 	exit;
 }
+
 include($cfgSecDir . "cookie.php");
 
 ?>

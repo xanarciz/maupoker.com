@@ -38,8 +38,8 @@ $data = array(
     "id" 		 => 1,
     "wid" 		 => $nonWWW
 );
-$infoweb = sendAPI($url_info,$data,'XML','2fb4f029ebf33b9a');
 
+$infoweb = sendAPI($url_info,$data,'XML','2fb4f029ebf33b9a');
 $infoweb = variableMasterProc($infoweb);
 
 //smartfox
@@ -66,7 +66,7 @@ $_GET = sanitize($_GET);
 
 date_default_timezone_set('Asia/Jakarta');
 
-if($infoweb != null && $infoweb['status'] != 0) {
+if($infoweb['status'] == 1) {
     $ver = explode (",",$infoweb["flashVer"]);
     $fls_version   = $infoweb["flashVer"];
     $subwebid      = $infoweb['webinfo']["subwebid"];
@@ -74,7 +74,7 @@ if($infoweb != null && $infoweb['status'] != 0) {
     $agentwlable   = $infoweb['webinfo']["agent"];
     $pokerwlable   = "txhpoker" . $infoweb['webinfo']["style"];
     $pokertable    = "tablepoker" . $infoweb['webinfo']["style"];
-    $link_img      = $infoweb['webinfo']["style"];
+    $link_img      = strtolower($infoweb['webinfo']["style"]);
     $register      = $infoweb['webinfo']["status_register"];
     $curr          = $infoweb['webinfo']["curr"];
     $currrate      = $infoweb['webinfo']["currrate"];
@@ -108,7 +108,7 @@ else $cfgSecDir = "secure/";
 $cfgFuncDir = "function/";
 
 if(getUserIP2() == '43.226.4.194'){
-	$q_maintenance = 0;
+	// $q_maintenance = 0;
 }
 
 if ($q_maintenance == 1){

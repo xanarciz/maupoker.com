@@ -189,11 +189,14 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
             $response = $myaes->getEnc($respon);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
                 "Authorization: " . $myaes->getHeaderPK(),
-                "Content-Type: text/plain; charset=utf-8"
+                "Content-Type: application/xml"
+                // "Content-Type: text/plain; charset=utf-8"
             ));
         } else {
             $response = $respon;
         }
+		
+		echo "<script>console.log('".json_encode($data)."')</script>";
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);
@@ -220,7 +223,7 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
             $array_data = json_decode(json_encode(simplexml_load_string($data)), true);
         }
     }catch (Exception $e){
-        $array_data = null;
+        $array_data = ['status' => 500];
     }
     return $array_data;
 }

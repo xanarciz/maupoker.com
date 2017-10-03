@@ -169,6 +169,9 @@ $defaultOpen = 0;
 		font-family: Arial;
 		color: #ddd;
 	}
+	#table td{
+		color:#000;
+	}
 </style>
 
 <div id="content">

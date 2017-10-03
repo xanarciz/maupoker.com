@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("_meta.php");
 include("_header.php");
 

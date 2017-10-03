@@ -13,10 +13,23 @@ $path	="https://avatar.96nmdqufhz.com";
 $reflink = "www.".$dmn[1].".".$dmn[2]."/referral_daftar.php";
 $agentlink = "www.".$dmn[1].".".$dmn[2]."/agent_daftar.php";
 $DomainName = "www.".$dmn[1].".".$dmn[2];
-$nonWWW = $dmn[0].".".$dmn[2];
-$url_lobby = "https://www.lobbyplay.com";
+$nonWWW = $dmn[1].".".$dmn[2];
+
+//READ HTTPS OR HTTP URL
+$protocol = "";
+if(!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])){
+	//READ CLOUDFARE'S PROTOCOL
+	$protocol .= $_SERVER['HTTP_X_FORWARDED_PROTO'].'://';
+}
+else{
+	//READ SERVER PROTOCOLS
+	$protocol .= (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']=="on") ? "https://" : "http://";
+}
+$lobby_dom = ($protocol=="http://")? "lobby5.lobbyplay.com" : "lobby6.lobbyplay.com";
+$url_lobby = $protocol.$lobby_dom;
 $url_Api = "http://core-api.devsuperteam.com/api/web";
-$url_info = 'http://infoweb.devsuperteam.com/';
+// $url_info = 'https://www.cemedomino88.net/memcacheAPI/';
+$url_info = 'https://www.cemedomino88.net/memcacheAPI/';
 $ToMenu = 0;
 $server = 1;
 $www = 1;
@@ -24,12 +37,12 @@ $wl = 1;
 $network =1;
 $loginurl = "index.php";
 // 0 = ke game,  1 = ke menu
-define(DOMAIN_NAME,$DomainName."");
-define(CURRENT_DOMAIN,$_SERVER['SERVER_NAME']);
+define('DOMAIN_NAME',$DomainName , true);
+define('CURRENT_DOMAIN',$_SERVER['SERVER_NAME'], true);
 $cfgDbPasswordfield = 'userpass';
-define(PASS_FIELD,$cfgDbPasswordfield);
+define('PASS_FIELD',$cfgDbPasswordfield, true);
 $cfgDbSessfield = 'sessid';
-define(SESS_FIELD,$cfgDbSessfield);
+define('SESS_FIELD',$cfgDbSessfield, true);
 $cfgDbTableUsers = 'u6048user_id';         // MySQL table name containing phpSecurePages user fields
 $cfgDbLoginfield = 'userid';                // MySQL field name containing login word
 $cfgDbUserLevelfield = 'usertype';       // MySQL field name containing user level
