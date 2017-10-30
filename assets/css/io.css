@@ -163,7 +163,7 @@ ol, ul{
 
 .container{
     width: 1000px;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .left{
@@ -386,7 +386,7 @@ td, th {
 td{
     padding: 0;
     font-family: "Franklin Gothic";
-    color: #fff;
+    color: #000;
 }    
 
 /**** Header ****/
@@ -527,7 +527,7 @@ div.logo a:hover, div.logo a:focus {
 /**** Content ****/
 #content{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     background: #003e51 url(../img/io/bg.jpg?id=54);
     /*background-color: #c3cee9;
     background-image: -moz-linear-gradient(top, #c3cee9 0%, #6f87ba 100%);
@@ -691,7 +691,7 @@ div.logo a:hover, div.logo a:focus {
 
 .wrap{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     position: relative;
     display: inner-block;
 }
@@ -776,7 +776,7 @@ div.logo a:hover, div.logo a:focus {
     height: 125px;
     margin-right: 10px;
     border: none;
-	background: url(../../avatar/default.jpg) no-repeat;
+	background: url(../../avatar/default_io.jpg) no-repeat;
 }
 .avatar{
     float: left;
@@ -1068,7 +1068,7 @@ div.logo a:hover, div.logo a:focus {
 .body-wrap{
     position: relative;
     min-height: 500px;
-    height: 100%;
+    /* height: 100%; */
     background-color: #1F6888;
     /*border-top: none;
     border-right: 1px solid rgba(112,130,163,.7);
@@ -1084,6 +1084,7 @@ div.logo a:hover, div.logo a:focus {
 
 /**** Footer ****/
 #footer{
+    /* height: 100%; */
     background-color: #001b24;
     border-top: 5px solid #191919;
     padding: 20px 0;
@@ -2261,40 +2262,4 @@ li.active a, li.active a:hover {
 	color: #000;
 	padding: 15px;
 	margin: -5px 0 20px 0;
-}
-
-
-
-.pagination {
-    list-style: none;
-    padding-left: 0px;
-    margin: 10px 5px 0px 5px;
-    text-align: center;
-}
-.pagination li {
-    display: inline-block;
-    padding: 5px;
-    margin: 5px 2px;
-    border: solid 1px #1f6888;
-    border-radius: 5px;
-    background: #fda904;
-}
-
-.pagination li a{
-    color: #fff;
-    padding: 5px;
-}
-
-.pagination li span{
-    padding: 5px;
-}
-
-.pagination li.active, .pagination li:hover, .pagination li.disabled{
-    background: #164256;
-}
-
-.pagination .more{
-    background: none;
-    border: none;
-    padding: 7px;
 }

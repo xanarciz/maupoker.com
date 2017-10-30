@@ -166,7 +166,10 @@ function getUserIP2($type = null){
  * @param bool $arrayBuilder
  * @return mixed
  */
+
 function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option = array()){
+	
+	
 	switch ($dataType) {
 		case 'http_query' :
 			$respon = http_build_query($data);
@@ -190,18 +193,17 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
                 "Authorization: " . $myaes->getHeaderPK(),
                 "Content-Type: application/xml"
-                // "Content-Type: text/plain; charset=utf-8"
+                // "Content-Type: text/plain;"
             ));
         } else {
             $response = $respon;
         }
-		
-		echo "<script>console.log('".($response)."')</script>";
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 300);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         $optionArray = ['CURLOPT_URL', 'CURLOPT_POSTFIELDS', 'CURLOPT_RETURNTRANSFER'];
         foreach ($option as $key => $value) {

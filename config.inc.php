@@ -13,7 +13,7 @@ $path	="https://avatar.96nmdqufhz.com";
 $reflink = "www.".$dmn[1].".".$dmn[2]."/referral_daftar.php";
 $agentlink = "www.".$dmn[1].".".$dmn[2]."/agent_daftar.php";
 $DomainName = "www.".$dmn[1].".".$dmn[2];
-$nonWWW = $dmn[1].".".$dmn[2];
+$nonWWW = "domino88.asia";
 
 //READ HTTPS OR HTTP URL
 $protocol = "";

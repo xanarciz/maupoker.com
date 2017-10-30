@@ -118,7 +118,7 @@ if ($q_maintenance == 1){
 	exit("
 	<script type=text/javascript>
 	var __lc = {};
-	__lc.license = 4522711;
+	__lc.license = 3567221;
 
 	(function() {
 	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
