@@ -46,7 +46,7 @@ $reqAPIActive = array(
     "device"    => $device,
 );
 
-$responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','');
+$responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','02e97eddc9524a1e');
 // print_r($responsewebx);exit();
 if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $flag 			= $responsewebx->resp->flag;

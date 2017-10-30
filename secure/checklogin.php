@@ -139,7 +139,7 @@ else
         "lastuser"  => $cooks
 	);
 	
-	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','');
+	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','02e97eddc9524a1e');
 	if($responseweb->status == '200' && $responseweb->resp->status == '00')
 	{
 		// session 
