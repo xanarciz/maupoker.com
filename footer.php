@@ -1,14 +1,40 @@
-  <div id="footer">
-                <div class="container">
-                    <div class="disclaimer">
-        				<?php echo $footer_txt; ?>
-        			</div>
+		<script language="JavaScript" type="text/javascript">
+			function PopupCenter(url, title, w, h) {
+				// Fixes dual-screen position                         Most browsers      Firefox
+				var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+				var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
 
-                    <div class="copyright">
-    					<span>&copy; Copyright 2014 <?php $dmn[1].".".$dmn[0]?> - All right reserved.</span>
-    				</div>
-                </div>
-            </div>
+				var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+				var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+				var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+				var top = ((height / 2) - (h / 2)) + dualScreenTop;
+				var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+				// Puts focus on the newWindow
+				if (window.focus) {
+					newWindow.focus();
+				}
+			}
+		</script>
+		
+		<div id="footer">
+			<div class="container">
+				<div class="disclaimer">
+					<?php echo $footer_txt; ?>
+				</div>
+
+				<div class="copyright">
+					<span>
+						<a href="#" onclick="PopupCenter('terms.php','xtf','1000','800');" title="Terms & Conditions" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Terms & Conditions</a> 
+						<a href="link_alternatif.php" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Link Alternatif</a>
+						<a href="video-promotion.php" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Video Tutorial</a>
+						</br> &copy; Copyright <?php echo date("Y")." ". $dmn[1].".".$dmn[2]?> - All right reserved.
+					</span>
+				</div>
+			</div>
+		</div>
+		
         </div>
 		 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
         <link rel="stylesheet" href="assets/css/widget.css">

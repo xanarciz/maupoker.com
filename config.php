@@ -40,7 +40,9 @@ $data = array(
 );
 
 $infoweb = sendAPI($url_info,$data,'XML','2fb4f029ebf33b9a');
+// print_r($infoweb);exit();
 $infoweb = variableMasterProc($infoweb);
+
 
 //smartfox
 include_once("lang_id.php");
@@ -107,9 +109,9 @@ if(isset($frontSec)) $cfgSecDir = $frontSec . "secure/";
 else $cfgSecDir = "secure/";
 $cfgFuncDir = "function/";
 
-if(getUserIP2() == '43.226.4.194'){
+// if(getUserIP2() == '43.226.4.194'){
 	// $q_maintenance = 0;
-}
+// }
 
 if ($q_maintenance == 1){
 

@@ -196,7 +196,7 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
             $response = $respon;
         }
 		
-		echo "<script>console.log('".json_encode($data)."')</script>";
+		echo "<script>console.log('".($response)."')</script>";
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);
