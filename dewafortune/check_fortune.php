@@ -3,13 +3,17 @@ include("../config.php");
 	$status = 0;
 	$result = array();
 	//$request = $this->input->post(NULL, TRUE);
-
+ $reqAPIActive = array(
+            "auth" 	 => $authapi,
+            "type"   => 2,
+            "sessid" => $_POST['sessid'],
+        );
 	if(isset($_POST['sessid']) && !empty($_POST['sessid']))
 	{
         $reqAPIActive = array(
             "auth" 	 => $authapi,
             "type"   => 2,
-            "sessid" => $sess,
+            "sessid" => $_POST['sessid'],
         );
 
         $responseActive = sendAPI($url_Api."/checkUserActive",$reqAPIActive,'JSON','02e97eddc9524a1e');

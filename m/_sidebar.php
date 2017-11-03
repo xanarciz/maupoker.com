@@ -120,6 +120,14 @@
       </div>
     </div>
     <div class="row padding-0 tmargin-3 bmargin-3 bg-darker-gray light-gray fs-14">
+      <div class="col-lg-5 padding-0 margin-0">
+        <i class="fa fa-seal icon-16"></i>T-Coin
+      </div>
+      <div class="col-lg-6 green padding-0 margin-0 fs-14">
+        <i class="fa fa-8balls icon-16"></i> <?php echo number_format($tcoin); //not yet ?>
+      </div>
+    </div>
+    <div class="row padding-0 tmargin-3 bmargin-3 bg-darker-gray light-gray fs-14">
       <div class="col-lg-6 padding-0 margin-0">
         <i class="fa fa-seal icon-16"></i> <?php echo number_format($poin); ?>
       </div>
@@ -183,9 +191,9 @@
     <a class="nav-item " href="jackpot.php"><i class="fa fa-jackpot" ></i> JACKPOT<em <?php if($page=="jackpot"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>
   </div>
 
-  <!-- <div class="navigation-item <?php if($page=='vip'){ ?> active <?php } ?>">
+  <div class="navigation-item <?php if($page=='vip'){ ?> active <?php } ?>">
     <a class="nav-item" href="vip.php"><i class="fa fa-vip"></i> VIP MEMBER<em <?php if($page=="vip"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>
-  </div> -->
+  </div>
 
   <div class="navigation-item <?php if($page=='download'){ ?> active <?php } ?>">
     <a class="nav-item" href="download.php"> <i class="fa fa-download"></i> DOWNLOAD APLIKASI<em <?php if($page=="download"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>
@@ -229,9 +237,9 @@
     <a class="nav-item " href="jackpot.php"><i class="fa fa-jackpot" ></i> JACKPOT<em <?php if($page=="jackpot"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>
   </div>
 
-  <!-- <div class="navigation-item <?php if($page=='vip'){ ?> active <?php } ?>">
+  <div class="navigation-item <?php if($page=='vip'){ ?> active <?php } ?>">
     <a class="nav-item" href="vip.php"><i class="fa fa-vip"></i> VIP MEMBER<em <?php if($page=="vip"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>
-  </div> -->
+  </div>
 
   <div class="navigation-item <?php if($page=='download'){ ?> active <?php } ?>">
     <a class="nav-item" href="download.php"> <i class="fa fa-download"></i> DOWNLOAD APLIKASI<em <?php if($page=="download"){ ?>class="selected-item"<?php } ?> class="unselected-item"></em></a>

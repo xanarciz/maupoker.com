@@ -31,6 +31,7 @@ include 'dewafortune/dewafortune.php';
 $tiket = getTicket();
 
 $sid = $sessid;
+echo "<script>console.log('".$sid."');</script>";
 $param = $_SESSION['login'].",".$sid;
 //end
 ?>
@@ -38,6 +39,36 @@ $param = $_SESSION['login'].",".$sid;
 <body>
 
     <style type="text/css">
+	
+		.light a.quickAccess-varia_wechat{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_1.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_bbm{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_2.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_yahoo{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_3.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_skype{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_4.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_phone{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_5.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_whatsapp{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_6.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_facebook{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_7.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_twitter{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_8.png) no-repeat center 2px;
+		}
+		.light a.quickAccess-varia_line{
+			background: url(assets/js/quickAccess/icons/light_icons/varia_9.png) no-repeat center 2px;
+		}
+	
+	
         .spin {
             font-size: 16px;
             font-family: 'big_noodle_titlingx';

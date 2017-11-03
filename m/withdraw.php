@@ -196,13 +196,20 @@ if($login) {
 			</div>
 			
 		</div>
-
-		<div class="row">
-			<input class="btn btn-gray tmargin-10 bmargin-5" value="BATAL" type="button" onclick="location.href='index.php'" />
-		</div>
+		
 		<div class="row">
 			<input class="btn btn-blue tmargin-5 bmargin-10" value="KONFIRMASI" type="submit" name="submit" />
 		</div>
+		
+		<div class="row" style="margin:5px 0px 10px 0;">
+			<?PHP
+			foreach ($infoweb['bankList'] as $bank){
+				$statusBnk = $bank['statAgent'] == 1 ? 'on' : 'off';
+				echo "<img src='assets/bank/".strtoupper($bank['bankname'])."-".$statusBnk.".png' style='float:left;margin-right:2px;margin-top:2px'>";
+			}
+			?>
+		</div>
+		
 		<ol class="black">
 			<li class="margin-0">Minimal Tarik Dana = <?php echo $minwit; ?>,00 IDR .</li>
 			<li class="margin-0">Penarikan dana hanya akan di proses ke rekening yang pertama kali di daftarkan. </li>

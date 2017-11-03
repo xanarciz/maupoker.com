@@ -89,7 +89,7 @@ if ($_POST["submit"] && $err == 0) {
         $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Captcha harus diisi</p></div>");
     } else if (!checkCaptcha('CAPTCHAString', $capt)) {
         $err = 1;
-        $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'> Captcha tidak sama</p></div>");
+        $errorReport = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'> Captcha tidak sama </p></div>");
     } else {
 
         $reqAPIRegister = array(
@@ -154,7 +154,7 @@ if ($_POST["subform"]) {
             $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> Captcha harus diisi</p></div>");
         } else if (!checkCaptcha('CAPTCHAString', $captcha)) {
             $errvouc = 1;
-            $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> Captcha tidak sama</p></div>");
+            $errorReportvouc = ("<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'><strong>Deposit gagal!</strong> Captcha tidak sama </p></div>");
         } else {
 
             $reqAPIRegister = array(

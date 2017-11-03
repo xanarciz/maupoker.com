@@ -53,6 +53,7 @@ if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $userpass		= $responsewebx->resp->userpass;
     $coin 			= $responsewebx->resp->coin;
     $poin 			= $responsewebx->resp->poin;
+    $tcoin 			= $responsewebx->resp->tcoin;
     $authcode 		= $responsewebx->resp->authcode;
     $pin 			= $responsewebx->resp->pin;
     $hispoin 		= $responsewebx->resp->history-poin;

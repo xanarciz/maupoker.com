@@ -22,12 +22,12 @@ if ($_POST["input_pin"]){
 
 		if($respPin->status == 200){
 			$_SESSION["pin"] = $pin_pembukax;
-			echo "<script>window.location='../rules.php'</script>"; 
+			exit( "<script>window.location='../rules.php'</script>"); 
 		}else{
 			if($respPin->actstat == 6){
-                echo "<script>window.location='../logout.php'</script>";
+                exit("<script>window.location='../logout.php'</script>");
             }else{
-				$error = $respPin->debugMsg;
+				$error = $respPin->msg;
 			}
 		}
 	 

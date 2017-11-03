@@ -111,7 +111,7 @@ $param = $login.",".$sessid;
   <!-- SPIN -->
   <?PHP if($_SESSION["login"]){ ?>
   <div class="toggle-1 tpadding-5 bpadding-5" align="center" style="<?PHP if($tiket <= 0){ echo 'padding-top: 25px;'; }?>">
-    <a href="https://dewafortune.com/auth/login_defor.php?userid=<?php echo $_SESSION['login'];?>&sessid=<?php echo $sid;?>&access_token=9a7e8111d09b65e038de0444e96b5a8c" target="_blank">
+    <a href="https://dewafortune.com/auth/login_defor.php?userid=<?php echo $_SESSION['login'];?>&sessid=<?php echo $_SESSION["sessid"];?>&access_token=9a7e8111d09b65e038de0444e96b5a8c" target="_blank">
         <?PHP if($tiket > 0){ ?>
         <div class="spin tpadding-3" align="center"><?PHP echo $tiket;?></div>
         <?PHP } ?>
