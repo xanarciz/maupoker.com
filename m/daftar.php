@@ -92,7 +92,7 @@ if($_POST["submit"]){
 				<label class="black">Username</label>
 			</div>
 			<div class="col-lg-7">				
-				<input class="form-control bg-light-gray" onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" name="UName" maxlength="8" value="<?php echo $uname; ?>"   />
+				<input class="form-control bg-light-gray" onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" name="UName" maxlength="10" value="<?php echo $uname; ?>"   />
 			</div>
 		</div>
 

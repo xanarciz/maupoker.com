@@ -16,6 +16,9 @@ if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 $curr = $_POST["Curr"];
 $ref = strtoupper($_COOKIE["ref"]);
 if (!$ref)$ref="";
+if($ref == ''){
+	$ref = $_POST['ref_text'];
+}
 if($_POST["submit"]){
 	$uname = str_replace("''","*",$_POST["UName"]);
 	$unameid = str_replace("''","*",$_POST["UNameid"]);
@@ -119,7 +122,7 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">Username</label>
                                         <div class="col-lg-2">
 											<div id="ceklis1" class="validx"></div>
-                                            <input onBlur="fast_checking('user_name', 'ceklis1', '')" type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=8 value="<?php echo $uname; ?>" data-required="true" class="form-control">                                           
+                                            <input onBlur="fast_checking('user_name', 'ceklis1', '')" type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=10 value="<?php echo $uname; ?>" data-required="true" class="form-control">                                           
 										</div>
                                     </div>
 									

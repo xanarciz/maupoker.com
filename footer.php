@@ -39,7 +39,7 @@
 		 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
         <link rel="stylesheet" href="assets/css/widget.css">
         <div id="fb-root"></div>
-        <!--<div class="audio-container">
+        <div class="audio-container">
           <div class="radio-widget">
             <div class="audio-title" onclick="playToggle()"><span>Dewa.FM</span></div>
             <div class="audio-control">
@@ -63,7 +63,7 @@
             </div>
           </div>
           <audio id="mediaplayer" preload="none" src="http://180.210.204.202:8090/;stream.mp3">Your browser does not support this player.</audio>
-        </div>-->
+        </div>
         <script src="assets/js/widget.js"></script>
 
     </body>

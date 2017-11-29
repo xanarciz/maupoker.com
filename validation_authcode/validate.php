@@ -1,13 +1,13 @@
 <?php
-$url = "http://koin.dewapoker.com/validation_authcode/";
+$url = "https://www.domino88.asia/validation_authcode/";
 //setting the curl parameters.
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 // Following line is compulsary to add as it is:
 $response = "<request>
-				<authcode>bbcc7dae2110a40e83d5e8a31</authcode>
-				<userid>SEON</userid>
-				<minimum_grab>1000</minimum_grab>
+				<authcode>f64071461a68450a53e16552f</authcode>
+				<userid>QQDM88A</userid>
+				<get_authcode>true</get_authcode>
 			</request>";
 
 curl_setopt($ch, CURLOPT_POSTFIELDS,"" . $response);

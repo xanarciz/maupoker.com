@@ -31,7 +31,7 @@ include 'dewafortune/dewafortune.php';
 $tiket = getTicket();
 
 $sid = $sessid;
-echo "<script>console.log('".$sid."');</script>";
+// echo "<script>console.log('".$sid."');</script>";
 $param = $_SESSION['login'].",".$sid;
 //end
 ?>
@@ -294,12 +294,12 @@ $param = $_SESSION['login'].",".$sid;
                                         <div style="margin-top:-8px;"><span class="user-text"><?php echo P_WELCOME;?>,</span></div>
                                         <div class="clear"></div>
                                         <span class="user-name"><?php echo $user_login;?></span>
-                                        <div style="margin-top:-8px;"><span class="" style=font-size:12px>( Nickname : <?php echo $login;?> )</span></div>
+                                        <div style="margin-top:-8px;"><span class="" style=font-size:12px>( Nickname : <span id='usrid' style='float:none'><?php echo $login;?></span> )</span></div>
                                         <div class="clear"></div>
                                         <span class="user-chips">CHIPS: <?php echo floor($coin);?></span>
                                         <span class="user-chips" style="margin-left: 10px;">POIN: <?php echo number_format($poin);?></span>
                                         <span style="position: absolute;top:10px;margin-left: 170px;">
-                                        <?php if ($hispoin > 1){ ?>
+                                        <?php if ($hispoin >= 1){ ?>
                                             <a target="_blank" href="https://www.koin88.com/do-game-connect?id=<?php echo $k88id; ?>&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>" class="btn btn-login">Redeem Poin</a>
                                         <?php }else{ ?>
                                             <a target="_blank" href="https://www.koin88.com/do-game-connect?id=<?php echo $k88id; ?>&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>" class="btn btn-login">Aktivasi</a>

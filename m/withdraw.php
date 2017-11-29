@@ -260,7 +260,7 @@ if($login) {
 						</div>
 						<div class="col-lg-9 lpadding-10">
 							<p class="fs-11 tmargin-10" style="border:none; color: #000 !important;">
-								Senin - Minggu	: 00:00 - 02: 30 WIB
+								Senin - Minggu	: 01:30 - 03: 30 WIB
 							</p>
 						</div>	
 					</div>
@@ -271,7 +271,7 @@ if($login) {
 						</div>
 						<div class="col-lg-9 lpadding-10">
 							<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
-								Senin - Minggu	: 21:00 - 05:30 WIB
+								Senin - Minggu	: 22:00 - 05:00 WIB
 							</p>
 						</div>	
 					</div>
@@ -409,7 +409,7 @@ if($login) {
 				</div>
 				<div class="col-lg-9 lpadding-10 tmargin-10">
 					<p class="dark-gray fs-11" style="border:none;">
-						Senin - Minggu	: 21:00 - 05:30 WIB
+						Senin - Minggu	: 22:00 - 05:00 WIB
 					</p>
 				</div>	
 			</div>

@@ -435,6 +435,7 @@ function check(field) {
 		}
 }
 //-->
+function got_todfx(parameter){ var idspx = document.getElementById('usrid').innerHTML; window.open('https://dewafortune.com/auth/special_entrance.php?user='+idspx+'&acc_token=f2c80df303965957c33351982b173c04&c='+parameter, 'formpopup', 'width=1280,height=700,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no'); };
 </SCRIPT>
 
     </head>

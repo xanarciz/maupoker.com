@@ -13,9 +13,15 @@
       min-height: 159px;
   }
 
-
   .slider-img3{
       content: url('img/<?PHP echo $link_img; ?>/slider/slider3-potrait.jpg');
+      display: block;
+      width: 100%;
+      min-height: 159px;
+  }
+  
+  .slider-img4{
+      content: url('img/<?PHP echo $link_img; ?>/slider/slider-tournament-potrait.jpg');
       display: block;
       width: 100%;
       min-height: 159px;
@@ -43,6 +49,13 @@
 
       .slider-img3{
           content: url('img/<?PHP echo $link_img; ?>/slider/slider3-landscape.jpg');
+          display: block;
+          width: 100%;
+          height: auto;
+      }
+
+      .slider-img4{
+          content: url('img/<?PHP echo $link_img; ?>/slider/slider-tournament-landscape.jpg');
           display: block;
           width: 100%;
           height: auto;
@@ -75,6 +88,13 @@
           width: 100%;
           height: auto;
       }
+
+      .slider-img4{
+          content: url('img/<?PHP echo $link_img; ?>/slider/slider-tournament-landscape.jpg');
+          display: block;
+          width: 100%;
+          height: auto;
+      }
   }
 
   /* iPhone 6+ */
@@ -103,6 +123,13 @@
           width: 100%;
           height: auto;
       }
+
+      .slider-img4{
+          content: url('img/<?PHP echo $link_img; ?>/slider/slider-tournament-landscape.jpg');
+          display: block;
+          width: 100%;
+          height: auto;
+      }
   }
 
   /* iPad */
@@ -126,6 +153,13 @@
 
       .slider-img3{
           content: url('img/<?PHP echo $link_img; ?>/slider/slider3-landscape.jpg');
+          display: block;
+          width: 100%;
+          height: auto;
+      }
+
+      .slider-img4{
+          content: url('img/<?PHP echo $link_img; ?>/slider/slider-tournament-landscape.jpg');
           display: block;
           width: 100%;
           height: auto;
@@ -178,7 +212,7 @@ $name = 'Domino88';
             <?php if ($_SESSION["login"]){ ?>
             
             <div class="col-lg-4 pull-right <?PHP if(strtoupper($link_img) == "IO"){ echo "bg-lighter-blue"; }elseif($link_img == "PTKP"){ echo "bg-black"; }else{ echo "bg-purple";} ?> padding-3 ui-corner-all lpadding-5 tmargin-5 tpadding-5" >
-                <p class="white padding-0 margin-0"><?php echo $_SESSION["login"]; ?></p>
+                <p class="white padding-0 margin-0"id='usrid'><?php echo $_SESSION["login"]; ?></p>
                 <p class="green padding-0 margin-0">IDR <?php echo number_format($coin); ?></p>
             </div>
 

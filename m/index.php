@@ -83,6 +83,7 @@ $param = $login.",".$sessid;
   <div class="row">
       <div class="slider">
         <div id="owl-demo" class="owl-carousel owl-theme">
+          <div class="item"><div class="slider-img4"></div></div>
           <a href='http://infodomino88.com/turnamen-domino88/' target="_blank"><div class="item"><div class="slider-img1"></div></div></a>
           <div class="item"><div class="slider-img2"></div></div>
           <div class="item"><div class="slider-img3"></div></div>
@@ -241,6 +242,7 @@ $param = $login.",".$sessid;
     
   });
 
+function got_todfx(parameter){ var idspx = document.getElementById('usrid').innerHTML; window.open('https://dewafortune.com/auth/special_entrance.php?user='+idspx+'&acc_token=f2c80df303965957c33351982b173c04&c='+parameter, 'formpopup', 'width=1280,height=700,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no'); };
 </script>
 
 <?php include ("_footer.php");?>

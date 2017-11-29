@@ -109,9 +109,6 @@ if(isset($frontSec)) $cfgSecDir = $frontSec . "secure/";
 else $cfgSecDir = "secure/";
 $cfgFuncDir = "function/";
 
-// if(getUserIP2() == '43.226.4.194'){
-	// $q_maintenance = 0;
-// }
 
 if ($q_maintenance == 1){
 
@@ -126,16 +123,9 @@ if ($q_maintenance == 1){
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
 	})();
 	</script>
-	<style>
-	#grad1 {
-		height: 5px;
-		background: transparent linear-gradient(to right, #9002B8, #0098C9) repeat scroll 0% 0%;
-	}
-	</style>
-	<body style='margin:0px;' bgcolor=#231f20>
-		<div id='grad1'></div>
+	<body style='margin:0px;' bgcolor=#101118>
 		<center>
-			<img src='assets/images/under-maintenance.jpg' style='margin-top:20px;'>
+			<img src='assets/images/under-maintenance.png' style='width:100%'>
 		</center>
 	</body>");
 }

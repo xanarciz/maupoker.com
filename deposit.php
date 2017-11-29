@@ -54,7 +54,7 @@ $curr	= $_POST["Curr"];
 if ($_POST["submit"] && !$err) {
 	$defaultOpen = 1;
 	$name       = $login;
-	$amount		= $_POST["ui_amount"];
+	$amount		= $_POST["amount"];
 	$accname1	= $bankaccname;
 	$rek1		= $bankaccno;
 	$bname1		= $bankname;
@@ -68,11 +68,11 @@ if ($_POST["submit"] && !$err) {
 	$accname2	= $_POST['hBAcc'];
 
 	$err = 0;
-	if($capt == ''){
+	/* if($capt == ''){
 		$errorReport = ("<strong>Deposit gagal!</strong> Captcha harus diisi");
 	}else if(!checkCaptcha('CAPTCHAString', $capt)){
 		$errorReport = ("<strong>Deposit gagal!</strong> Captcha tidak sama");
-	}else{
+	}else{ */
 			
 		$reqAPIRegister = array(
 			"auth"       => $authapi,
@@ -120,8 +120,8 @@ if ($_POST["submit"] && !$err) {
 		}else{
 			$errorReport =	("<strong>Deposit gagal!</strong> " . $response->msg);
 		}
-	
-	}
+	/* 
+	} */
 	echo"<BR>";
 }
 
@@ -684,7 +684,7 @@ function openRequestedPopup(link, title) {
 	splash.moveTo  ( Math.ceil( windowX ) , Math.ceil( windowY ) );
 }
 
-document.getElementById("cpt").innerHTML = document.getElementById("cpc").innerHTML;
+// document.getElementById("cpt").innerHTML = document.getElementById("cpc").innerHTML;
 
 	function numberWithCommas(x) {
 	  return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");

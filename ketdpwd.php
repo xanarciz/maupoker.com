@@ -55,7 +55,7 @@
                             </div>
                             <div class="sched">
                                 <p>
-                                    Senin-Minggu : 00.00 WIB - 02.30 WIB
+                                    Senin-Minggu : 01.30 WIB - 03.30 WIB
                                 </p>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="sched">
                                 <p>
-                                    Senin-Minggu :  21.00 WIB - 05.30 WIB
+                                    Senin-Minggu :  20.00 WIB - 05.00 WIB
                                 </p>
                             </div>
                         </div>

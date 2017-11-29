@@ -133,7 +133,7 @@
       </div>
       <div class="col-lg-5 padding-0 margin-0">
         <?php
-            if ($hispoin > 1){
+            if ($hispoin >= 1){
         ?>
             <input class="btn btn-mini pull-left btn-orange" value="Reedem Poin" type="button" onclick="window.location.href='https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="border-radius: 5px;" />
         <?php
