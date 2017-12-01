@@ -135,11 +135,11 @@
         <?php
             if ($hispoin >= 1){
         ?>
-            <input class="btn btn-mini pull-left btn-orange" value="Reedem Poin" type="button" onclick="window.location.href='https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="border-radius: 5px;" />
+            <input class="btn btn-mini pull-left btn-orange" value="Reedem Poin" type="button" onclick="window.location.href='https://www.koin88.com/do-game-connect?id=1009&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="border-radius: 5px;" />
         <?php
             }else{
         ?>
-            <a target="_blank" class="btn btn-mini btn-orange center tpadding-3" href="https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $user_authcode;?>" style="vertical-align: middle;">Aktivasi</a>
+            <a target="_blank" class="btn btn-mini btn-orange center tpadding-3" href="https://www.koin88.com/do-game-connect?id=1009&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>" style="vertical-align: middle;">Aktivasi</a>
         <?php
             }
         ?>

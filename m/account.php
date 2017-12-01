@@ -110,7 +110,7 @@ if(strtoupper($link_img) == "IO"){ $warna = "bg-blue-panel"; }elseif($link_img =
 						<?php echo number_format($poin); ?>
 					</div>
 					<div class="col-lg-6" style="margin-top:-5px">
-						<a class="btn btn-mini btn-orange center tpadding-3 tmargin-2" href="https://www.koin88.com/do-game-connect?id=1006&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>">Aktivasi</a>
+						<a class="btn btn-mini btn-orange center tpadding-3 tmargin-2" href="https://www.koin88.com/do-game-connect?id=1009&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>">Aktivasi</a>
 					</div>
 				</div>
 			</div>

@@ -87,7 +87,7 @@ if ($_POST["input_pin"]){
 									<td colspan=2 align="center">
 										
 										<?php 
-											if($pin_pembukax!='' && $pin_pembukax!='0' ){
+											if($pin_pembukax!=''){
 												if($status_bank == '1') {
 										?>
 													<style>													
@@ -175,7 +175,7 @@ if ($_POST["input_pin"]){
 					
 					<div class="pin-container">
 						<?php 
-							if($pin_pembukax!='' && $pin_pembukax!='0'){
+							if($pin_pembukax!=''){
 								if($status_bank == '1') {
 						?>
 								
