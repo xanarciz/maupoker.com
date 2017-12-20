@@ -14,7 +14,7 @@ if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
 $curr = $_POST["Curr"];
 $ref = strtoupper($_COOKIE["ref"]);
-if (!$ref)$ref="";
+if (!$ref)$ref=$_POST["ref_text"];
 if($_POST["submit"]){
     if($infoweb['open_reg'] == "0"){echo "<div class='error-report'>Registration Tempolary Closed</div>";
         die();
@@ -141,6 +141,31 @@ if($_POST["submit"]){
 			</div>
 		</div>
 
+
+		<?php
+			if ($ref){
+		?>
+			<div class="row padding-15 tpadding-3 bpadding-2">
+				<div class="col-lg-5 tmargin-5">
+					<label class="black">Referral</label>
+				</div>
+				<div class="col-lg-7" style="text-align:left; margin-top: 8px;">
+					<?php echo "<b>".strtoupper($ref)."</b>"; ?>				
+				</div>
+			</div>
+			<?php
+			}else{
+			?>
+		<div class="row padding-15 tpadding-3 bpadding-2">
+			<div class="col-lg-5 tmargin-5">
+				<label class="black">Referral</label>
+			</div>
+			<div class="col-lg-7">
+				<input class="form-control bg-light-gray" onBlur="fast_checking('the_ref', 'ceklis10', '')" id="the_ref" type="text" name="ref_text" placeholder="Nama Referral" value="" />
+				<br>*Ini tidak wajib harus diisi				
+			</div>
+		</div>
+		<?php } ?>
 		<div class="row padding-15 tpadding-3 bpadding-2">
 			<div class="col-lg-5 tmargin-5">
 				<label class="black">Validasi</label>

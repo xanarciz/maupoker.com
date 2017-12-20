@@ -530,7 +530,7 @@ if(isset($_POST['subform'])){
 										</div>
 																						
 										<div class="form-group-full nores" align="left">
-											<label class="col-lg-1 control-label">No. Resi / No. Kartu ATM</label>
+											<label class="col-lg-1 control-label">No. Record / No. Kartu ATM</label>
 											<div class="col-lg-2"> : &nbsp;
 												<input type="text" name="noresi" class="form-control" style="width:96%;">
 											</div>

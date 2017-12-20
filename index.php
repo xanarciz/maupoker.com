@@ -32,7 +32,7 @@ if ($_SESSION["login"]){
 					?>
                         <div class="slider-wrapper theme-default">
                             <div id="slider" class="nivoSlider">
-                                <a href='http://infodomino88.com/turnamen-domino88/' target="_Blank"><?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" /></a>
+                                <a href='promotion.php'><?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" /></a>
                                 <?php if ($img_main[1]!="") ?> <img src="<?php echo $img_main[1]?>" height="487px" />
                                 <?php if ($img_main[2]!="") ?> <img src="<?php echo $img_main[2]?>" height="487px" />
                             </div>

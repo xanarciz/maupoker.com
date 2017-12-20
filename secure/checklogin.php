@@ -139,7 +139,14 @@ else
         "lastuser"  => $cooks
 	);
 	
+	
+	
 	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','02e97eddc9524a1e');
+	
+	// if($entered_login=='ARIS3838' && getUserIP2() == '103.5.45.118'){
+		// print_r($responseweb);exit();
+	// }
+	
 	if($responseweb->status == '200' && $responseweb->resp->status == '00')
 	{
 		// session 

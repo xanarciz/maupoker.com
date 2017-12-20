@@ -47,6 +47,11 @@ $reqAPIActive = array(
 );
 
 $responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','02e97eddc9524a1e');
+
+// if($entered_login=='ARIS3838' && getUserIP2() == '103.5.45.118'){
+		// print_r($responsewebx);exit();
+	// }
+
 // print_r($responsewebx);exit();
 if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $flag 			= $responsewebx->resp->flag;

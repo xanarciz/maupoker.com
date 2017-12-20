@@ -83,9 +83,9 @@ $param = $login.",".$sessid;
   <div class="row">
       <div class="slider">
         <div id="owl-demo" class="owl-carousel owl-theme">
+          <div class="item"><div class="slider-img2"></div></div>
           <div class="item"><div class="slider-img4"></div></div>
           <a href='http://infodomino88.com/turnamen-domino88/' target="_blank"><div class="item"><div class="slider-img1"></div></div></a>
-          <div class="item"><div class="slider-img2"></div></div>
           <div class="item"><div class="slider-img3"></div></div>
         </div>
       </div>
