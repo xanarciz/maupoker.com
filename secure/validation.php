@@ -76,7 +76,7 @@ if ($_POST["input_pin"]){
 		<div class="sub-container">
 			<center>
 				<div class="main">
-					<div class="logo" style="margin: -195px 0 -10px 0;"><a href="index.php" style=""><img src="../assets/img/<?php echo $link_img;?>/logo.png"></a></div>
+					<div class="logo" style="margin: -160px 0 -10px 0;"><a href="index.php" style=""><img src="../assets/img/<?php echo $link_img;?>/logo.png"></a></div>
 					<div class="header">
 						<h1 class="title">Selamat datang, <?php echo $login;?></h1>
 					</div>
