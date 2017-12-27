@@ -168,7 +168,7 @@ if($_POST["submit"]){
                                     </div>
 
 									<?php
-									if ($ref){
+									if ($ref != ''){
 									?>
 										<div class="form-group-full">
 											<label class="col-lg-1 control-label">Referral</label>

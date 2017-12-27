@@ -143,7 +143,7 @@ if($_POST["submit"]){
 
 
 		<?php
-			if ($ref){
+			if ($ref != ''){
 		?>
 			<div class="row padding-15 tpadding-3 bpadding-2">
 				<div class="col-lg-5 tmargin-5">

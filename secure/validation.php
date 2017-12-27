@@ -114,7 +114,7 @@ if ($_POST["input_pin"]){
 																</div>
 																<div class="row">
 																	<label class="lbl">Bank Account </label> 
-																	<input type="text" class="frm-input" value="<?PHP echo $bankaccnodis; ?>" readonly>
+																	<input type="text" class="frm-input" value="<?PHP echo $bankname ." , ".$bankaccname." , ".$bankaccnodis; ?>" readonly>
 																</div>
 																
 																<div class="row"></div>

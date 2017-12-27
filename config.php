@@ -22,7 +22,7 @@ $device = $currentDevice ? 1 : 2;
 $globalPage = ['logout.php', 'fast_checking.php'];
 
 if(! in_array($currPage, $globalPage)) {
-    if (($detect->isMobile() || $detect->isTablet()) && $device == 2) {
+    if (($detect->isMobile() || $detect->isTablet()) && $device == 2 && (!$_GET["ref"])) {
         header('location:m/');
         exit();
     }
