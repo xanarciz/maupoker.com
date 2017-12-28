@@ -19,7 +19,8 @@ $reqAPILastOrder = array(
     "userid"    => $login,
 	"curr"      => $curr,
 	"bankgroup" => $bankgroup,
-	"minutes"   => 1
+	"minutes"   => 1,
+    "act"   	=> 1
 );
 $transaction = sendAPI($url_Api."/transaction",$reqAPILastOrder,'JSON','02e97eddc9524a1e');
 
