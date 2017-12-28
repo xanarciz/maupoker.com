@@ -27,7 +27,7 @@ else{
 }
 $lobby_dom = ($protocol=="http://")? "lobby5.lobbyplay.com" : "lobby6.lobbyplay.com";
 $url_lobby = $protocol.$lobby_dom;
-$url_Api = "http://core-api.devsuperteam.com/api/web";
+$url_Api = "http://coredev.devsuperteam.com/api/web";
 // $url_info = 'https://www.cemedomino88.net/memcacheAPI/';
 $url_info = 'https://www.cemedomino88.net/memcacheAPI/';
 $ToMenu = 0;
