@@ -36,13 +36,7 @@ if($status_bank == 0) {
 }
 
 $defaultOpen = 0;
-if ($xdeposit > 0) {
-	$firstdepo = 1;
-	$maxdepo = $transaction->minmaxDepo->max_depo;
-}else{
-	$firstdepo = 0;
-	$maxdepo = $transaction->first_max_depo;
-}
+$maxdepo = $transaction->minmaxDepo->max_depo;
 
 $uname = str_replace("''","*",$_POST["UName"]);
 $unameid = str_replace("''","*",$_POST["UNameid"]);

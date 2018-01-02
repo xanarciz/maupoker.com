@@ -112,7 +112,7 @@ if($_POST['submit']){
                                 <label class="col-lg-1 control-label">Nama Rekening Bank</label>
                                 <div class="col-lg-2">
                                     <div id="ceklis8" class="validx"></div>
-                                    <input type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" onkeyup="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');">
+                                    <input type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
                                 </div>
                             </div>
 

@@ -82,7 +82,7 @@ if($_POST['submit']){
             <div class="tpadding-10 lpadding-15 rpadding-15 row">
                 <div class="row">
                     <label class="tmargin-10 black">Nama Rekening</label>
-                    <input class="form-control bg-light-gray place-red" id="the_baname" type="text" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" placeholder="*Nama sesuai buku tabungan Anda" maxlength="50" onkeyup="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z ,.']/g,'');" required/>
+                    <input class="form-control bg-light-gray place-red" id="the_baname" type="text" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" placeholder="*Nama sesuai buku tabungan Anda" maxlength="50"  required/>
                 </div>
                 <div class="row">
                     <label class="tmargin-10 black">Nama Bank</label>
