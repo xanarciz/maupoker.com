@@ -1,5 +1,5 @@
 <?php
-$url = "https://www.domino88.asia/validation_authcode/";
+$url = "https://www.domino88.asia/validation_authcode/index.php";
 //setting the curl parameters.
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);

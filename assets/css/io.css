@@ -398,8 +398,7 @@ td{
 
 #header-if{
     width: 100%;
-    height: 125px;
-     background: #003e51 url(../img/io/header-bg.jpg);    
+    height: 125px;  
 }
 
 /**** Header ****/
@@ -542,7 +541,7 @@ div.logo a:hover, div.logo a:focus {
 .image-wrapper{
     width: 100%;
     height: 593px;
-    background: #409ebf url(../img/io/bg-.png);
+    /* background: #409ebf url(../img/io/bg-.png); */
 }
 
 #big-image{
