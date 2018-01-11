@@ -285,6 +285,7 @@ if($login) {
 							</p>
 						</div>	
 					</div>
+					<p class="dark-gray fs-11 tmargin-5" style="border:none;">*Jadwal bank di atas tidak mengikat harap bertanya kepada kami bila ada pertanyaan mengenai transaksi deposit dan withdraw anda</p>
 				</div>
 
 	        </div>
@@ -423,6 +424,7 @@ if($login) {
 					</p>
 				</div>	
 			</div>
+			<p class="dark-gray fs-11 tmargin-5" style="border:none;">*Jadwal bank di atas tidak mengikat harap bertanya kepada kami bila ada pertanyaan mengenai transaksi deposit dan withdraw anda</p>
 		</div>
 
 

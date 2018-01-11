@@ -198,7 +198,6 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
         } else {
             $response = $respon;
         }
-		
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);
