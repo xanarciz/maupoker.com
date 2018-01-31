@@ -89,7 +89,7 @@ if ($_SESSION["login"] && $message == "") {
 
         <!-- Stylesheet -->
         <link rel="stylesheet" href="assets/css/normalize.css">
-    	<link rel="stylesheet" href="assets/css/main.css">
+    	<link rel="stylesheet" href="assets/css/main.css?v=3.8">
         <link rel="stylesheet" href="assets/css/<?php echo $link_img;?>.css?id=<?PHP echo time();?>">
 
         <!-- Jquery -->
@@ -435,7 +435,6 @@ function check(field) {
 		}
 }
 //-->
-function got_todfx(parameter){ var idspx = document.getElementById('usrid').innerHTML; window.open('https://dewafortune.com/auth/special_entrance.php?user='+idspx+'&acc_token=9a7e8111d09b65e038de0444e96b5a8c&c='+parameter, 'formpopup', 'width=1280,height=700,directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no'); };
 </SCRIPT>
 
     </head>

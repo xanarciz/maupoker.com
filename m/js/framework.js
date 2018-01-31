@@ -4,7 +4,7 @@ $(document).ready(function(){
 	
 	//Go up
 	
-	$('.group-footer').click(function() {
+	$('.goup-footer').click(function() {
 		$('body,html').animate({
 			scrollTop:0
 		}, 800, 'easeOutExpo');
@@ -51,16 +51,16 @@ $(document).ready(function(){
 	$('.tab-but-1').click(function(){
 		$('.tab-but').removeClass('tab-active');
 		$('.tab-but-1').addClass('tab-active');
-		$('.tab-content').hide();
-		$('.tab-content-1').show();	
+		$('.tab-content').hide(100);
+		$('.tab-content-1').show(100);	
 		return false;	
 	});
 	
 	$('.tab-but-2').click(function(){
 		$('.tab-but').removeClass('tab-active');
 		$('.tab-but-2').addClass('tab-active');
-		$('.tab-content').hide();
-		$('.tab-content-2').show();
+		$('.tab-content').hide(100);
+		$('.tab-content-2').show(100);
 		return false;		
 	});	
 	
@@ -89,31 +89,10 @@ $(document).ready(function(){
 	});	
 	
 	//Toggles
-	$('.deploy-toggle-1').find('span').addClass('dropdown-sign');
-	// $('.deploy-toggle-1').click(function(){
-	// 	$(this).parent().find('.toggle-content').toggle(100);
-	// 	$(this).toggleClass('toggle-1-active');
-	// 	$(this).find('span').addClass('dropup-sign');
-	// 	return false;
-	// });
-	var i = 0;
+	
 	$('.deploy-toggle-1').click(function(){
-
 		$(this).parent().find('.toggle-content').toggle(100);
 		$(this).toggleClass('toggle-1-active');
-		
-		if(i%2==0)
-		{
-			$(this).find('span').addClass('dropup-sign');
-			$(this).find('span').removeClass('dropdown-sign');
-		}
-		else
-		{
-			$(this).find('span').addClass('dropdown-sign');
-			$(this).find('span').removeClass('dropup-sign');
-		}
-		
-		i++;
 		return false;
 	});
 	

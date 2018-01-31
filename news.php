@@ -8,7 +8,7 @@ include("header.php");
 
                     <div class="clear space_30"></div>
 
-                    <div class="wrap">
+                    <div class="wrap" style="height: 100%; overflow-y: scroll;">
                         <div class="full">
                             <div class="head-wrap">
                                 <h1>Pengumuman</h1>
@@ -38,3 +38,20 @@ include("header.php");
 <?php
 include("footer.php");
 ?>
+
+<style type="text/css">
+.wrap::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.wrap::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+.wrap::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: white;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+</style>

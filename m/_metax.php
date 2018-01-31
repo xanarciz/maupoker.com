@@ -2,8 +2,6 @@
 
 <html lang="en">
 <head>
-
-
 <?php
 if($page == 'home'){
 	$_SESSION['login'] = "";
@@ -34,10 +32,6 @@ if ($message != ""){
 if ($_SESSION["login"] && $message == "") {
 	$requiredUserLevel = array('U');
 	$login=$_SESSION["login"];
-	if($subwebid=='9002') {$cd='RP'; $cdFrLuck = 'RM';}
-	if($subwebid=='9001') {$cd='KP'; $cdFrLuck = 'KP';}
-	if($subwebid=='172') {$cd='DA'; $cdFrLuck = 'DM';}
-	if($subwebid=='42') {$cd='PKR'; $cdFrLuck = '';}
 	if ($_POST['entered_login'] && $_POST['entered_password']) {
 		header("location:login.php");
 		die();
@@ -50,36 +44,46 @@ if ($_SESSION["login"] && $message == "") {
 
 ?>
 
-
-<link href="css/<?PHP echo $link_img;?>/style.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
-<link href="css/<?PHP echo $link_img;?>/framework.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
-<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">	
-<link href="css/animate.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="assets/owl-carousel/owl.carousel.css" />
-<link href="assets/jquery-ui-1.9.2.custom/css/custom-theme/<?PHP echo $link_img;?>/jquery-ui-1.9.2.custom.css" rel="stylesheet">
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Mobile Poker">
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="img/<?PHP echo $link_img;?>/favicon.ico" />
-<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/img/<?php echo $link_img;?>/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-startup-image" href="img/splash/splash-screen.png" media="screen and (max-device-width: 320px)" />
+<link rel="apple-touch-startup-image" href="img/splash/splash-screen_2x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
+<link rel="apple-touch-startup-image" sizes="640x1096" href="img/splash/splash-screen_3x.png" />
+<link rel="apple-touch-startup-image" sizes="1024x748" href="img/splash/splash-screen-ipad-landscape.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+<link rel="apple-touch-startup-image" sizes="768x1004" href="img/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+<link rel="apple-touch-startup-image" sizes="1536x2008" href="img/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"/>
+<link rel="apple-touch-startup-image" sizes="1496x2048" href="img/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px) and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
 
+<title>Mobile Poker</title>
 
-<!-- JQUERY -->
+<link rel="shortcut icon" href="../assets/img/<?php echo $link_img;?>/favicon.ico" />
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/framework.css" rel="stylesheet" type="text/css">
+<link href="css/owl.carousel.css" rel="stylesheet" type="text/css">
+<link href="css/owl.theme.css" rel="stylesheet" type="text/css">
+<link href="css/swipebox.css" rel="stylesheet" type="text/css">
+<link href="css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="css/li-scroller.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript" src="js/jquery.js"></script>
-<script src="assets/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.js"></script>
-<!-- SLIDER -->
-<script type="text/javascript" src="assets/owl-carousel/owl.carousel.min.js"></script>
-<!-- SIDEBAR -->
+<script type="text/javascript" src="js/jqueryui.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="js/jquery.colorbox.js"></script>
 <script type="text/javascript" src="js/snap.js"></script>
-<!-- MOBILE UI -->
-<script type="text/javascript" src="js/framework.js"></script>
-<!-- CUSTOM JS -->
+<script type="text/javascript" src="js/contact.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
-<!-- SMART BANNER JS -->
-<script type="text/javascript" src="js/smart-banner.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/framework.js"></script>
+<script type="text/javascript" src="js/framework.launcher.js"></script>
+<script type="text/javascript" src="js/jquery.form.2.93.js"></script>
+<script type="text/javascript" src="js/jquery.maskedinput-1.3.min.js"></script>
+<script type="text/javascript" src="js/framework.launcher.js"></script>
 
 <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -204,42 +208,6 @@ if (!file_exists($img)){
 	$img = "../../Avatar/default.jpg";
 }
 $dt = date("Y m d H:i:s");
-
-// if(!$login){
-// 	include_once("../geoiploc.php");
-// 	$block_list = array('PH','SG');
-// 	$white_list = array('203.160.173.203','146.88.66.250','180.232.84.234','180.232.84.235');
-
-// 	if(in_array($code, $block_list)){
-// 		if(!in_array($ip, $white_list)){
-// 		    echo "<script>window.location= '../restrict.php' ; </script>";
-// 		    exit("Page not found");
-// 		}
-// 	}
-// }
 ?>
-<title> Domino88 mobile | website taruhan judi online pecinta domino INDONESIA </title>
-<meta name="description" content="Domino88 tempat bermain judi online, pecinta judi online dan merupakan website paling trend di kalangan masyarakat indonesia ">
-<meta name=""keywords" content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88">
-<meta name="copyright" content="www.logindm88.com">
-<meta name="geo.placename" content="Jakarta">
-<meta name="geo.region" content="ID-JK">
-<meta name="geo.country" content="ID">
-<meta name="language" content="ID">
-<meta name="tgn.nation" content="Indonesia">
-<meta name="rating" content="general">
-<meta name="distribution" content="global">
-<meta name="author" content="www.logindm88.com/">
-<meta name="publisher" content="www.logindm88.com">
-<meta name="copyright" content="copyright@ 2017 www.logindm88.com">
-<meta content="Jhon poker" name="DC.Creator">
-<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="ind" name="DC.Title">
-<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="ind" name="DC.Subject">
-<meta content="domino88, domino88 versi mobile, download aplikasi domino88, game online mobile domino88, domino88 versi hadphone, judi mobile domino88" lang="en" name="DC.Description">
-<meta content="2017-06-06" name="DC.Date.LastModified" scheme="ISO 31-1">
-<meta content="http://logindm88.com" name="DC.Identifier">
-<meta content="domino88 | domino88 versi mobile | download aplikasi domino88 | game online mobile domino88 | domino88 versi hadphone | judi mobile domino88" name="DC.Publisher">
-<meta content="ind" name="DC.Language" scheme="ISO639-2">
-<meta content="http://logindm88.com" name="DC.Relation.IsPartOf">
-<meta content="http://logindm88.com" name="DC.Rights">
+
 </head>

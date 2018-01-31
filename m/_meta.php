@@ -2,15 +2,13 @@
 
 <html lang="en">
 <head>
-
-
 <?php
 $login = $_SESSION["login"];
 $frontSec = "../";
 include ("../config.php");
 
 if ($login){
-    include($cfgSecDir."secure.php");
+    include("secure.php");
 
 	if ($_SESSION["login"] && $message == "") {
 		$requiredUserLevel = array('U');
@@ -39,34 +37,47 @@ if($_GET["action"]=="logout"){
 	}
 ?>
 
-<link href="css/<?PHP echo $link_img;?>/style.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
-<link href="css/<?PHP echo $link_img;?>/framework.css?id=<?PHP echo time(); ?>" rel="stylesheet" type="text/css">
-<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">	
-<link href="css/animate.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="assets/owl-carousel/owl.carousel.css" />
-<link href="assets/jquery-ui-1.9.2.custom/css/custom-theme/<?PHP echo $link_img;?>/jquery-ui-1.9.2.custom.css" rel="stylesheet">
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Mobile Poker">
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="img/<?PHP echo $link_img;?>/favicon.ico" />
-<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/img/<?php echo $link_img;?>/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-startup-image" href="img/splash/splash-screen.png" media="screen and (max-device-width: 320px)" />
+<link rel="apple-touch-startup-image" href="img/splash/splash-screen_2x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
+<link rel="apple-touch-startup-image" sizes="640x1096" href="img/splash/splash-screen_3x.png" />
+<link rel="apple-touch-startup-image" sizes="1024x748" href="img/splash/splash-screen-ipad-landscape.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : landscape)" />
+<link rel="apple-touch-startup-image" sizes="768x1004" href="img/splash/splash-screen-ipad-portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)" />
+<link rel="apple-touch-startup-image" sizes="1536x2008" href="img/splash/splash-screen-ipad-portrait-retina.png" media="(device-width: 768px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"/>
+<link rel="apple-touch-startup-image" sizes="1496x2048" href="img/splash/splash-screen-ipad-landscape-retina.png" media="(device-width: 768px) and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
 
-<!-- JQUERY -->
+<title>Mobile Poker</title>
+
+<link rel="shortcut icon" href="img/<?php echo $link_img;?>/favicon.ico" />
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/framework.css" rel="stylesheet" type="text/css">
+<link href="css/owl.carousel.css" rel="stylesheet" type="text/css">
+<link href="css/owl.theme.css" rel="stylesheet" type="text/css">
+<link href="css/swipebox.css" rel="stylesheet" type="text/css">
+<link href="css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="css/li-scroller.css" rel="stylesheet" type="text/css" />
+
 <script type="text/javascript" src="js/jquery.js"></script>
-<script src="assets/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.js"></script>
-<!-- SLIDER -->
-<script type="text/javascript" src="assets/owl-carousel/owl.carousel.min.js"></script>
-<!-- SIDEBAR -->
+<script type="text/javascript" src="js/jqueryui.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="js/jquery.colorbox.js"></script>
 <script type="text/javascript" src="js/snap.js"></script>
-<!-- MOBILE UI -->
-<script type="text/javascript" src="js/framework.js"></script>
-<!-- CUSTOM JS -->
+<script type="text/javascript" src="js/contact.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
-<!-- SMART BANNER JS -->
-<script type="text/javascript" src="js/smart-banner.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/framework.js"></script>
+<script type="text/javascript" src="js/framework.launcher.js"></script>
+<script type="text/javascript" src="js/jquery.form.2.93.js"></script>
+<script type="text/javascript" src="js/jquery.maskedinput-1.3.min.js"></script>
+<script type="text/javascript" src="js/framework.launcher.js"></script>
 
 <script type="text/javascript">
     var _gaq = _gaq || [];

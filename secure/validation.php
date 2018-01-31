@@ -62,184 +62,144 @@ if ($_POST["input_pin"]){
 <html>
 <head>
 	<title>WELCOME</title>
-	<link rel="stylesheet" href="assets/css/validation.css?id=<?PHP echo time(); ?>">
-	<link href="assets/js/jquery.keypad/jquery.keypad.css" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-	
-	<script src="assets/js/jquery_min.js"></script>
-	<script src="assets/js/jquery.keypad/jquery.plugin.js"></script>
-	<script src="assets/js/jquery.keypad/jquery.keypad.js"></script>
 </head>
-
+<link rel="stylesheet" href="assets/css/<?php echo $link_img;?>.css?id=<?php echo time(); ?>">
+<link rel="stylesheet" href="universal/keypad-new.css?id=<?php echo time(); ?>">
+<link href="universal/jquery.keypad/jquery.keypad.css?id=<?php echo time(); ?>" rel="stylesheet">
+<script src="assets/js/jquery_min.js"></script>
+<script src="universal/jquery.keypad/jquery.plugin.js"></script>
+<script src="universal/jquery.keypad/jquery.keypad.js?id=<?php echo time(); ?>"></script>
 <body>
-	<div class="container">
-		<div class="sub-container">
-			<center>
-				<div class="main">
-					<div class="logo" style="margin: -160px 0 -10px 0;"><a href="index.php" style=""><img src="../assets/img/<?php echo $link_img;?>/logo.png"></a></div>
-					<div class="header">
-						<h1 class="title">Selamat datang, <?php echo $login;?></h1>
-					</div>
-					<div class="content">
-						<div class="sub-content">
-							<table width="600">
-								<tr>
-									<td colspan=2 align="center">
-										
-										<?php 
-											if($pin_pembukax!=''){
-												if($status_bank == '1') {
+
+	<?php
+	$agent = $_SERVER['HTTP_USER_AGENT'];
+	if (strlen(strstr($agent, 'Firefox')) > 0) {
+	?>
+		<style>
+			.pin{
+				width: 350px !important;
+				font-size: 20px !important;
+				letter-spacing: 42px !important;
+			}
+		</style>
+	<?PHP
+	}
+	?>
+
+	<center>
+		<div class="logo" style=" width: 336px;  height: 84px;   display: block;   margin: 15px 0;   background: url(../img/<?php echo $link_img;?>/imgAll.png) 0px 0px no-repeat;"><a href="index.php" style=""></a></div>
+		<br><br>
+		<div class="head-wrap">
+			<div class="welcome-pin">Selamat Datang, <?php echo $login;?></div>
+			<form method="post">
+				<div class="pincontainer">
+					<div class="pincontainer-left">
+						<table cellpadding=5 width="600" cellspacing=0>
+							<tr>
+								<td colspan=2 style=padding-top:25px;>
+									<?php if ($pin_pembukax){?>
+										<h1>VALIDASI KEAMANAN</h1>
+										<p>Untuk masuk ke halaman permainan, masukan 6-digit PIN anda menggunakan <br> tombol nomor di samping, demi kemanan akun ID anda.</p>
+										<?php
+										if ($error){
+											echo "<div style='font-family:verdana;color:#aa0000;font-size:16px;padding-bottom:7px;'><b>$error</b	></div>";
+										}
 										?>
-													<style>													
-														.valpin, .openpin{
-															display: none;
-														}
-													</style>
-													
-													<div class="valbank">
-														<h1>VALIDASI KEAMANAN</h1>
-														<p style="font-size:13px;">Bertujuan untuk meningkatkan keamanan dan kenyamanan bisnis Anda.</p>
-														<div class="user-box">
-															<p>Harap <b>periksa data pribadi</b> terlebih dahulu sebelum memasukan PIN :</p>
-															<div class="user-detail">
-																<div class="row"></div>
-																
-																<div class="row">
-																	<label class="lbl">User name </label> 
-																	<input type="text" class="frm-input" value="<?PHP echo $user_login; ?>" readonly>
-																</div>
-																<div class="row">
-																	<label class="lbl">Nick name </label> 
-																	<input type="text" class="frm-input" value="<?PHP echo $login; ?>" readonly>
-																</div>
-																<div class="row">
-																	<label class="lbl">Bank Account </label> 
-																	<input type="text" class="frm-input" value="<?PHP echo $bankname ." , ".$bankaccname." , ".$bankaccnodis; ?>" readonly>
-																</div>
-																
-																<div class="row"></div>
-															</div>
-														</div>
-													</div>
-													
-										<?PHP } ?>
-										
-											<div class="valpin">
-												<h1>VALIDASI KEAMANAN</h1>
-												<p style="font-size:13px;">Bertujuan untuk meningkatkan keamanan dan kenyamanan bisnis Anda.</p>
-												<div class="newval-box">
-													<div>
-														<img src="../assets/img/<?php echo $link_img;?>/inputpinlimit.png">
-														<p>User ID akan di blokir, <br> jika mengalami <br> kesalahan 5X.</p>
-													</div>
-													<div>
-														<img src="../assets/img/<?php echo $link_img;?>/csval.png">
-														<p>Jika Anda lupa PIN, <br> silahkan klik hubungi <br> operator kami. </p>
-													</div>
-													<div>
-														<img src="../assets/img/<?php echo $link_img;?>/randompin.png" style="margin-left: 20px;">
-														<p>Tombol dibuat secara acak, <br> mohon perhatikan angka <br> yang Anda input.</p>
-													</div>
-												</div>
-											</div>
-										
-											<?php
-												if ($error){
-													echo "<div class='error'><b>$error</b></div>";
-												}
-											?>
+										<div class="pin-container">
+											<input type="password" name="pin" id="pin" class="pin" maxlength="6" autocomplete="off" valign="bottom" autofocus>
+											<div class="btn-delete">&nbsp;X</div>
+										</div>
+										<ul>
+											<li>Jika 5x salah memasukan PIN, user ID anda akan terblokir</li>
+											<li>Jika anda lupa PIN, harap logout dan silahkan menghubungi kami</li>
+											<li>Tombol nomor disamping adalah acak, harap perhatikan angka yang di input </li>
+											<li>Dengan menekan tombol Submit, Anda telah membaca dan setuju dengan</li>
+											<a href="#" id="term">Syarat & Ketentuan</a>
+										</ul>
+									<?php }else{?>
+									<h1>MASUKAN 6 DIGIT PIN BARU ANDA</h1>
+									<h4>Sistem ini untuk meningkatkan <b>KEAMANAN</b> dan <b>KENYAMANAN</b> bermain anda.</h4>
+									<br>
+									<div class="pin-container">
+										<input type="password" name="pin" id="pin" class="pin" maxlength="6" autocomplete="off" valign="bottom" autofocus>
+										<div class="btn-delete">&nbsp;X</div>
+									</div>
 
-										<?php }else{ ?>
+									<br><br>
 
-											<h1>MASUKAN 6 DIGIT PIN BARU ANDA</h1>
-											<p>Sistem ini untuk meningkatkan <b>KEAMANAN</b> dan <b>KENYAMANAN</b> bermain anda.</p>
+									<?php
+										if ($error){
+											echo "<div style='font-family:verdana;color:#aa0000;font-size:16px;padding-bottom:7px;'><b>$error</b></div>";
+										}
+										?>
 
-											<?php
-												if ($error){
-													echo "<div class='error'><b>$error</b></div>";
-												}
-											?>
+									<ul>
+										<li>TOMBOL DIBAWAH ADALAH ACAK, HARAP PERHATIKAN ANGKA YANG ANDA INPUT</li>
+										<li>PIN INI AKAN DIGUNAKAN SETIAP ANDA MASUK KEDALAM GAME</li>
+										<li>Masukan <B style="">PIN BARU</B> anda (Hanya Berlaku 1 x)</li>
+									</ul>
 
-											
-											<ul>
-												<li><b>TOMBOL DIBAWAH ADALAH ACAK, HARAP PERHATIKAN ANGKA YANG ANDA INPUT</b></li>
-												<li><b>PIN INI AKAN DIGUNAKAN SETIAP ANDA MASUK KEDALAM GAME</b></li>
-											</ul>
-											
-										<?php } ?>
-									
+									<?php
+										}
+									?>
 								</td>
 							</tr>
 						</table>
 					</div>
-					
-					<div class="pin-container">
-						<?php 
-							if($pin_pembukax!=''){
-								if($status_bank == '1') {
-						?>
-								
-									<div class="btnbank">
-										<div class="caution"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> CEK & PASTIKAN DATA ANDA BENAR! <i class="fa fa-exclamation-triangle" aria-hidden="true"></i></div>
-										<form method="post">
-											<div class="row">
-												<button name="next" class="btn-red next">Lanjutkan</button> &nbsp;
-												<input type="submit" name="logout" value="Salah" class="btn-gray btn-wrong"><i class="fa fa-minus-circle wrong" aria-hidden="true"></i>
-											</div>
-											<!-- <div class="note">
-												<i class="fa fa-caret-left" aria-hidden="true"></i> 
-												<p>Klik jIka data tidak sesuai, <br> dan Anda akan di arahkan <br> ke Operator kami.</p>
-											</div> -->
-										</form>
-									</div>
-								
-						<?PHP 	} ?>
-							
-							<div class="openpin">
-								<h4>Masukan 6 DIGIT PIN Anda</h4>
-								<form method="post">
-									<input type="password" name="pin" id="pin" class="pin" maxlength="6" autocomplete="off" valign="bottom" autofocus> &nbsp;&nbsp;&nbsp; 
-									<input type="submit" name="input_pin" value="Submit" class="btn-red">
-									<input type="submit" name="logout" value="Logout" class="btn-gray">
-								</form>
-								<p>Lupa PIN? Hubungi Operator kami.</p>
-							</div>
-							
-						<?PHP }else{ ?>
-						
-							<h4>Masukan PIN BARU Anda (Hanya Berlaku 1x)</h4>
-							<form method="post">
-								<table>
-									<tr>
-										<td><p><input type="password" name="pin" id="pin" class="pin" maxlength="6" autocomplete="off" valign="bottom" autofocus>&nbsp;&nbsp;
-										<input type="submit" name="submit_data" value="Submit" class="btn-red"></p>
-										</td>
-									</tr>
-								</table>
-							</form>
-						<?PHP } ?>
-					</div>
+					<div class="pincontainer-right"></div>
 				</div>
-			</div>
-		</center>
-	</div>
-</div>
-</body>
-<script type="text/javascript">
+				<div class="pincontainer-bottom">
+					<?php if ($pin_pembukax){?>
+						<input type="submit" name="input_pin" value="Submit" class="keypad-key btn-login">
+						<input type="submit" name="logout" value="Logout" class="keypad-key btn-logout">
+					<?PHP }else{ ?>
+						<input type="submit" name="submit_data" value="Submit" class="keypad-key btn-login">
+					<?PHP } ?>
+				</div>
+			</form>
+		</div>
+	</center>
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+		<div class='modal-header'><div class="close">&times;</div></div>
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<p><?PHP include('universal/terms.php'); ?></p>
+	  </div>
 
+	</div>
+</body>
+
+<script type="text/javascript">
+	$('.btn-delete').click(function(){
+		$('.pin').val(
+			function(index, value){
+				return value.substr(0, value.length - 1);
+		})
+	});
 	$(function () {
 		$('#pin').keypad({showOn: 'both', randomiseNumeric: true});
+		$(document).on('click', '.keypad-key', function(){
+			$('#pin').val().length == $('#pin').attr('maxlength') ? $('#pin').blur() : $('#pin').focus();
+		});
 	});
-	
-	$('.next').click(function(e){
-		e.preventDefault();
-		
-		$('.valbank').css('display', 'none');
-		$('.btnbank').css('display', 'none');
-		
-		$('.valpin').css('display', 'block');
-		$('.openpin').css('display', 'block');
-	});
+	var modal = document.getElementById('myModal');
+	var btn = document.getElementById("term");
+	var span = document.getElementsByClassName("close")[0];
+
+	btn.onclick = function() {
+		modal.style.display = "block";
+	}
+
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
 </script>
 
 <?php exit(); ?>

@@ -26,9 +26,6 @@ if($countmemo > 0){
 }else{
     $add="";
 }
-include 'dewafortune/dewafortune.php';
-
-$tiket = getTicket();
 
 $sid = $sessid;
 // echo "<script>console.log('".$sid."');</script>";
@@ -132,27 +129,6 @@ $param = $_SESSION['login'].",".$sid;
     <![endif]-->
     <!-- Content -->
 
-    <div id="contact-panel" class="quickAccess_holder left light">
-        <ul>
-            <?php
-            foreach ($infoweb['contact_agent'] as $contact => $value) {
-                if($value != ''){
-                    switch ($contact){
-                        case 'yahoo': $href = 'ymsgr:sendIM?'.$value; break;
-                        case 'skype': $href = 'skype:'.$value; break;
-                        case 'facebook': $href = 'https://www.facebook.com/'.$value; break;
-                        case 'twitter': $href = 'https://twitter.com/'.$value; break;
-                        default: $href = 'javascript:void(0);'; break;
-                    }
-
-                ?>
-                    <li><a href="<?php  echo $href; ?>" class="quickAccess-varia_<?php echo $contact;?>"><?php echo $value; ?></a></li>
-                <?php
-                }
-            }
-            ?>
-        </ul>
-    </div>
     <script type="text/javascript">
         jQuery(document).ready(function() {
             var qaccess = jQuery('#contact-panel').quickAccess({
@@ -176,42 +152,9 @@ $param = $_SESSION['login'].",".$sid;
 
         });
     </script>
-    <?php
-    if($infoweb['bank_Active'] == 1){
-    ?>
-        <style>
-            .v88{
-                float: right;
-                width: 170px;
-                height: 70px;
-
-                background: url(assets/images/v88.png) 0px 0px no-repeat;
-            }
-        </style>
-        <div class="bank-panel right">
-            <ul>
-                <?php
-                foreach ($infoweb['bankList'] as $bank){
-                    $statusBnk = $bank['statAgent'] == 1 ? 'online' : 'offline';
-                    echo "<li>
-                            <div class='panel-black'>
-                                <div class='" . $statusBnk . "'></div>
-                                <div class='".strtolower($bank['bank'])."'></div>
-                            </div>
-                          </li>";
-                }
-                ?>
-            </ul>
-            <div class=''>
-                <div class='v88'></div>
-            </div>
-        </div>
-    <?php
-    }
-    ?>
 
     <div align="center">
-        <div <?PHP if($login){ echo "id='header'"; }else{ echo "id='header-if'"; }?>>
+        <div id="header">
             <link rel="stylesheet" type="text/css" href="assets/js/vkeyboard/jquery.keypad.big.css">
             <script language="JavaScript" src="assets/js/vkeyboard/jquery.keypadlogin.js"></script>
             <script language="JavaScript" src="assets/js/vkeyboard/jquery.keypad-id.js"></script>
@@ -238,7 +181,7 @@ $param = $_SESSION['login'].",".$sid;
             </script>
 
             <div class="container">
-                <div <?PHP if($login){ echo "class='logo'"; }else{ echo "class='logo-if'"; }?>><a href="index.php"></a></div>
+                <div class='logo'><a href="index.php"></a></div>
                 <?php
                 if (!$_SESSION["login"]){
                 ?>
@@ -255,64 +198,18 @@ $param = $_SESSION['login'].",".$sid;
                         <div class="form-group">
                             <img src="captcha/captcha-login.php?.png" alt="VALIDATION" title="VALIDATION" class="form-captcha"/>
                         </div>
+                        <div style=position:fixed;z-index:1000;top:0px;padding-left:480px;>
+                            <a href="#" onclick="window.open('http://form.6mbr.com/?webname=<?php echo $nonWWW; ?>&lang=id','kritik_saran', 'width=600, height=1000');">
+                                <img src="assets/images/feedback.png" width=115px;>
+                            </a>
+                        </div>
 
                         <button type="submit" class="btn btn-login" tabindex="4">LOGIN</button>
                     </form>
                     <?php if ($register==1){ ?><div class="forget-password"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
                 <?php
                 }else{
-                    if($subwebid=='9002' || $subwebid=='9001' || $subwebid=='172' || $subwebid=='42'){
-                        if($subwebid=='9002') {$k88id='1008'; }
-                        if($subwebid=='9001') {$k88id='1007'; }
-                        if($subwebid=='172') {$k88id='1009'; }
-                        if($subwebid=='42') {$k88id='1010'; }
-                        if($cdFrLuck != ''){
-                ?>
-                            <div style="position:absolute;margin-left:380px;margin-top:30px;">
-                                <a href="#"  onclick="window.open('dewafortune/dewafortune.php?f=val_access&p=<?PHP echo rawurlencode(base64_encode($param)); ?>&data=<?php echo rawurlencode(base64_encode("https://dewafortune.com/auth/login_defor.php?userid=".$_SESSION['login']."&sessid=".$sid."&access_token=9a7e8111d09b65e038de0444e96b5a8c"));?>','name','width=1280,height=700')">
-                                    <img src="assets/img/io/chips-gratis.gif" />
-                                    <?PHP if($tiket != "0"){ ?>
-                                        <p class="spin" align="center"><?PHP echo $tiket;?></p>
-                                    <?PHP } ?>
-                                </a>
-                            </div>
-                        <?php
-                        }
-                        ?>
-                        <div class="user-panel" style="max-width: none;min-width:350px; ">
-                            <div class="box box2">
-                                <div class="box-inner">
-                                    <div class="avatar-medium">
-                                        <?php
-                                        $myDir = substr($login,0,1);
-                                        $img_avatar = $path."/avatar/".$myDir."/".$login.".jpg?".date("is");
-                                        ?>
-                                        <div class="avatar-medium-user" style="background: url(<?php echo $img_avatar;?>) no-repeat;background-size:63px;"></div>
-                                    </div>
-
-                                    <div class="user-info" style="max-width:325px;">
-                                        <div style="margin-top:-8px;"><span class="user-text"><?php echo P_WELCOME;?>,</span></div>
-                                        <div class="clear"></div>
-                                        <span class="user-name"><?php echo $user_login;?></span>
-                                        <div style="margin-top:-8px;"><span class="" style=font-size:12px>( Nickname : <span id='usrid' style='float:none'><?php echo $login;?></span> )</span></div>
-                                        <div class="clear"></div>
-                                        <span class="user-chips">CHIPS: <?php echo floor($coin);?></span>
-                                        <span class="user-chips" style="margin-left: 10px;">POIN: <?php echo number_format($poin);?></span>
-                                        <span style="position: absolute;top:10px;margin-left: 170px;">
-                                        <?php if ($hispoin >= 1){ ?>
-                                            <a target="_blank" href="https://www.koin88.com/do-game-connect?id=<?php echo $k88id; ?>&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>" class="btn btn-login">Redeem Poin</a>
-                                        <?php }else{ ?>
-                                            <a target="_blank" href="https://www.koin88.com/do-game-connect?id=<?php echo $k88id; ?>&userid=<?php echo $user_login ?>&authcode=<?php echo $authcode;?>" class="btn btn-login">Aktivasi</a>
-                                        <?php } ?>
-                                        </span>
-                                    </div>
-
-                                    <div class="clear"></div>
-                                </div>
-                            </div>
-                        </div>
-                <?php
-                    }else{
+                   
                 ?>
                         <div class="user-panel">
                             <div class="box box2">
@@ -339,7 +236,6 @@ $param = $_SESSION['login'].",".$sid;
                             </div>
                         </div>
                 <?php
-                    }
                 }
                 ?>
             </div>
@@ -351,7 +247,7 @@ $param = $_SESSION['login'].",".$sid;
                     <?php
                     //active new lobby (true = redirect to new lobby, false = redirect to old lobby)
                     // include("myaes.php");
-					$pkey = '02e97eddc9524a1e';
+					/* $pkey = '02e97eddc9524a1e';
 					$myaes = new myaes();
 					$myaes->setPrivate($pkey);
 					$pin = $_SESSION["pin"];
@@ -359,11 +255,11 @@ $param = $_SESSION['login'].",".$sid;
 					$encvalue = $myaes->getEnc($valuex);
 					
 					$url_lobby = $url_lobby.'/lobby.php?vp='.rawurlencode($encvalue);
-
+ */
                     if ($register == 1){
                         if ($login){
                         ?>
-                            <li><a class="main2" href="<?php echo $url_lobby;?>"><?php echo P_LOBBY;?></a></li>
+                            <li><a class="main2" href="lobby.php"><?php echo P_LOBBY;?></a></li>
                             <li><a class="main2" href="profile.php"><?php echo P_PRF;?></a></li>
                             <li><a class="main2" href="deposit.php"><?php echo P_DEP;?></a></li>
                             <li><a class="main2" href="withdraw.php"><?php echo P_WIT;?></a></li>
@@ -374,18 +270,17 @@ $param = $_SESSION['login'].",".$sid;
                         <?php }else{ ?>
                             <li><a class="main1" href="index.php"><?php echo P_HOME;?></a></li>
                             <li><a class="main1 register" href="register.php"><?php echo P_REGISTER;?></a></li>
-                            <li><a class="main1" href="deposit.php"><?php echo P_DEP?></a></li>
-                            <li><a class="main1" href="withdraw.php"><?php echo P_WIT?></a></li>
+                            <li><a class="main1" href="javascript:uialert('<?php echo P_PLEASELOGINFORDEPOSIT; ?> !');"><?php echo P_DEP?></a></li>
+                            <li><a class="main1" href="javascript:uialert('<?php echo P_PLEASELOGINFORWITHDRAW; ?> !');"><?php echo P_WIT?></a></li>
                             <li><a class="main1" href="referral.php"><?php echo P_AREFCOM ?></a></li>
                             <li><a class="main1" href="jackpot.php"><?php echo P_JACKPOT?></a></li>
                             <li><a class="main1 android" href="mobile.php"><?php echo P_MOBILE;?></a></li>
-                            <li><a class="main1" href="promotion.php">PROMOSI</a></li>
                             <li><a class="main1" href="contact.php"><?php echo P_HELP ?></a></li>
                         <?php }
                     }else if ($register== 0){
                         if ($login){
                         ?>
-                            <li><a class="main2" href="<?php echo $url_lobby;?>"><?php echo P_LOBBY;?></a></li>
+                            <li><a class="main2" href="lobby.php"><?php echo P_LOBBY;?></a></li>
                             <li><a class="main4" href="profile.php"><?php echo P_PRF;?></a></li>
                             <li><a class="main4" href="deposit.php"><?php echo P_DEP;?></a></li>
                             <li><a class="main4" href="withdraw.php"><?php echo P_WIT;?></a></li>

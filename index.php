@@ -17,14 +17,13 @@ if ($_SESSION["login"]){
 }
 		if ($infoweb['banner_text']!=""){
 			?>
-			<div id='advertise' style='display:none;'><a href = "http://infodomino88.com/fitur-keamanan-terbaru/" target="_blank"><img src='<?php echo $infoweb['banner_text']; ?>'></a></div>
+			<div id='advertise' style='display:none;'><img src='<?php echo $infoweb['banner_text']; ?>'></div>
 			<a href="#advertise" class="popup_ads" id="popup_ads"></a>
 			<?php
 		}
 		?>
             <div id="content">
                 <div class="image-wrapper">
-				<script language='JavaScript' type='text/javascript' src='https://www.ads-link.net/mangga.php?id=159&ref_id=49'></script>
                     
 					<?php
                     $img_main = explode(';', $infoweb['img_main']);
@@ -32,7 +31,7 @@ if ($_SESSION["login"]){
 					?>
                         <div class="slider-wrapper theme-default">
                             <div id="slider" class="nivoSlider">
-                                <a href='promotion.php'><?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" /></a>
+                                <?php if ($img_main[0]!="") ?> <img src="<?php echo $img_main[0]?>" height="487px" />
                                 <?php if ($img_main[1]!="") ?> <img src="<?php echo $img_main[1]?>" height="487px" />
                                 <?php if ($img_main[2]!="") ?> <img src="<?php echo $img_main[2]?>" height="487px" />
                             </div>
@@ -122,135 +121,9 @@ if ($_SESSION["login"]){
                             </div>
                         </div>
                         <div id="latest">
-                            <div id="depo">
-                                <div class="box">
-                                    <div class="title"><?php echo ($register==2)?"5 Straight Flush":"5 Deposit Terakhir"?></div>
-                                    <div class="control">
-                                        <a id="depo-prev" href="javascript:void(0);"></a>
-                                        <a id="depo-next" href="javascript:void(0);"></a>
-                                    </div>
-                                    <hr/>
-                                    <div class="clear space_5"></div>
-                                    <div id="depo-pager">
-                                        <?php
-                                            if ($register == 2) {
-                                                if (count($infoweb['latestWinner']['POKER']['SF']) > 0) {
-                                                    foreach ($infoweb['latestWinner']['POKER']['SF'] as $sf) {
-                                                        $avDir = substr($sf["Userid"],0,1);
-                                                        $img_avatarhis = $path."/Avatar/".$avDir."/".$sf["Userid"].".jpg";
-                                                        echo '
-                                                            <div class="depo-item">
-                                                                <div class="avatar-small-default">
-                                                                    <div class="avatar-small" style="background: url(' . $img_avatarhis . ') no-repeat;background-size:100%;"></div>
-                                                                </div>
-                                                                <div class="depo-info">
-                                                                    <span class="depo-name">' . substr($sf['Userid'], 0, -2) . 'xx</span>
-                                                                    <div class="clear space_10"></div>
-                                                                    <span class="depo-amount">IDR ' . number_format($sf['Jackpot'],2) . '</span>
-                                                                    <span class="depo-status"></span>
-                                                                </div>
-                                                            </div>';
-                                                    }
-                                                }
-                                            }else {
-                                                if (count($infoweb['lastTransaction']['deposit']) > 0) {
-                                                    foreach ($infoweb['lastTransaction']['deposit'] as $depo) {
-                                                        $avDir = substr($depo["userid"], 0, 1);
-                                                        $img_avatarhis = $path . "/Avatar/" . $avDir . "/" . $depo["userid"] . ".jpg";
-                                                        echo '
-                                                            <div class="depo-item">
-                                                                <div class="avatar-small-default">
-                                                                    <div class="avatar-small" style="background: url(' . $img_avatarhis . ') no-repeat;background-size:100%;"></div>
-                                                                </div>
-                                                                <div class="depo-info">
-                                                                    <span class="depo-name">' . substr($depo['userid'], 0, -2) . 'xx</span>
-                                                                    <div class="clear space_10"></div>
-                                                                    <span class="depo-amount">IDR ' . number_format($depo['amount'], 2) . '</span>
-                                                                    <span class="depo-status">' . $depo['status'] . '</span>
-                                                                </div>
-                                                            </div>';
-                                                    }
-                                                }
-                                            }
-    									?>
-                                    </div>
-                                    <div class="clear space_5"></div>
-                                </div>
-                            </div>
-
-                            <div id="wd">
-                                <div class="box">
-                                    <div class="title"><?php echo ($register==2)?"5 Four Of A kind":"5 Witdraw Terakhir"?></div>
-
-                                    <div class="control">
-                                        <a id="wd-prev" href="javascript:void(0);"></a>
-                                        <a id="wd-next" href="javascript:void(0);"></a>
-                                    </div>
-                                    <hr />
-                                    <div class="clear space_5"></div>
-                                    <div id="wd-pager">
-                                        <?php
-                                        if ($register == 2) {
-                                            if (count($infoweb['latestWinner']['POKER']['FOK']) > 0) {
-                                                foreach ($infoweb['latestWinner']['POKER']['FOK'] as $sf) {
-                                                    $avDir = substr($sf["Userid"],0,1);
-                                                    $img_avatarhis = $path."/Avatar/".$avDir."/".$sf["Userid"].".jpg";
-                                                    echo '
-                                                            <div class="depo-item">
-                                                                <div class="avatar-small-default">
-                                                                    <div class="avatar-small" style="background: url(' . $img_avatarhis . ') no-repeat;background-size:100%;"></div>
-                                                                </div>
-                                                                <div class="depo-info">
-                                                                    <span class="depo-name">' . substr($sf['Userid'], 0, -2) . 'xx</span>
-                                                                    <div class="clear space_10"></div>
-                                                                    <span class="depo-amount">IDR ' . number_format($sf['Jackpot'],2) . '</span>
-                                                                    <span class="depo-status"></span>
-                                                                </div>
-                                                            </div>';
-                                                }
-                                            }
-                                        }else {
-                                            if (count($infoweb['lastTransaction']['withdraw']) > 0) {
-                                                foreach ($infoweb['lastTransaction']['withdraw'] as $depo) {
-                                                    $avDir = substr($depo["userid"], 0, 1);
-                                                    $img_avatarhis = $path . "/Avatar/" . $avDir . "/" . $depo["userid"] . ".jpg";
-                                                    echo '
-                                                            <div class="depo-item">
-                                                                <div class="avatar-small-default">
-                                                                    <div class="avatar-small" style="background: url(' . $img_avatarhis . ') no-repeat;background-size:100%;"></div>
-                                                                </div>
-                                                                <div class="depo-info">
-                                                                    <span class="depo-name">' . substr($depo['userid'], 0, -2) . 'xx</span>
-                                                                    <div class="clear space_10"></div>
-                                                                    <span class="depo-amount">IDR ' . number_format($depo['amount'], 2) . '</span>
-                                                                    <span class="depo-status">' . $depo['status'] . '</span>
-                                                                </div>
-                                                            </div>';
-                                                }
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="clear space_5"></div>
-                                </div>
-                            </div>
-
-                            <script language="JavaScript" type="text/javascript">
-    							jQuery(document).ready(function(){
-    								jQuery("#depo-pager").cycle({
-    									fx: 'scrollHorz',
-    									timeout: 5000,
-    									prev: '#depo-prev',
-    									next: '#depo-next'
-    								});
-    								jQuery("#wd-pager").cycle({
-    									fx: 'scrollHorz',
-    									timeout: 5000,
-    									prev: '#wd-prev',
-    									next: '#wd-next'
-    								});
-    							})
-    						</script>
+							<a href="http://wlpromo.info/" target="_blank">
+								<img src="https://wlpromo.info/banner.gif" style="width:325px;">
+							</a>
                         </div>
 
                         <div id="member-online">

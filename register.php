@@ -20,13 +20,17 @@ if($ref == ''){
 	$ref = $_POST['ref_text'];
 }
 if($_POST["submit"]){
-	$uname = str_replace("''","*",$_POST["UName"]);
-	$unameid = str_replace("''","*",$_POST["UNameid"]);
-	$pass	= $_POST["Pass"];
-	$cpass	= $_POST["CPass"];
-	$email	= $_POST["Email"];
-	$phone	= $_POST["Phone"];
-	$curr	= $_POST["Curr"];
+	$uname 		= str_replace("''","*",$_POST["UName"]);
+	$unameid 	= str_replace("''","*",$_POST["UNameid"]);
+	$pass		= $_POST["Pass"];
+	$cpass		= $_POST["CPass"];
+	$fullname	= $_POST["BAName"];
+	$email		= $_POST["Email"];
+	$phone		= $_POST["Phone"];
+	$bankname	= $_POST["BName"];
+	$baname		= $_POST["BAName"];
+	$bano		= $_POST["BAno"];
+	$curr		= $_POST["Curr"];
 
 	//PASSWORD ALPHA NUMERIC	
 	if($_POST['captcha1'] == ''){
@@ -37,15 +41,19 @@ if($_POST["submit"]){
 		$reqAPIRegister = array(
             "auth"    => $authapi,
 			"webid"   => $subwebid,
-			"regType" => 2,
+			"regType" => 1,
 			"input"	  => array(
 				"agent"		=> $agentwlable,
 				"username"  => strtoupper($uname),
 				"nickname"  => strtoupper($unameid), 
 				"password"  => $pass, 
 				"cpassword" => $cpass, 
+				"fullname"  => $fullname, 
 				"email" 	=> $email, 
 				"phone" 	=> $phone, 
+				"bankname" 	=> $bankname, 
+				"baname" 	=> $baname, 
+				"bano" 		=> $bano, 
 				"ref_text"  => strtoupper($ref),
 				"device"	=> $device
 			)
@@ -166,6 +174,37 @@ if($_POST["submit"]){
                                             <input onBlur="fast_checking('the_phone', 'ceklis7', '')" type="text" name="Phone"  id="the_phone" placeholder="Nomor Telepon Anda" maxlength=13  value="<?php echo $phone; ?>" data-required="true" class="form-control">
                                         </div>
                                     </div>
+									<div class="form-group-full">
+										<label class="col-lg-1 control-label">Nama Rekening Bank</label>
+										<div class="col-lg-2">
+											<div id="ceklis8" class="validx"></div>
+											<input onblur="fast_checking('the_baname', 'ceklis8', '')" type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
+										</div>
+									</div>
+
+									<div class="form-group-full">
+										<label class="col-lg-1 control-label">Nama Bank</label>
+										<div class="col-lg-2">
+										   <select name='BName' id="the_bname" class="form-control">
+												<?php
+												foreach($infoweb['bankList'] as $bankdata){
+													$select = "";
+													if($_POST["BName"] == $bankdata['bank']) $select = "selected";
+													$options.= "<option value='".$bankdata['bank']."' ".$select.">".$bankdata['bankname']."</option>";
+												}
+												echo $options;
+												?>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group-full">
+										<label class="col-lg-1 control-label">Nomor Rekening Bank</label>
+										<div class="col-lg-2">
+											<div id="ceklis9" class="validx"></div>
+											<input onblur="fast_checking('the_bano', 'ceklis9', 'the_bname')" type="text" name="BAno" id="the_bano" value="<?php echo $bano; ?>" placeholder="Nomor Rekening Bank Anda" data-required="true" class="form-control" maxlength="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" onblur="this.value=this.value.replace(/[^0-9]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }">
+										</div>
+									</div>
 
 									<?php
 									if ($ref != ''){

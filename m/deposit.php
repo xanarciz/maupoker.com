@@ -18,6 +18,7 @@ include("_header.php");
 
 $reqAPILastOrder = array(
     "auth"   => $authapi,
+    "act"   => 1,
     "userid" => $login,
     "agent"  => $agentwlable,
     "curr"   => $curr,
@@ -183,95 +184,158 @@ if ($_POST["subform"]) {
     }
 }
 
-
-if ($voucher_count >= "5") {
-    $errorReportvouc = "<div class='static-notification-red tap-dismiss-notification'><p class='center-text uppercase'>Maaf voucher deposit di tutup sementara</p></div>";
-    $errvouc = 1;
-}
 ?>
 
-<div class="content-2" data-id="deposit" id="page">
-	<div class="lpadding-15 tpadding-5">
-		<label class="ntf fs-13"><?PHP if($_SESSION["login"]) echo "FORM "; ?>DEPOSIT</label>
-	</div>
-	<?php
-		if($_SESSION["login"]){
-			if ($success_deposit){
-				echo $success_deposit;
-			}else{
-	?>
+        <div class="content">
 
-	<hr class="margin-0 tmargin-2 bmargin-3 bg-brown-panel">
+            <div class="container main no-bottom">
 
-	<div id="referral">
-		<div class="padding">
-			<ul>
-				<li><a href="#tabs-1" onclick="tabs_1()">Cash Deposit</a></li>
-				<li><a href="#tabs-2" onclick="tabs_2()">Voucher Deposit</a></li>
-			</ul>
+                <div class="wrapper">
 
-			<div id="tabs-1">
-                <div class="tpadding-10 lpadding-15 rpadding-15 row">
-                    <?php
-                    if ($err == 1){
-                        echo $errorReport;
-                    }
-                    ?>
-                    <form method="post" id="fcash" name="fcash">
+                    <div class="container no-bottom">
+                    	<h3>Permintaan Deposit</h3>
+                    </div>
 
-						<div class="row margin0">
-							<div class="col-lg-5">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10">BANK</label>
-							</div>
-							<div class="col-lg-1">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-6">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> <?php echo $bankname;?> </label>
-								<input type="hidden" name="bank" value="<?php echo $bankname;?>" />
-							</div>
-						</div>
-						<div class="row margin0">
-							<div class="col-lg-5">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10">NAMA REKENING</label>
-							</div>
-							<div class="col-lg-1">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-6">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> <?php echo $bankaccname; ?> </label>
-								<input type="hidden" name="bank_accname" value="<?php echo $bankaccname; ?>" />
-							</div>
-						</div>
-						<div class="row margin0">
-							<div class="col-lg-5">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10">NOMOR REKENING</label>
-							</div>
-							<div class="col-lg-1">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-6">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> 
-								<?php echo $bankaccnodis; ?>
-								</label>
-								<input type="hidden" name="bank_accnumber" value="<?php echo $bankaccno;?>" />
-							</div>
-						</div>
+                    <div class="decoration"></div>
 
-						<label class="black fs-13 pull-left tmargin-10">Jumlah Deposit</label>
-						<div class="row">
-							<div class="col-lg-11">
-								<input type="tel" class="form-control bg-light-gray" name="ui_amount" id="ui_amount" value="<?php echo @$amount?>" placeholder="Masukan jumlah deposit" required onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }" />
+                    <div class="res" id="res_dps" align="center">
+                        <?php
+                        if ($success_deposit){
+    						echo $success_deposit;
+    					}else{
+    						
+    						if ($err == 1){
+    						   	echo $errorReport;
+    						}
+    					?>
+                    </div>
+
+                    <form method="post" >
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">User ID</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText"><?php echo $_SESSION["login"]; ?></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Bank</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText">
+                                    <?php echo $bankname;?>
+    								<input type="hidden" name="bank" value="<?php echo $bankname;?>" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nama Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText">
+                                    <?php echo $bankaccname; ?>
+    								<input type="hidden" name="bank_accname" value="<?php echo $bankaccname; ?>" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nomor Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText">
+                                    <?php
+                                    if($bankname=="BCA"){
+        								echo substr($bankaccno,0,8)."xxxx";
+        							}else{
+        								echo substr($bankaccno,0,8)."xxx-xxxx";
+        							}
+      							    ;?>
+                                    <input type="hidden" name="bank_accnumber" value="<?php echo $bankaccno;?>" />
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Jumlah Deposit</label>
+                            </div>
+                            <div class="formInput">
+                                
+                                <input type="tel" class="contactField" name="ui_amount" id="ui_amount" value="<?php echo @$amount?>" required onkeyup="this.value=this.value.replace(/[^0-9.,]/g,'');" onblur="this.value=this.value.replace(/[^0-9.,]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }" />
 								<input type="hidden" name="amount" id="amount" value="<?php echo @$amount?>">
-							</div>
-							<div class="col-lg-1 text-left">
-								<label class="black tmargin-10 lmargin-5">IDR</label>
-							</div>
-						</div>
-						<label class="black fs-13 fs-normal">Pilihan Bank</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Tanggal</label>
+                            </div>
+                            <div class="formInput">
+                                <?php
+  								$date = date("d");
+  								$month = date("M");
+  								$year = date("Y");
+  								?>
+  								<div class="dateField"><select name='ttgl' class="contactField contactOption">
+  								<?php
+  								for ($d=1; $d<32; $d++){
+  									$select = "";
+  									if ($d == $date){
+  										$select ="selected";
+  									}
+  									echo "<option value='".$d."' ".$select.">".$d."</option>";
+  								}
+  								?>
+  								</select></div>
+
+                                <div class="dateField"><select name='tmon' class="contactField contactOption">
+  								<?php
+  								$armon = Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+  								for ($m=0; $m<12; $m++){
+  									$select = "";
+  									if ($armon[$m] == $month){
+  										$select ="selected";
+  									}
+  									echo "<option value='".$armon[$m]."' ".$select.">".$armon[$m]."</option>";
+
+  								}
+  								?>
+  								</select></div>
+
+                                <div class="dateField2"><select name='tyear' class="contactField contactOption">
+  								<?php
+  								$yearx = $year-1;
+  								for ($m=0; $m<3; $m++){
+  									$select = "";
+  									if ($yearx == $year){
+  										$select ="selected";
+  									}
+  									echo "<option value='".$yearx."' ".$select.">".$yearx."</option>";
+
+  									$yearx = $yearx+1;
+  								}
+  								?>
+  								</select></div>
+                            </div>
+                        </div>
+
+                        <div class="thumb-clear"></div>
+
+                        <h4 class="orange">Silahkan pilih rekening yang akan di transfer:</h4>
+
+                        <div class="decoration"></div>
+
 						<div class="row margin0">
 							<div class="col-lg-12">
-								<select class="form-control bg-light-gray" name="data-bank" id="data-bank" required>
+								<select class="button-icons button-extra-big button-blues triggerBtn" name="data-bank" id="data-bank" required>
 									<option value="" selected> Pilih Bank </option>
 									<?PHP
                                     foreach ($transaction->list_bank as $bankDetails){
@@ -283,351 +347,73 @@ if ($voucher_count >= "5") {
                                         }
                                         echo '<option value="'.strtoupper($bankDetails->BankId).",".$bankDetails->BankAccNo.",".$bankDetails->BankAccName.'" '.$sel.' dt-link="'.$bankDetails->BankLink.'">'.strtoupper($bankDetails->BankName).'</option>';
 										}
+										echo $BankAccNo;
 									?>
 								</select>
 							</div>
 						</div>
-						
-						
 
-						<label class="black fs-13 pull-left tmargin-10 nores">Nomor Resi</label>
-						<div class="row nores">
-							<div class="col-lg-13">
-								<input type="text" name="noresi" class="form-control bg-light-gray" >
-							</div>
-						</div>
-						<label class="black fs-13 fs-normal nores" style="display: none;">*Isi 5 digit terakhir nomor kartu atm anda.</label>
-						<label class="black fs-13 fs-normal nores" style="display: none;">Khusus bagi yang transfer menggunakan mesin atm.</label>
-
-						<label class="black fs-13 fs-normal tmargin-10 bank-detail" style="display: none;">Silakan deposit ke:</label>
-						<div class="row margin0 bank-detail" style="display: none;">
-							<div class="col-lg-4">
-								<label class="black fs-13 fs-normal tmargin-10">Nama Bank</label>
-							</div>
-							<div class="col-lg-1 ">
-								<label class="black fs-13 fs-normal tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-7">
-								<label class="black fs-13 fs-normal tmargin-10" id="bkil">  </label>
-							</div>
-						</div>
-
-						<div class="row margin0 bank-detail" style="display: none;">
-							<div class="col-lg-4">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10">Nama Rekening</label>
-							</div>
-							<div class="col-lg-1">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-7">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nare">  </label>
-							</div>
-						</div>
-
-						<div class="row margin0 bank-detail" style="display: none;">
-							<div class="col-lg-4">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10">Nomor Rekening</label>
-							</div>
-							<div class="col-lg-1">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10"> : </label>
-							</div>
-							<div class="col-lg-5">
-								<label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nore">  </label>
-								<label style="display: none;" id="finalcopy"></label>
-							</div>
-							<div class="col-lg-2">
-								<input class="btn btn-medium btn-gray bmargin-5 text-center" id="copy-to" type="button" value="Copy" />
-							</div>
-						</div>
-
-                        <div class="row margin0 tpadding-5">
-                            <div class="col-lg-12 dropdown">
-                                <a href="<?php echo $bankLink; ?>" target="_blank" class="dropbtn fs-14 elogin" id="btn-<?php echo strtolower($bankSelected);?>" style="display: none; height: 50px;">
-                                    <div class="col-lg-3 col-lg-offset-2 dimg">
-                                        <img src="img/banks/<?php echo strtolower($bankSelected); ?> - blue.png" class="bank pull-left" style="height:25px;!important" ">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <p class="margin-0 tmargin-3">Login E-Bank</p>
-                                    </div>
-                                </a>
+						<div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nama Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText" style="padding-top: 0px;">
+                                   <label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nare">  </label>
+                                </span>
                             </div>
                         </div>
 
-						<div class="row"><label class="black fs-13 pull-left tmargin-10">Validasi</label></div>
-						<div class="row">
-							<div class="col-lg-7">
-								<input class="form-control bg-light-gray" type="text" name="captcha1" maxlength="5" placeholder="Validasi" required />
-							</div>
-						
-							<div class="col-lg-5 tpadding-3 lpadding-5">
-								<img src='../../captcha/captcha.php?.png' alt='CAPTCHA' width='100%' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
-							</div>
-						</div>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">No. Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText" style="padding-top: 0px; display: inline-flex;">
+                                   <label class="black fs-13 fs-normal bmargin-5 tmargin-10" id="nore">  </label>
+								<label style="display: none;" id="finalcopy"></label>
+								<input class="btn btn-medium btn-gray bmargin-5 text-center" id="copy-to" type="button" value="Copy" style="margin-left: 15px;width: 46px;background-color: #7D7D7D;color: white;" />
+                                </span>
+                            </div>
+                        </div>
+							
+                        <div class="decoration"></div>
 
-						<div class="row">
-							<input class="btn btn-gray tmargin-10 bmargin-5" value="BATAL" type="button" onclick="location.href='index.php'" />
-						</div>
-						<div class="row">
-							<input class="btn btn-blue tmargin-5 bmargin-10" value="KONFIRMASI" type="submit" name="submit" />
-						</div>
-						<ol class="black">
-							<li class="margin-0">Minimal Deposit = 10.000,00 IDR .</li>
-							<li class="margin-0"> Harap perhatikan rekening deposit kami yang sedang aktif sebelum melakukan pengiriman deposit, sehingga deposit anda dapat di proses secepatnya ke dalam dompet utama anda. </li>
-							<li class="margin-0">Deposit Menggunakan account bank selain yang di daftarkan tidak di perbolehkan. </li>
-							<li class="margin-0">etelah melakukan proses pengiriman dan mengisi form secara benar maka deposit anda akan di proses dalam kurun waktu 5 menit. </li>
-							<li class="margin-0">Silahkan hubungin customer service kami via live chat untuk konfirmasi status deposit anda.</li>
-						</ol>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Validasi</label>
+                            </div>
+                            <div class="formInput">
+                                <input class="contactField" type="text" name="captcha1" maxlength="5" />
+                                <div style="height:10px;"></div>
+                                <img src='../../captcha/captcha.php?.png' alt='CAPTCHA' width='120' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
+                            </div>
+                        </div>
 
-					    <div class="toggle-1 bmargin-15" style="z-index: 9998; background: #d7d7d7; border-radius: 5px;">
-					        <a href="#" class="deploy-toggle-1 toggle-design bg-brown-panel br-5">
-					            <label class="ntf fs-13">
-						            Jadwal Bank Offline
-									<img src="img/<?PHP echo $link_img;?>/icons/br_down.png" class="pull-right btn-down"/>
-									<img src="img/<?PHP echo $link_img;?>/icons/br_up.png" class="pull-right btn-up" style="display: none;" />
-								</label>
-					        </a>
-					        <div class="toggle-content bank-offline-content br-5" style="display: none; background: #d7d7d7 !important;">
+                        <!--<input id="mobile" type="hidden" name="mobile" value="mobile"  />-->
 
-								<div class="row padding-10">
-									<div class="row">
-										<div class="col-lg-3">
-											<img class="img-fluid tmargin-10" src="img/banks/bca.png">
-										</div>
-										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11" style="border:none; color: #000 !important;">
-												Senin-Jumat	: 21.00 - 00.30 WIB <br/>
-												Sabtu			: 18.00 - 20.00 WIB<br/>
-												Minggu			: 00.00 - 06.00 WIB<br/>
-											</p>
-										</div>	
-									</div>
+                        <div class="formSubmitButtonErrorsWrap">
+                            <input type="submit" name=submit class="buttonWrap button button-reds contactSubmitButton" value="KIRIM" />
+                        </div>
 
-									<div class="row tpadding-15">
-										<div class="col-lg-3">
-											<img class="img-fluid tmargin-10" src="img/banks/mandiri.png">
-										</div>
-										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11" style="border:none; color: #000 !important;">
-												Senin - Jumat	: 23.00 - 04.00 WIB<br/>
-												Sabtu - Minggu	: 22.00 - 06.00 WIB
-											</p>
-										</div>	
-									</div>
+                        <script language="JavaScript" type="text/javascript">
+    						/*jQuery(document).ready(function(){
+    							setform("form_dps", "res_dps");
+    							jQuery("#amount").focus().priceFormat();
+    						})*/
+							$(".triggerBtn").click(function () {
+                                $(this).closest('div').find('.inputField').prop("checked", true);
+                            });
+    					</script>
 
-									<div class="row tpadding-15">
-										<div class="col-lg-3">
-											<img class="img-fluid tmargin-10" src="img/banks/bni.png">
-										</div>
-										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11 tmargin-10" style="border:none; color: #000 !important;">
-												Senin - Minggu	: 01:30 - 03: 30 WIB
-											</p>
-										</div>	
-									</div>
+                    </form>
 
-									<div class="row tpadding-15">
-										<div class="col-lg-3">
-											<img class="img-fluid tmargin-10" src="img/banks/bri.png">
-										</div>
-										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
-												Senin - Minggu	: 22:00 - 05:00 WIB
-											</p>
-										</div>	
-									</div>
-										<div class="row tpadding-15">
-										<div class="col-lg-3">
-											<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
-										</div>
-										<div class="col-lg-9 lpadding-10">
-											<p class="fs-11 tmargin-7" style="border:none; color: #000 !important;">
-												Tidak Ada Offline
-											</p>
-										</div>	
-									</div>
-									<p class="dark-gray fs-11 tmargin-5" style="border:none;">*Jadwal bank di atas tidak mengikat harap bertanya kepada kami bila ada pertanyaan mengenai transaksi deposit dan withdraw anda</p>
-								</div>
+                    <?php } ?>
 
-					        </div>
-					    </div>
+                </div>
 
-						<div style="padding-bottom: 50px;"></div>
-
-					</form>
-				</div>
-			</div>
-
-			<div class="tabs-2" id="tabs-2-content" style="display: none;">
-				<div class="tpadding-10 lpadding-15 rpadding-15 row">
-                    <?php
-                    if ($errvouc == 1){
-                        echo $errorReportvouc;
-                    }
-                    ?>
-                    <form method="post" id="fvoucher" name="fvoucher">
-						<label class="black fs-13 pull-left tmargin-10">Voucher Code</label>
-						<div class="row">
-							<div class="col-lg-12">
-								<input class="form-control bg-light-gray" name="voucher_code" id="amount" value="" placeholder="Voucher Code" required maxlength="20" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" />
-							</div>
-						</div>
-
-						<label class="black fs-13 pull-left tmargin-10">Voucher PIN</label>
-						<div class="row">
-							<div class="col-lg-12">
-								<input class="form-control bg-light-gray" name="pin" id="amount" value="" placeholder="Voucher Pin" required onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" onblur="this.value=this.value.replace(/[^a-zA-Z0-9]/g,'');" />
-							</div>
-						</div>
-
-						<div class="row"><label class="black fs-13 pull-left tmargin-10">Validasi</label></div>
-						<div class="row">
-							<div class="col-lg-7">
-								<input class="form-control bg-light-gray" type="text" name="captcha" maxlength="5" placeholder="Validasi" required />
-							</div>
-						
-							<div class="col-lg-5 tpadding-3 lpadding-5">
-								<img src='../captcha/captcha.php?.png' alt='CAPTCHA' width='100%' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
-							</div>
-						</div>
-						<div class="row">
-							<input class="btn btn-gray tmargin-10 bmargin-5" value="BATAL" type="button" onclick="location.href='index.php'" />
-						</div>
-						<div class="row">
-							<input class="btn btn-blue tmargin-5 bmargin-10" value="KONFIRMASI" type="submit" name="subform" />
-						</div>
-					</form>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-	<?PHP 
-			}
-		}else{
-	?>
-
-	<div class="padding-10">
-		<div class="alert alert-warning text-left bmargin-10">
-			<div class="row">
-				<div class="col-lg-1 bpadding-10">
-					<i class="fa fa-info-circle fa-2x rmargin-10"></i>
-				</div>
-				<div class="col-lg-11 lpadding-5">
-					<p class="fs-bold"> Silahkan LOGIN terlebih dahulu untuk melakukan deposit</p>
-					</div>
-				</div>
-
-				<hr class="margin-0 bmargin-5">
-				<ol>
-					<li class="margin-0">Deposit hanya akan di proses dari rekening yang terdaftar.</li>
-					<li class="margin-0">Minimum Deposit Rp10.000</li>
-					<li class="margin-0">Setelah melakukan pengisian form deposit dengan benar, maka Deposit akan di proses secepetnya .</li>
-				</ol>
-			</div>
-			<label class="ntf fs-13">
-				Metode Deposit Bank:
-			</label>
-			<div class="row tmargin-5 rpadding-5 bmargin-10">
-				<div class="col-lg-3 rpadding-10">
-					<img class="img-fluid" src="img/banks/bca.png">
-				</div>
-				<div class="col-lg-3 rpadding-10">
-					<img class="img-fluid" src="img/banks/mandiri.png">
-				</div>
-				<div class="col-lg-3 rpadding-10">
-					<img class="img-fluid" src="img/banks/bni.png">
-				</div>
-				<div class="col-lg-3 rpadding-10">
-					<img class="img-fluid" src="img/banks/bri.png">
-				</div>
-			</div>
-			<div class="row tmargin-5 lpadding-5 bmargin-10">
-				<div class="col-lg-3">
-					<img class="img-fluid" src="img/banks/cimb.png">
-				</div>
-			</div>
-			<label class="ntf fs-13">
-				Metode Deposit Alternatif:
-			</label>
-			<div class="row tmargin-5 bmargin-15">
-				<div class="col-lg-5">
-					<img class="img-fluid" src="img/banks/v88.png"/>
-				</div>
-			</div>
-
-			<div class="row bg-brown-panel padding-10 br-5">
-				<label class="ntf fs-13">
-					Jadwal Bank Offline
-				</label>
-				<div class="row tmargin-10">
-					<div class="col-lg-3">
-						<img class="img-fluid tmargin-10" src="img/banks/bca.png">
-					</div>
-					<div class="col-lg-9 lpadding-10">
-						<p class="dark-gray fs-11" style="border:none;">
-							Senin - Jumat	: 21:00 - 00:30 WIB <br/>
-							Sabtu			: Tidak ada Offline<br/>
-							Minggu			: 00:00 - 06:00 WIB<br/>
-						</p>
-					</div>	
-				</div>
-
-				<div class="row">
-					<div class="col-lg-3">
-						<img class="img-fluid tmargin-10" src="img/banks/mandiri.png">
-					</div>
-					<div class="col-lg-9 lpadding-10 tmargin-10">
-						<p class="dark-gray fs-11" style="border:none;">
-							Senin - Minggu	: 23:00 - 05:00 WIB<br/>
-						</p>
-					</div>	
-				</div>
-
-				<div class="row tmargin-10">
-					<div class="col-lg-3">
-						<img class="img-fluid tmargin-10" src="img/banks/bni.png">
-					</div>
-					<div class="col-lg-9 lpadding-10 tmargin-10">
-						<p class="dark-gray fs-11" style="border:none;">
-							Senin - Minggu	: 00:00 - 02:30 WIB<br/>
-						</p>
-					</div>	
-				</div>
-
-				<div class="row tmargin-10">
-					<div class="col-lg-3">
-						<img class="img-fluid tmargin-10" src="img/banks/bri.png">
-					</div>
-					<div class="col-lg-9 lpadding-10 tmargin-10">
-						<p class="dark-gray fs-11" style="border:none;">
-							Senin - Minggu	: 22:00 - 05:00 WIB
-						</p>
-					</div>	
-				</div>
-				<div class="row tmargin-10">
-					<div class="col-lg-3">
-						<img class="img-fluid tmargin-10" src="img/banks/cimb.png">
-					</div>
-					<div class="col-lg-9 lpadding-10 tmargin-10">
-						<p class="dark-gray fs-11" style="border:none;">
-							Tidak Ada Offline
-						</p>
-					</div>	
-				</div>
-				<p class="dark-gray fs-11 tmargin-5" style="border:none;">*Jadwal bank di atas tidak mengikat harap bertanya kepada kami bila ada pertanyaan mengenai transaksi deposit dan withdraw anda</p>
-			</div>
-
-			<div style="padding-bottom: 75px;"></div>
-
-		</div>
-
-	<?PHP
-		}
-	?>
-	
-</div>
-
+            </div>
+        </div>
 <script type="text/javascript">
 	function numberWithCommas(x) {
 	  return x.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
@@ -756,7 +542,6 @@ if ($voucher_count >= "5") {
 	}
 	
 	
-	
 	$( document ).ready(function() {
         var isi = $("#data-bank" ).val();
         var res = isi.split(",");
@@ -785,72 +570,4 @@ if ($voucher_count >= "5") {
 	});
 </script>
 
-<?PHP 
-	if(strtoupper($link_img) == "IO"){ 
-		$color1 = "#e6fdff";
-		$color2 = "#2eb9ca";
-	}elseif($link_img == "PTKP"){ 
-		$color1 = "#f1f1f1";
-		$color2 = "#992027";
-	}else{ 
-		$color1 = "#f1f1f1";
-		$color2 = "#402573";
-	} 
-?>
-<style type="text/css">
-	#referral{
-		border:none !important;
-		padding: 0px !important;
-	}
-	#referral .ui-widget-header{
-		border:none;
-		background:<?PHP echo $color1;?>;
-		border-radius: 0px;
-	}
-	.ui-tabs .ui-tabs-nav li {
-		width:45%;
-		margin-left:.5%;
-		margin-right:.5%;
-		text-align: center;
-	}
-	.ui-tabs .ui-tabs-nav li:first-child{
-		margin-left:4%;
-	}
-	.ui-tabs .ui-tabs-nav li:last-child{
-		margin-right:4%;
-	}
-	.ui-tabs .ui-tabs-nav li a {
-		display: inline-block;
-		float: none;
-		padding: 6px;
-		text-decoration: none;
-		width: 100%;
-		font-weight: normal;
-
-	}
-	.ui-tabs .ui-tabs-nav{
-		padding: 0px;
-
-	}
-	.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr{
-		border:none;
-	}
-	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
-		background: #35353f;
-		border:#35353f;
-
-	}
-	.ui-tabs .ui-tabs-nav li.ui-tabs-active{
-		background: <?PHP echo $color2;?>;
-		color:#fff;
-	}
-	.ui-tabs .ui-tabs-nav li.ui-tabs-active > a{
-		color:#fff;
-	}
-	.ui-tabs .ui-tabs-panel{
-		background: <?PHP echo $color1;?>;
-		padding: 0px;
-	}
-</style>
-
-<?php include ("_footer.php");?>
+        <?php include ("_footer.php");?>

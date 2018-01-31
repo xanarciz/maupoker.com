@@ -4,7 +4,9 @@ $page='daftar';
 include("_meta.php");
 include("_header.php");
 include("../function/jcd-umum.php");
-
+if($register != 1) {
+    exit("<script> window.location = 'login.php'</script>");
+}
 if ($login){
     exit("<script> window.location = 'login.php'</script>");
 }
@@ -14,218 +16,269 @@ if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
 $curr = $_POST["Curr"];
 $ref = strtoupper($_COOKIE["ref"]);
-if (!$ref)$ref=$_POST["ref_text"];
+if (!$ref)$ref="";
+if($ref == ''){
+	$ref = $_POST['ref_text'];
+}
 if($_POST["submit"]){
-    if($infoweb['open_reg'] == "0"){echo "<div class='error-report'>Registration Tempolary Closed</div>";
+	if($infoweb['open_reg'] == "0"){echo "<div class='error-report'>Registration Tempolary Closed</div>";
         die();
     }
+	$fname = $_POST["FName"];
 	$uname = str_replace("''","*",$_POST["UName"]);
 	$unameid = str_replace("''","*",$_POST["UNameid"]);
 	$pass = $_POST["Pass"];
 	$cpass = $_POST["CPass"];
 	$email = $_POST["Email"];
 	$phone = $_POST["Phone"];
+	$bname = $_POST["BName"];
+	$fullname	= str_replace("''","*",$_POST["BAName"]);
+	$baname = str_replace("''","*",$_POST["BAName"]);
+	$bano = $_POST["BAno"];
+	$bano1 = $_POST["BAno1"];
+	$bano2 = $_POST["BAno2"];
 	$curr = $_POST["Curr"];
-
-    if($_POST['captcha1'] == ''){
-        $errorReport = ("<div class='error-report'><strong>Pendaftaran gagal!</strong> Captcha harus diisi</div>");
-    }else if(! checkCaptcha('CAPTCHAString', $_POST['captcha1'])){
-        $errorReport = ("<div class='error-report'><strong>Pendaftaran gagal!</strong> Captcha tidak sama</div>");
-    }else{
-        $reqAPIRegister = array(
+	if($_POST['captcha1'] == ''){
+		$errorReport = ("<strong>Pendaftaran gagal!</strong> Captcha harus diisi");
+	}else if(!checkCaptcha('CAPTCHAString', $_POST['captcha1'])){
+		$errorReport = ("<strong>Pendaftaran gagal!</strong> Captcha tidak sama");
+	}else{
+		$reqAPIRegister = array(
             "auth"    => $authapi,
-            "webid"   => $subwebid,
-            "regType" => 2,
-            "input"	  => array(
-                "agent"		=> $agentwlable,
-                "username"  => strtoupper($uname),
-                "nickname"  => strtoupper($unameid),
-                "password"  => $pass,
-                "cpassword" => $cpass,
-                "email" 	=> $email,
-                "phone" 	=> $phone,
-                "ref_text"  => strtoupper($ref),
-                "device"	=> $device
-            )
-        );
-
-        $response = sendAPI($url_Api."/register",$reqAPIRegister,'JSON','02e97eddc9524a1e');
-        if($response->status == 200){
-            $successRegister = "<centeR>
-                            <a href='http://".$DomainName."'>$DomainName</a> - Pendaftaran Sukses<br>Username = <b>$uname</b><br>
-                            Anda bisa melakukan deposit di website <a href='http://".$DomainName."'>$DomainName</a>.<br>
-                            Selamat bermain dan Terima Kasih  (#1021)<br><br>
-                            <font style='font-weight:bold;'>Anda akan terlogin dalam <label id='counter'>5</label>s</font>
-                       </center>";
-        }else{
-            $errorReport =	("<div class='error-report'><strong>Pendaftaran gagal!</strong> " . $response->msg . "</div>");
-        }
-    }
+			"webid"   => $subwebid,
+			"regType" => 1,
+			"input"	  => array(
+				"agent"		=> $agentwlable,
+				"username"  => strtoupper($uname),
+				"nickname"  => strtoupper($unameid), 
+				"password"  => $pass, 
+				"cpassword" => $cpass, 
+				"fullname"  => $fullname, 
+				"email" 	=> $email, 
+				"phone" 	=> $phone, 
+				"bankname" 	=> $bname, 
+				"baname" 	=> $baname, 
+				"bano" 		=> $bano, 
+				"ref_text"  => strtoupper($ref),
+				"device"	=> $device
+			)
+		);
+		$response = sendAPI($url_Api."/register",$reqAPIRegister,'JSON','02e97eddc9524a1e');
+		if($response->status == 200){
+			$successRegister = "<centeR>
+				<a href='http://".$DomainName."'>$DomainName</a> - Pendaftaran Sukses<br>
+				Username = <b>$uname</b><br>
+				Anda bisa melakukan deposit di website <a href='http://".$DomainName."'>$DomainName</a> atau melalui agent anda.<br>
+				Terima Kasih  (#1021)<br><br> 
+				<font style='font-weight:bold;'>Anda akan terlogin dalam <label id='counter'>5</label>s</font>
+				</center>";
+		}else{
+			$errorReport =	("<strong>Pendaftaran gagal!</strong> " . $response->msg);
+		}
+	}
 }
 ?>
-<style>
-    #user_name, #user_nameid {text-transform: uppercase}
-</style>
-<div class="content-2">
 
-	<div class="row">		
-		<div class="lpadding-15 tpadding-5">
-	        <label class="ntf fs-13 tmargin-10">FORM PENDAFTARAN</label>
-	    </div>
-	    <hr class="margin-0 tmargin-2 bmargin-3">
+        <div class="content">
 
-		<?php
-			if ($errorReport){
-				echo "<div class='padding-15' align='center' id='the_alert' style='background-color:#c0392b; color: #fff;'>".$errorReport."</div>";
-			}else{
-				echo "<div class='padding-15' align='center' id='the_alert' style='display: none; color: #fff;background-color:#c0392b;'></div>";
-			}
-		?>
-	</div>
+            <div class="container main no-bottom">
 
-	<form method="post" id="form_reg">
+                <div class="wrapper">
 
-		<?php if (!$successRegister){ ?>
+                	<style type="text/css">
+                		.big-notification {
+						    position: fixed;
+						    z-index: 9999;
+						    width: 100%;
+						    top: 70px;
+						    margin-left: -10px;
+						}
+                	</style>
 
-		<div class="row padding-15 tpadding-3 bpadding-2" id="freg">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Username</label>
-			</div>
-			<div class="col-lg-7">				
-				<input class="form-control bg-light-gray" onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" name="UName" maxlength="10" value="<?php echo $uname; ?>"   />
-			</div>
-		</div>
+                    <div class="container no-bottom">
+                    	<h3>Form Pendaftaran</h3>
+                    </div>
 
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Nickname</label>
-			</div>
-			<div class="col-lg-7">
-				<input class="form-control bg-light-gray" onBlur="fast_checking('user_nameid', 'ceklis2', '')" id="user_nameid" type="text" name="UNameid" maxlength="10" value="<?php echo strtoupper($unameid); ?>" />
-			</div>				
-		</div>
+                    <div class="decoration"></div>
 
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Password</label>
-			</div>
-			<div class="col-lg-7">
-				<input class="form-control bg-light-gray" onBlur="fast_checking('the_pass', 'ceklis3', '')" id="the_pass" type="password" name="Pass" value="<?php echo $_POST["Pass"]; ?>" placeholder="Contoh : Ex@mpl3" />
-			</div>
-		</div>
+                    <div class="res" id="res_reg" align="center">
+              			<?php
+              				if ($errorReport){								
+              					echo "<div class='big-notification red-notification' id='the_alert'>".$errorReport."</div>";
+              				}
+							else{
+								echo "<div class='big-notification red-notification' id='the_alert' style='display:none;'></div>";
+							}
+              			?>
+          			</div>
 
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Ulangi Password</label>
-			</div>
-			<div class="col-lg-7">
-				<input class="form-control bg-light-gray" type="password" onBlur="fast_checking('the_cpass', 'ceklis4', 'the_pass')" id="the_cpass" type="password" name="CPass" value="<?php echo $_POST["CPass"]; ?>" placeholder="Pastikan Password Sama"/>
-			</div>
-		</div>
+                    <form method="post" id="form_reg" style="margin-top: 14px;">
 
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Alamat Email</label>
-			</div>
-			<div class="col-lg-7">				
-				<input class="form-control bg-light-gray" onBlur="fast_checking('the_email', 'ceklis6', '')" id="the_email" type="email" name="Email" value="<?php echo $_POST["Email"]; ?>" />
-			</div>
-		</div>
+                        <?php if (!$successRegister){ ?>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Login ID</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" class="contactField" name="UName" maxlength="8" value="<?php echo $_POST["UName"]; ?>" />
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nickname</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('user_nameid', 'ceklis2', '')" id="user_nameid" type="text" class="contactField" name="UNameid" maxlength="10" value="<?php echo strtoupper($unameid); ?>" />
+                            </div>
+                        </div>
 
-		 <div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">No. Telp / HP</label>
-			</div>
-			<div class="col-lg-7">				
-				<input class="form-control bg-light-gray" onBlur="fast_checking('the_phone', 'ceklis7', '')" id="the_phone" type="text" maxlength="15" name="Phone" value="<?php echo $_POST["Phone"]; ?>" />
-			</div>
-		</div>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Password</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_pass', 'ceklis3', '')" id="the_pass" type="password" class="contactField" name="Pass" value="<?php echo $_POST["Pass"]; ?>" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Ulangi Password</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_cpass', 'ceklis4', 'the_pass')" id="the_cpass" type="password" class="contactField" name="CPass" value="<?php echo $_POST["CPass"]; ?>" />
+                            </div>
+                        </div>
+
+                        <div class="decoration"></div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nama</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_fname', 'ceklis5', '')" id="the_fname" type="text" type="text" class="contactField" name="FName" value="<?php echo $_POST["FName"]; ?>" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Alamat Email</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_email', 'ceklis6', '')" id="the_email" type="text" class="contactField" maxlength="40"  name="Email" value="<?php echo $_POST["Email"]; ?>" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">No. Telp / HP</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_phone', 'ceklis7', '')" id="the_phone" type="text" class="contactField" maxlength="13" name="Phone" value="<?php echo $_POST["Phone"]; ?>" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nama Bank</label>
+                            </div>
+                            <div class="formInput">
+                                <select name="BName" class="contactField contactOption" id="the_bname">
+                                    <?php
+										foreach($infoweb['bankList'] as $bankdata){
+											$select = "";
+											if($_POST["BName"] == $bankdata['bank']) $select = "selected";
+											$options.= "<option value='".$bankdata['bank']."' ".$select.">".$bankdata['bankname']."</option>";
+										}
+										echo $options;
+									?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nama Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_baname', 'ceklis8', '')" id="the_baname" type="text" class="contactField" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" />
+                                <div style="height:5px;"></div>
+                                <span class="note">* Nama lengkap anda sesuai dibuku tabungan</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Nomor Rekening</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_bano', 'ceklis9', 'the_bname')" id="the_bano" type="text" class="contactField" name="BAno" id="BAno" value="<?php echo $_POST["BAno"];?>" />
+                            </div>
+                        </div>
+
+						<?php
+							if ($ref){
+						?>
+							<div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Link Referral</label>
+                            </div>
+                            <div class="formInput">
+                                <span class="formText">
+                                <?php echo "<b>".strtoupper($ref)."</b>"; ?>
+                                </span>
+                            </div>
+                        </div>
+							<?php
+							}else{
+							?>
+							<div class="formLabel">
+                                <label class="field-title formTextarea">Referral</label>
+                            </div>
+							<div class="formInput">
+                                <input class="contactField" onBlur="fast_checking('the_ref', 'ceklis10', '')" id="the_ref" type="text" name="ref_text"  value="" />
+								<br>*Ini tidak wajib harus diisi
+							</div>
+						</div>
+						<?php } ?>
+                        <div class="form-group">
+                            <div class="formLabel">
+                                <label class="field-title formTextarea" for="formTextarea">Validasi</label>
+                            </div>
+                            <div class="formInput">
+                                <input onBlur="fast_checking('the_cap', 'ceklis11', '')" id="the_cap" class="contactField" type="text" name="captcha1" maxlength="5" />
+                                <div style="height:10px;"></div>
+                                <img src='../../captcha/captcha.php?.png' alt='CAPTCHA' width='120' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">
+                            </div>
+                        </div>
+
+                        <!--<input id="mobile" type="hidden" name="mobile" value="mobile"  />-->
+
+                        <div class="formSubmitButtonErrorsWrap">
+                            <input type="submit" name="submit" class="buttonWrap button button-reds contactSubmitButton" value="DAFTAR" />
+                        </div>
+
+                        <?php
+            			}else{
+            				//echo "<h2>".$successRegister."</h2>";
+                            echo "<div class='big-notification green-notification'>
+                                <h3 class='uppercase'>Pendaftaran Sukses</h3>
+                                <a href='#' class='close-big-notification'>x</a>
+                                <p>".$successRegister."</p>
+                            </div>";
+            			}
+            			?>
 
 
-		<?php
-			if ($ref != ''){
-		?>
-			<div class="row padding-15 tpadding-3 bpadding-2">
-				<div class="col-lg-5 tmargin-5">
-					<label class="black">Referral</label>
-				</div>
-				<div class="col-lg-7" style="text-align:left; margin-top: 8px;">
-					<?php echo "<b>".strtoupper($ref)."</b>"; ?>				
-				</div>
-			</div>
-			<?php
-			}else{
-			?>
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Referral</label>
-			</div>
-			<div class="col-lg-7">
-				<input class="form-control bg-light-gray" onBlur="fast_checking('the_ref', 'ceklis10', '')" id="the_ref" type="text" name="ref_text" placeholder="Nama Referral" value="" />
-				<br>*Ini tidak wajib harus diisi				
-			</div>
-		</div>
-		<?php } ?>
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				<label class="black">Validasi</label>
-			</div>
-			<div class="col-lg-7">
-				<input class="form-control bg-light-gray" onBlur="fast_checking('the_cap', 'ceklis11', '')" id="the_cap" type="text" name="captcha1" maxlength="5" />				
-			</div>
-		</div>
+                    </form>
 
-		<div class="row padding-15 tpadding-3 bpadding-2">
-			<div class="col-lg-5 tmargin-5">
-				
-			</div>
-			<div class="col-lg-7">
-				<img src='../captcha/captcha.php?.png' alt='CAPTCHA' width='120' height=30 style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;">				
-			</div>
-		</div>
+                </div>
 
-		<div class="row padding-15 bmargin-50">
-			<input class="btn btn-green fs-normal" value="DAFTAR" type="submit" name="submit" />
-		</div>
-
-		<?php
-			}else{
-				echo "<div class='row normal-green'>
-				<label class='normal-green fs-13 padding-15 bpadding-0 tpadding-8'>PENDAFTARAN SUKSES</label>
-				<p>".$successRegister."</p>
-				</div>";
-			}
-		?> 
-
-	</form>
-</div>
-
-<style type="text/css">
-	.place-red::-webkit-input-placeholder {
-	   color: #dc5b6b;
-	   font-style: italic;
-	   font-size: 10px;
-	}
-
-	.place-red:-moz-placeholder { /* Firefox 18- */
-	   color: #dc5b6b;  
-	   font-style: italic;
-	   font-size: 10px;
-	}
-
-	.place-red::-moz-placeholder {  /* Firefox 19+ */
-	   color: #dc5b6b;  
-	   font-style: italic;
-	   font-size: 10px;
-	}
-
-	.place-red:-ms-input-placeholder {  
-	   color: #dc5b6b;  
-	   font-style: italic;
-	   font-size: 10px;
-	}
-</style>
-
+            </div>
+        </div>
+		
 <script>
 function fast_checking(id_div, id_div2, id_div3){
 	//use ajax to run the check
@@ -282,6 +335,6 @@ setInterval(function(){ countdown(); },1000);
 		
 	// }, 5000);
 </script>
-<?php }?>
+	<?php }?>
 
-<?php include ("_footer.php");?>
+        <?php include ("_footer.php");?>

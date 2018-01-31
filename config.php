@@ -81,6 +81,7 @@ if($infoweb['status'] == 1) {
     $curr          = $infoweb['webinfo']["curr"];
     $currrate      = $infoweb['webinfo']["currrate"];
     $q_maintenance = $infoweb["maint"];
+	$infoweb['bankList'] = $infoweb['bankCount'] == 1 ? array($infoweb['bankList']) : $infoweb['bankList']; 
     if ($register == 2) $agentwlable = $infoweb['webinfo']["master"];
 }else{
     $q_maintenance = 1;
@@ -113,16 +114,6 @@ $cfgFuncDir = "function/";
 if ($q_maintenance == 1){
 
 	exit("
-	<script type=text/javascript>
-	var __lc = {};
-	__lc.license = 3567221;
-
-	(function() {
-	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-	lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-	})();
-	</script>
 	<body style='margin:0px;' bgcolor=#101118>
 		<center>
 			<img src='assets/images/under-maintenance.png' style='width:100%'>

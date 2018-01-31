@@ -6,7 +6,7 @@
  * http://opensource.org/licenses/MIT
  *
  * Github:  http://github.com/jakiestfu/Snap.js/
- * Version: 1.9.3
+ * Version: 1.9.2
  */
 /*jslint browser: true*/
 /*global define, module, ender*/
@@ -18,13 +18,13 @@
             dragger: null,
             disable: 'none',
             addBodyClasses: true,
-            hyperextensible: true,
+            hyperextensible: false,
             resistance: 0.5,
             flickThreshold: 50,
             transitionSpeed: 0.3,
-            easing: 'ease',
-            maxPosition: 266,
-            minPosition: -266,
+            easing: 'ease-in-out',
+            maxPosition: 272,
+            minPosition: -272,
             tapToClose: true,
             touchToDrag: true,
             slideIntent: 40, // degrees
@@ -47,7 +47,7 @@
         },
         eventList = {},
         utils = {
-            hasTouch: ('ontouchstart' in doc.documentElement || win.navigator.msPointerEnabled),
+            hasTouch: (doc.ontouchstart === null),
             eventType: function(action) {
                 var eventTypes = {
                         down: (utils.hasTouch ? 'touchstart' : 'mousedown'),
@@ -523,6 +523,26 @@
                 eventList[evt] = false;
             }
         };
+
+        /*
+        this.enable = function(side) {
+            if (side === 'left' || side === 'right') {
+                settings.disable = (side === 'left') ? 'right': 'left';
+            } else if (side) {
+                settings.disable = '';
+            }
+            if (settings.touchstart) {
+                action.drag.listen();
+            }
+        };
+        this.disable = function(side) {
+            if (side) {
+                settings.disable = side;
+            } else {
+                action.drag.stopListening();
+            }
+        };
+        */
 
         this.enable = function() {
             utils.dispatchEvent('enable');

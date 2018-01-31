@@ -19,16 +19,76 @@
 		</script>
 		
 		<div id="footer">
-			<div class="container">
+			<div class="contacts">
+				<div class="listcp">
+			         <?php
+            foreach ($infoweb['contact_agent'] as $contact => $value) {
+                if($value != ''){
+                    switch ($contact){
+                        case 'yahoo': $href = 'ymsgr:sendIM?'.$value; break;
+                        case 'skype': $href = 'skype:'.$value; break;
+                        case 'facebook': $href = 'https://www.facebook.com/'.$value; break;
+                        case 'twitter': $href = 'https://twitter.com/'.$value; break;
+                        default: $href = 'javascript:void(0);'; break;
+                    }
+
+                ?>
+                    <div class='listcp-black'>
+                    	<div class="icon"><img src="assets/images/contact-icon/<?php echo $contact; ?>-icon.png"></div>
+                    	<div class="value"><a href="<?php echo $href; ?>">
+                    		<?php echo $value; ?>
+						</a></div>
+                    </div>
+
+                <?php
+                }
+            }
+            ?>
+            		<div class='listcp-black'>
+            			<a href="contact.php" align="left">
+                    	<div class="icon"><img src="assets/images/contact-icon/more-icon.png"></div>
+                    	<div class="value">More...</div>
+                    	</a>
+                    </div>
+			    </div>
+			</div>
+			<div class="contacts2">
+				<div class="container" style="width: auto;">
+					<?php
+					    if($infoweb['bank_Active'] == 1){
+					    ?>
+					         <div class="listbank">
+					            
+					                <?php
+					                foreach ($infoweb['bankList'] as $bank){
+					                    $statusBnk = $bank['statAgent'] == 1 ? 'online' : 'offline';
+					                    echo "
+					                            <div class='listbank-black'>
+					                                <div class='" . $statusBnk . "'></div>
+					                                <div class='".strtolower($bank['bank'])."'></div>
+					                            </div>
+					                          ";
+					                }
+					                ?>
+					            
+					        </div>
+					    <?php
+					    }
+					  	
+				    ?> 
+				</div>
+			</div>
+			<div class="container">				
 				<div class="disclaimer">
+					<ul class="license-icon">
+                <li><a href="http://idnplay.com/certificate/BMM_EN.html" target="blank"><img src="assets/images/license/bmm-logo.png" width="98px" height="16px" alt="BMM Certified"></a></li>
+                <li><a href="http://pagcor.ph" target="blank"><img src="assets/images/license/pagcorlogo.png" alt="PAGCOR"></a></li>
+            </ul>
 					<?php echo $footer_txt; ?>
 				</div>
 
 				<div class="copyright">
 					<span>
-						<a href="#" onclick="PopupCenter('terms.php','xtf','1000','800');" title="Terms & Conditions" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Terms & Conditions</a> 
-						<a href="link_alternatif.php" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Link Alternatif</a>
-						<a href="video-promotion.php" style="margin-right: 6px; color: #69c6e6; text-decoration:none;">Video Tutorial</a>
 						</br> &copy; Copyright <?php echo date("Y")." ". $dmn[1].".".$dmn[2]?> - All right reserved.
 					</span>
 				</div>
@@ -36,35 +96,6 @@
 		</div>
 		
         </div>
-		 <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="assets/css/widget.css">
-        <div id="fb-root"></div>
-        <div class="audio-container">
-          <div class="radio-widget">
-            <div class="audio-title" onclick="playToggle()"><span>Dewa.FM</span></div>
-            <div class="audio-control">
-              <label class="switch">
-                <input id="chkChannel" type="checkbox" class="switch-input" checked>
-                <span class="switch-label" data-on="128kb" data-off="32kb"></span>
-                <span class="switch-handle"></span>
-              </label>
-              <a id="audioPlayToggle" class="play-btn" onclick="playToggle()">
-                <span class="fa-stack fa-lg">
-                  <i class="fa fa-circle fa-stack-2x"></i>
-                  <i class="fa fa-play fa-stack-1x"></i>
-                </span>
-              </a>
-              <a class="popup" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdewa.fm%2F&amp;src=sdkpreparse">
-                <img src="assets/img/facebook.png" />
-              </a>
-              <a class="tweet share-btn popup" href="javascript:void(0);" data-url="https://dewa.fm" data-via="radio_dewafm" data-text="Lagi dengerin lagu di Radio kita semua" data-hashtags="dewafm">
-                <img src="assets/img/twitter.png" />
-              </a>
-            </div>
-          </div>
-          <audio id="mediaplayer" preload="none" src="http://180.210.204.202:8090/;stream.mp3">Your browser does not support this player.</audio>
-        </div>
-        <script src="assets/js/widget.js"></script>
 
     </body>
 </html>

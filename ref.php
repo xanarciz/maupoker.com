@@ -18,7 +18,7 @@ if($response->status == 200){
 <HTML>
 <BODY>
 	<SCRIPT language='javascript'>
-	self.document.location='http://<?php echo $DomainName."/".$page; ?>'
+	self.document.location='http://<?php echo $DomainName."/"; ?>'
 	</SCRIPT>
 </BODY>
 </HTML>

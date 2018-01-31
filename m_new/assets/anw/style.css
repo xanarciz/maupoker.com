@@ -1,0 +1,15 @@
+.page-header {
+	background: #000000 !important;
+
+}
+.main {
+	background-color: #000000;
+}
+.button-blues {
+	color: #000000;
+	background: #a19c98; 
+	background-image: -webkit-linear-gradient(top, #a19c98 0%, #fdfdf9 100%);
+	background-image:         linear-gradient(to bottom, #a19c98 0%, #fdfdf9 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a19c98', endColorstr='#fdfdf9', GradientType=0);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}

@@ -428,3 +428,211 @@ textarea {
     border-spacing: 1px;
     border-collapse: collapse;
 }
+
+.contacts {
+    background-color: #0a0a0a;
+    border-top: 4px solid #000;
+    height: 57px;
+}
+.contacts2 {
+    background-color: #1a1a1a;
+    height: 50px;
+}
+
+.listcp{
+    display: inline;
+    z-index: 99;
+}
+
+.listbank{
+    display: inline;
+    z-index: 99;
+}
+
+.listbank .online{
+    float: left;
+    width: 44px;
+    height: 44px;
+    margin-top: 3px;
+    margin-left: 6px;
+    background: url(../images/indicator.png) 0px 0px no-repeat;
+}
+
+.listbank .offline{
+    float: left;
+    width: 44px;
+    height: 44px;
+    margin-top: 8px;
+    margin-left: 6px;
+    background: url(../images/indicator.png) 0px -44px no-repeat;
+}
+
+.listbank .bca{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images//bank.png) -5px 0px no-repeat;
+}
+
+.listbank .mandiri{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: -6px;
+    background: url(../images/bank.png) -127px 0px no-repeat;
+}
+
+.listbank .bri{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank.png) -250px 0px no-repeat;
+}
+
+.listbank .bni{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank.png) -373px 0px no-repeat;
+}
+
+.listbank .danamon{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank.png) -494px 0px no-repeat;
+}
+.listbank .ocbc{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank.png) -627px 0px no-repeat;
+}
+
+.listbank .cimb{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank.png) -774px 0px no-repeat;
+}
+.listbank .bii{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank_logo.png) -913px 0px no-repeat;
+}
+.listbank .panin{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: 0px;
+    background: url(../images/bank_logo.png) -1038px 0px no-repeat;
+}
+.listbank .permata{
+    float: right;
+    width: 120px;
+    height: 52px;
+    margin-top: -2px;
+    background: url(../images/bank_logo.png) -1159px 0px no-repeat;
+}
+.listbank-black{
+    display: inline-block;
+    position: relative;
+    width: 170px;
+    height: 60px;
+    margin-bottom: 2px;
+    border-radius: 12px 0px 0px 12px;
+    -webkit-border-radius: 12px 0px 0px 12px;
+    -moz-border-radius: 12px 0px 0px 12px;
+    -ms-border-radius: 12px 0px 0px 12px;
+    -o-border-radius: 12px 0px 0px 12px;
+}
+
+.listcp-black{
+    display: inline-block;
+    position: relative;
+    width: auto;
+    margin-right: 12px;
+    height: 60px;
+    margin-bottom: 2px;
+    border-radius: 12px 0px 0px 12px;
+    -webkit-border-radius: 12px 0px 0px 12px;
+    -moz-border-radius: 12px 0px 0px 12px;
+    -ms-border-radius: 12px 0px 0px 12px;
+    -o-border-radius: 12px 0px 0px 12px;
+}
+
+.listcp-black .icon{
+    margin-top: 10px;
+    float: left;
+}
+
+.listcp-black .value{
+    margin-top: 17px;
+    float: left;
+    margin-left: 10px;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*	FOOTER
+/*-------------------------------------------------------------------------*/
+
+#footer{
+	height:0 !important;
+}
+
+/*-------------------------------------------------------------------------*/
+/*	END FOOTER
+/*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
+/*	++
+/*-------------------------------------------------------------------------*/
+
+#content{
+	height:auto !important;
+}
+.container{
+	height:auto !important;
+}
+.text-left{
+	height:auto !important;
+}
+#member-online .box{
+	overflow-y:scroll;
+	overflow-x:hidden;
+}
+#member-online .box::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+#member-online .box::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+#member-online .box::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: black;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+.license-icon {
+    margin: 10px 0 20px 0;
+    padding-left: 0;
+    list-style: none;
+}
+.license-icon li {
+    display: inline-block;
+    padding: 0 10px 0 10px;
+}
+/*-------------------------------------------------------------------------*/
+/*	END ++
+/*-------------------------------------------------------------------------*/

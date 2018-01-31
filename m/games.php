@@ -1,6 +1,9 @@
 
 <?php
+$freePage=1;
 $page='games';
+session_start();
+$login = $_SESSION["login"];
 
 if (!$login){
     include("_meta.php");
@@ -25,10 +28,20 @@ include("_header.php");
 
                     <p>Untuk dapat bermain dalam versi mobile, silakan download aplikasi <a href="download.php">Mobile Poker</a> di Smartphone anda!</p>
 
-                    <div class="portfolio-item-thumb">
+                    <div class="portfolio-item-thumb one-half">
                         <img class="responsive-image" src="img/images/poker.png" alt="Poker">
                     </div>
-                                    
+                    <div class="portfolio-item-thumb one-half last-column">
+                        <img class="responsive-image" src="img/images/q-kick.png" alt="Q-Kick">
+                    </div>
+                    <div class="portfolio-item-thumb one-half">
+                        <img class="responsive-image" src="img/images/ceme.png" alt="Ceme">
+                    </div>
+                    
+                    <div class="portfolio-item-thumb one-half last-column">
+                        <img class="responsive-image" src="img/images/capsasusun.png" alt="img">
+                    </div>
+                    
                 </div>
 
             </div>
