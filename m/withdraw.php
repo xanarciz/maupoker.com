@@ -1,7 +1,7 @@
 <?php
 $page='withdraw';
 session_start();
-$login = $_SESSION["login"];
+$login = isset($_SESSION["login"]) ? $_SESSION["login"] : '';
 
 if (!$_SESSION["login"]){
 		echo "<script>window.location = 'index.php'</script>";
@@ -32,8 +32,8 @@ if($login) {
         "minutes"=> 1
     );
     $transaction = sendAPI($url_Api . "/transaction", $reqAPILastOrder, 'JSON', '02e97eddc9524a1e');
-    $minwit = $transaction->min_wdraw;
-    $maxwit = $transaction->max_wdraw;
+    $minwit = isset($transaction->min_wdraw) ? $transaction->min_wdraw : '';
+    $maxwit = isset($transaction->max_wdraw) ? $transaction->max_wdraw : '';
 
     $error = 0;
     if ($transaction->msg != 'OK') {
@@ -66,7 +66,7 @@ if($login) {
     }
 
     if ($error == 0) {
-        if ($_POST["submit"]) {
+        if (isset($_POST["submit"])) {
             $name = $login;
             $amount = str_replace('.', '', $_POST["amount"]);
             $pass = $_POST["pass"];
@@ -122,6 +122,8 @@ if($login) {
 
                     <div class="res" id="res_wd" align="center">
                         <?php
+                        if(!isset($success_withdraw)){$success_withdraw = '';}
+                        if(!isset($errorReport)){$errorReport = '';}
     					if ($success_withdraw){
     						echo $success_withdraw;
     					}else{

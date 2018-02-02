@@ -61,7 +61,7 @@ if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $tcoin 			= $responsewebx->resp->tcoin;
     $authcode 		= $responsewebx->resp->authcode;
     $pin 			= $responsewebx->resp->pin;
-    $hispoin 		= $responsewebx->resp->history-poin;
+    $hispoin 		= $responsewebx->resp->history_poin;
     $vip 			= $responsewebx->resp->vip;
     $status_block 	= $responsewebx->resp->status_block;
     $status_bank 	= $responsewebx->resp->status_bank;
@@ -94,7 +94,7 @@ if ($flag == 0){
 	exit();
 }
 //PIN CHECK
-if (!$_SESSION["pin"] || $_SESSION["pin"]==""){
+if (!isset($_SESSION["pin"]) || isset($_SESSION["pin"])==""){
 	include($cfgProgDir . "/validation.php");
 	
 	exit();

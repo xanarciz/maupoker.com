@@ -13,24 +13,24 @@ $cref	= $agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = $_POST["Curr"];
-$ref = strtoupper($_COOKIE["ref"]);
+$curr = isset($_POST["Curr"]) ? $_POST["Curr"] :'';
+$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] :'');
 if (!$ref)$ref="";
 if($ref == ''){
-	$ref = $_POST['ref_text'];
+	$ref = isset($_POST['ref_text']) ? $_POST['ref_text'] : '';
 }
-if($_POST["submit"]){
+if(isset($_POST["submit"])){
 	$uname 		= str_replace("''","*",$_POST["UName"]);
 	$unameid 	= str_replace("''","*",$_POST["UNameid"]);
-	$pass		= $_POST["Pass"];
-	$cpass		= $_POST["CPass"];
-	$fullname	= $_POST["BAName"];
-	$email		= $_POST["Email"];
-	$phone		= $_POST["Phone"];
-	$bankname	= $_POST["BName"];
-	$baname		= $_POST["BAName"];
-	$bano		= $_POST["BAno"];
-	$curr		= $_POST["Curr"];
+	$pass		= isset($_POST["Pass"]) ? $_POST["Pass"] :'';
+	$cpass		= isset($_POST["CPass"]) ? $_POST["CPass"] :'';
+	$fullname	= isset($_POST["BAName"]) ? $_POST["BAName"] :'';
+	$email		= isset($_POST["Email"]) ? $_POST["Email"] :'';
+	$phone		= isset($_POST["Phone"]) ? $_POST["Phone"] :'';
+	$bankname	= isset($_POST["BName"]) ? $_POST["BName"] :'';
+	$baname		= isset($_POST["BAName"]) ? $_POST["BAName"] :'';
+	$bano		= isset($_POST["BAno"]) ? $_POST["BAno"] :'';
+	$curr		= isset($_POST["Curr"]) ? $_POST["Curr"] :'';
 
 	//PASSWORD ALPHA NUMERIC	
 	if($_POST['captcha1'] == ''){
@@ -101,6 +101,8 @@ if($_POST["submit"]){
 								<style> .validx {	position:absolute;right:-25px;margin-top:3px; } </style>
                                 <form class="form-horizontal" role="form" method="POST">
 									<?php 
+									if(!isset($errorReport)){$errorReport = '';}
+									if(!isset($successRegister)){$successRegister = '';}
 									if ($errorReport){
 									?>
 										<div class="alert alert-danger" id="the_alert">
@@ -130,7 +132,7 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">Username</label>
                                         <div class="col-lg-2">
 											<div id="ceklis1" class="validx"></div>
-                                            <input onBlur="fast_checking('user_name', 'ceklis1', '')" type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=10 value="<?php echo $uname; ?>" data-required="true" class="form-control">                                           
+                                            <input onBlur="fast_checking('user_name', 'ceklis1', '')" type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=10 value="<?php if(!isset($uname)){$uname = '';} echo $uname; ?>" data-required="true" class="form-control">                                           
 										</div>
                                     </div>
 									
@@ -138,7 +140,7 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">Nickname</label>
                                         <div class="col-lg-2">
 											<div id="ceklis2" class="validx"></div>
-                                            <input onBlur="fast_checking('user_nameid', 'ceklis2', '')" type="text" name="UNameid" id="user_nameid" placeholder="Tampilan anda dalam game" maxlength=10 value="<?php echo strtoupper($unameid); ?>" data-required="true" class="form-control">											
+                                            <input onBlur="fast_checking('user_nameid', 'ceklis2', '')" type="text" name="UNameid" id="user_nameid" placeholder="Tampilan anda dalam game" maxlength=10 value="<?php if(!isset($unameid)){$unameid = '';} echo strtoupper($unameid); ?>" data-required="true" class="form-control">											
 										</div>
                                     </div>
 
@@ -162,7 +164,7 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">Email</label>
                                         <div class="col-lg-2">
 											<div id="ceklis6" class="validx"></div>
-                                            <input onBlur="fast_checking('the_email', 'ceklis6', '')" type="email" name="Email" id="the_email" placeholder="Email harus valid dan benar, email_anda@example.com" maxlength=40 value="<?php echo $email; ?>" class="form-control" data-required="true" data-type="email">
+                                            <input onBlur="fast_checking('the_email', 'ceklis6', '')" type="email" name="Email" id="the_email" placeholder="Email harus valid dan benar, email_anda@example.com" maxlength=40 value="<?php if(!isset($email)){$email = '';} echo $email; ?>" class="form-control" data-required="true" data-type="email">
 											<span style="float:left;">Email Harus Aktif</span>
                                         </div>
                                     </div>
@@ -171,14 +173,14 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">No Telepon</label>
                                         <div class="col-lg-2">
 											<div id="ceklis7" class="validx"></div>
-                                            <input onBlur="fast_checking('the_phone', 'ceklis7', '')" type="text" name="Phone"  id="the_phone" placeholder="Nomor Telepon Anda" maxlength=13  value="<?php echo $phone; ?>" data-required="true" class="form-control">
+                                            <input onBlur="fast_checking('the_phone', 'ceklis7', '')" type="text" name="Phone"  id="the_phone" placeholder="Nomor Telepon Anda" maxlength=13  value="<?php if(!isset($phone)){$phone = '';} echo $phone; ?>" data-required="true" class="form-control">
                                         </div>
                                     </div>
 									<div class="form-group-full">
 										<label class="col-lg-1 control-label">Nama Rekening Bank</label>
 										<div class="col-lg-2">
 											<div id="ceklis8" class="validx"></div>
-											<input onblur="fast_checking('the_baname', 'ceklis8', '')" type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
+											<input onblur="fast_checking('the_baname', 'ceklis8', '')" type="text" name="BAName" id="the_baname" value="<?php if(!isset($baname)){$baname = '';} echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
 										</div>
 									</div>
 
@@ -202,7 +204,7 @@ if($_POST["submit"]){
 										<label class="col-lg-1 control-label">Nomor Rekening Bank</label>
 										<div class="col-lg-2">
 											<div id="ceklis9" class="validx"></div>
-											<input onblur="fast_checking('the_bano', 'ceklis9', 'the_bname')" type="text" name="BAno" id="the_bano" value="<?php echo $bano; ?>" placeholder="Nomor Rekening Bank Anda" data-required="true" class="form-control" maxlength="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" onblur="this.value=this.value.replace(/[^0-9]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }">
+											<input onblur="fast_checking('the_bano', 'ceklis9', 'the_bname')" type="text" name="BAno" id="the_bano" value="<?php if(!isset($bano)){$bano = '';} echo $bano; ?>" placeholder="Nomor Rekening Bank Anda" data-required="true" class="form-control" maxlength="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" onblur="this.value=this.value.replace(/[^0-9]/g,'');" onKeypress="if (event.keyCode < 48 || event.keyCode > 57 || event.keyCode == 13) { if (event.keyCode == 42 || event.keyCode == 13) event.returnValue=true; else event.returnValue = false; }">
 										</div>
 									</div>
 

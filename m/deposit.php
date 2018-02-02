@@ -67,7 +67,7 @@ if ($xdeposit > 0) {
     $maxdepo = $transaction->first_max_depo;
 }
 
-if ($_POST["submit"] && $err == 0) {
+if (isset($_POST["submit"]) && $err == 0) {
     $name = $login;
 
     $amount = str_replace('.', '', $_POST["amount"]);
@@ -76,13 +76,13 @@ if ($_POST["submit"] && $err == 0) {
     $bname1 = $bankname;
     $capt = $_POST["captcha1"];
     $remark = "Deposit";
-	$noresi 	= $_POST["noresi"];
+	$noresi 	= isset($_POST["noresi"]) ? $_POST["noresi"] : '';
 
     $databank = explode(",", $_POST["data-bank"]);
-    $bname2 = $databank[0];
-    $rek2 = $databank[1];
-    $accname2 = $databank[2];
-    $condition = $databank[3];
+    $bname2 = isset($databank[0]) ? $databank[0] : '';
+    $rek2 = isset($databank[1]) ? $databank[1] : '';
+    $accname2 = isset($databank[2]) ? $databank[2] : '';
+    $condition = isset($databank[3]) ? $databank[3] : '';
 
     $err = 0;
     /* if ($capt == '') {
@@ -140,7 +140,7 @@ if ($_POST["submit"] && $err == 0) {
     /* } */
 }
 
-if ($_POST["subform"]) {
+if (isset($_POST["subform"])) {
     $voucher_code = str_replace(" ", "", $_POST["voucher_code"]);
     $pin = str_replace(" ", "", $_POST["pin"]);
     $captcha = str_replace(" ", "", $_POST["captcha"]);
@@ -200,6 +200,7 @@ if ($_POST["subform"]) {
 
                     <div class="res" id="res_dps" align="center">
                         <?php
+                        if(!isset($success_deposit)){$success_deposit = '';}
                         if ($success_deposit){
     						echo $success_deposit;
     					}else{

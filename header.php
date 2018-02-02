@@ -1,6 +1,6 @@
 <?php
 include("lang_en.php");
-$key = $_SESSION["sess_key"];
+$key = isset($_SESSION["sess_key"]);
 $urlBack = $_SERVER['SERVER_NAME'];
 
 if ($_SESSION["login"]) {
@@ -21,12 +21,13 @@ foreach ($infoweb['contact_agent'] as $contact => $value){
     ${$contact.'_id'} = $value;
 }
 
-if($countmemo > 0){
+if(isset($countmemo) > 0){
     $add="(".$countmemo.")";
 }else{
     $add="";
 }
 
+if(!isset($sessid)){$sessid = '';}
 $sid = $sessid;
 // echo "<script>console.log('".$sid."');</script>";
 $param = $_SESSION['login'].",".$sid;

@@ -59,7 +59,7 @@ if($type == 'rep' || $type == 'fwd'){
         <h2><?php echo $title; ?></h2>
     </div>
     <div class="modal-body">
-        <center><div class="res" id="res_memo"><?php echo $errorReport?></div></center>
+        <center><div class="res" id="res_memo"><?php if(!isset($errorReport)){$errorReport = '';} echo $errorReport?></div></center>
         <form method="post" action="<?php echo $action;?>" id="form_memo" style="color:#003642;">
             <input type="hidden" name="memtok" value="<?php echo $id?>" />
             <table cellpadding="0" cellspacing="0" border="0" style="color:#fff;">

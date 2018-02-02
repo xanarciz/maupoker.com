@@ -1,12 +1,12 @@
 <?php
 
-if ($_POST["logout"]){
+if (isset($_POST["logout"])){
 	echo "<script>window.location='../logout.php'</script>";
 }
 $pin_pembukax 	= $pin;
 $iplist 		= getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
-if ($_POST["input_pin"]){
+if (isset($_POST["input_pin"])){
 		// validasi pin
 		$reqAPIPin = array(
 			"auth"   	=> $authapi,
@@ -31,9 +31,9 @@ if ($_POST["input_pin"]){
 			}
 		}
 	 
-}else if ($_POST["submit_data"]){
-	$question=$_POST["question"];
-	$pin=$_POST["pin"];
+}else if (isset($_POST["submit_data"])){
+	$question= isset($_POST["question"]) ? $_POST["question"] :'';
+	$pin= isset($_POST["pin"]) ? $_POST["pin"] :'';
 	
 	// update pin
 	$reqAPIPin = array(
@@ -101,6 +101,7 @@ if ($_POST["input_pin"]){
 										<h1>VALIDASI KEAMANAN</h1>
 										<p>Untuk masuk ke halaman permainan, masukan 6-digit PIN anda menggunakan <br> tombol nomor di samping, demi kemanan akun ID anda.</p>
 										<?php
+										if(!isset($error)){$error = '';}
 										if ($error){
 											echo "<div style='font-family:verdana;color:#aa0000;font-size:16px;padding-bottom:7px;'><b>$error</b	></div>";
 										}
@@ -128,6 +129,7 @@ if ($_POST["input_pin"]){
 									<br><br>
 
 									<?php
+									if(!isset($error)){$error = '';}
 										if ($error){
 											echo "<div style='font-family:verdana;color:#aa0000;font-size:16px;padding-bottom:7px;'><b>$error</b></div>";
 										}
@@ -150,7 +152,7 @@ if ($_POST["input_pin"]){
 				</div>
 				<div class="pincontainer-bottom">
 					<?php if ($pin_pembukax){?>
-						<input type="submit" name="input_pin" value="Submit" class="keypad-key btn-login">
+						<input type="submit" name="input_pin" value="Submit" class="keypad-key btn-login-login">
 						<input type="submit" name="logout" value="Logout" class="keypad-key btn-logout">
 					<?PHP }else{ ?>
 						<input type="submit" name="submit_data" value="Submit" class="keypad-key btn-login">

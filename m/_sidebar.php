@@ -1,7 +1,7 @@
    <?php
   	$txt_script = explode("__lc.license = ",$infoweb["script_text"]);
   	$lisence = substr($txt_script[1],0,7);
-	if (strpos($q_script["script_text"],"tawk.to") ){
+	if (strpos($infoweb["script_text"],"tawk.to") ){
 		$tawk = explode("<!--tawk-->",$infoweb["script_text"]);
 		echo $tawk[1];
 	}
@@ -11,7 +11,7 @@
 	}
 	if (strpos($infoweb["script_text"],"livechat") ){
 		$tawk = explode("<!--livechat-->",$infoweb["script_text"]);
-		echo $tawk[1];
+		echo isset($tawk[1]) ? $tawk[1] : '';
 	}
   ?>
    <div id="sidebar" class="page-sidebar">

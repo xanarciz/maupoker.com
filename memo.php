@@ -7,7 +7,7 @@ if (!$_SESSION["login"]){
 	echo "<script>window.location = 'index.php'</script>";
 	die();
 }
-if (!$_GET["id"]){
+if (!isset($_GET["id"])){
 	$id_memo = 1;
 	$type = 4;
 }else{
@@ -20,10 +20,10 @@ if (!$_GET["id"]){
 	if($id_memo == 2) { $type = 5; $statRep = 'fwd';}
 }
 
-if(!$_GET['page']) $page = 1;
+if(!isset($_GET['page'])) $page = 1;
 else $page = $_GET['page'];
 
-if ($_GET["delete"]){
+if (isset($_GET["delete"])){
 	if ($_GET["delete"] > 0){
 		$reqAPIMemoDel = array(
             'auth'      => $authapi,

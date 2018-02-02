@@ -1,22 +1,25 @@
 <?php
+include_once("config.php");
 $_SESSION['login'] = "";
 if(isset($_GET['action']) && $_GET["action"]=="logout"){
-	session_start();
-	$_SESSION = array();
-	if(isset($_COOKIE[session_name()])) {
-		setcookie(session_name(), '', time()-(60*60*24*30), '/');
-	}
-	session_destroy();
+    session_start();
+    $_SESSION = array();
+    if(isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time()-(60*60*24*30), '/');
+    }
+    session_destroy();
 }
 $DalamGame = "";
-session_start();
-$login = $_SESSION["login"];
-include_once("config.php");
-if (!$login && !$_POST["entered_login"]){
+if (session_status() == 1) {
+        session_start();
+    }
+$login = isset($_SESSION["login"]) ? $_SESSION["login"] :'';
+if (!$login && !isset($_POST["entered_login"])){
 	if (!isset($freePage)){include_once($cfgProgDir."secure.php");}
 }else{
 	include_once($cfgProgDir."secure.php");
 }
+if(!isset($message)){$message = '';}
 if ($message != ""){
 	?>
 	<SCRIPT LANGUAGE="JavaScript">
@@ -24,7 +27,7 @@ if ($message != ""){
 	</SCRIPT>
 	<?php
 }
-
+if(!isset($kata)){$kata = '';}
 if ($_SESSION["login"] && $message == "") {
 	$requiredUserLevel = array('U');
 	$login=$_SESSION["login"];
@@ -33,7 +36,7 @@ if ($_SESSION["login"] && $message == "") {
 	if($subwebid=='9001') {$cd='KP'; $cdFrLuck = 'KP';}
 	if($subwebid=='172') {$cd='DA'; $cdFrLuck = 'DM';}
 	if($subwebid=='42') {$cd='PKR'; $cdFrLuck = '';}
-	if ($_POST['entered_login'] && $_POST['entered_password']) {
+	if (isset($_POST['entered_login']) && $_POST['entered_password']) {
 		header("location:rules.php");
 		die();
 	}
@@ -76,7 +79,7 @@ if ($_SESSION["login"] && $message == "") {
 		var j_withdraw = "";
 		</script>
 		<?php
-		if ($infoweb['script_text'] !="" && $page !="changeAvatar"){
+		if ($infoweb['script_text'] !="" && isset($page) !="changeAvatar"){
 			echo $infoweb['script_text'];
 		}
 			
@@ -328,7 +331,7 @@ if ($_SESSION["login"] && $message == "") {
 		</script>
 		
 		<?php
-		if ($page == "memo"){
+		if (isset($page) == "memo"){
 		?>
 			<!--JQUERY-->
 			<script language="JavaScript" type="text/javascript" src="assets/js/jquery-1.5.2.min.js"></script>

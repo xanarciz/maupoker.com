@@ -36,7 +36,7 @@ $rspKB = "<request>
 				<userid>".$login."</userid>
 			</request>";
 $kdb = curlservice($rspKB);
-$KodeBooking = $kdb['ordernumber'];
+$KodeBooking = isset($kdb['ordernumber']) ? $kdb['ordernumber'] :'';
 /* */
 
 if (!$_SESSION["login"]){
@@ -70,15 +70,17 @@ if($status_bank == 0) {
 $defaultOpen = 0;
 $maxdepo = $transaction->minmaxDepo->max_depo;
 
-$uname = str_replace("''","*",$_POST["UName"]);
-$unameid = str_replace("''","*",$_POST["UNameid"]);
-$pass	= $_POST["Pass"];
-$cpass	= $_POST["CPass"];
-$email	= $_POST["Email"];
-$phone	= $_POST["Phone"];
-$curr	= $_POST["Curr"];
+$uname = str_replace("''","*",(isset($_POST["UName"]) ? $_POST["UName"] : ''));
+$unameid = str_replace("''","*",(isset($_POST["UNameid"]) ? $_POST["UNameid"] : ''));
+$pass	= isset($_POST["Pass"]) ? $_POST["Pass"] : '';
+$cpass	= isset($_POST["CPass"]) ? $_POST["CPass"] : '';
+$email	= isset($_POST["Email"]) ? $_POST["Email"] : '';
+$phone	= isset($_POST["Phone"]) ? $_POST["Phone"] : '';
+$curr	= isset($_POST["Curr"]) ? $_POST["Curr"] : '';
 	
-if ($_POST["submit"] && !$err) {
+if(!isset($err)){$err = '';}
+
+if (isset($_POST["submit"]) && !$err) {
 	$defaultOpen = 1;
 	$name       = $login;
 	$amount		= $_POST["amount"];
@@ -117,7 +119,7 @@ if ($_POST["submit"] && !$err) {
 
 	$response = sendAPI($url_Api."/cashier",$reqAPIRegister,'JSON','02e97eddc9524a1e');
 	if($response->status == 200){
-		$success_deposit = "<div class='deposit-success-report'><strong style='margin:auto;'>Deposit $amountx sukses.</strong><br><br>
+		$success_deposit = "<div class='deposit-success-report'><strong style='margin:auto;'>Deposit ".$amount." sukses.</strong><br><br>
 							<table style=font-family:tahoma;font-size:14px; align=center>
 								<tr><td colspan=3 align=center>Rekening Tujuan</td></tr>
 								<tr>
@@ -144,7 +146,7 @@ if ($_POST["submit"] && !$err) {
 	echo"<BR>";
 }
 
-if ($_POST["submit-uc"] && !$err) {
+if (isset($_POST["submit-uc"]) && !$err) {
 	$defaultOpen = 2;
 	$name       = $login;
 	$amount		= $_POST["amountuc"];
@@ -451,6 +453,8 @@ if(isset($_POST['subform'])){
 					<div id="cash" class="tabcontent">
 						<br>
 						<?php 
+						if(!isset($errorReport)){$errorReport = '';}
+						if(!isset($success_deposit)){$success_deposit = '';}
 						if ($errorReport){
 							echo '<div class="alert alert-danger">'.$errorReport.'</div>';
 						}else if ($success_deposit){

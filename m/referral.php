@@ -33,10 +33,10 @@ $cref=$agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = $_POST["Curr"];
-$ref = strtoupper($_COOKIE["ref"]);
+$curr = isset($_POST["Curr"]) ? $_POST["Curr"] : '';
+$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] : '');
 if (!$ref)$ref="";
-if($_POST["submit"]){
+if(isset($_POST["submit"])){
 ?>
 	<script>
 		$(document).ready(function () {

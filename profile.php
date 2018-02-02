@@ -5,7 +5,7 @@ include("function/jcd-umum.php");
 
 $iplist = getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
-if ($_POST["reset_pin"]){
+if (isset($_POST["reset_pin"])){
 	$reqAPIResetPin = array(
 		"auth" 	    => $authapi,
 		"domain" 	=> $nonWWW,
@@ -22,7 +22,7 @@ if ($_POST["reset_pin"]){
 		exit ("<script>window.location='../index.php'</script>");
 	}
 }
-if($_POST["submit"]){
+if(isset($_POST["submit"])){
 	
 	$uname = $login;
 	$old	= $_POST["old"];
@@ -77,6 +77,8 @@ if($_POST["submit"]){
                             <div class="body-wrap">
                                 <form class="form-horizontal" role="form" method="POST">
 									<?php 
+									if(!isset($errorReport)){$errorReport = '';}
+									if(!isset($successRegister)){$successRegister = '';}
 									if ($errorReport){
 									?>
 										<div class="alert alert-danger">
@@ -116,7 +118,7 @@ if($_POST["submit"]){
                                         <label class="col-lg-1 control-label">Authcode</label>
                                         <div class="col-lg-2">
                                             <div class="text-left bold pt7 normal">
-											<?php echo $user_authcode;?>
+											<?php if(!isset($user_authcode)){$user_authcode = '';} echo $user_authcode;?>
 											</div>
                                         </div>
                                     </div>

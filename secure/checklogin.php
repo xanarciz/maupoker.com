@@ -56,8 +56,8 @@ if ($bgRotate == true) {
 	$bgImage = rotateBg();
 }
 
-if(substr($entered_login,0,1) != "*"){
-	foreach (count_chars($entered_login, 1) as $i => $val) {
+if(substr(isset($entered_login),0,1) != "*"){
+	foreach (count_chars(isset($entered_login), 1) as $i => $val) {
 		if($i > 47 && $i < 58) {}
 		else if($i > 64 && $i < 91) {}
 		else if($i > 96 && $i < 123) {}
@@ -67,23 +67,25 @@ if(substr($entered_login,0,1) != "*"){
 }
 
 
-$entered_login 	  = strtoupper($_POST['entered_login']);
-$entered_password = $_POST['entered_password'];
-$entered_val	  = strtolower($_POST['entered_val']);
-$partdomain 	  = $_SESSION['part_domain'];
-$partlogin 		  = $_SESSION['part_login'];
-$partuid 		  = $_SESSION['part_uid'];
-$captcha_x 		  = $_SESSION['CAPTCHAString'];
+$entered_login 	  = strtoupper(isset($_POST['entered_login']) ? $_POST['entered_login'] :'');
+$entered_password = isset($_POST['entered_password']) ? $_POST['entered_password'] :'';
+$entered_val	  = strtolower(isset($_POST['entered_val']) ? $_POST['entered_val'] : '');
+$partdomain 	  = isset($_SESSION['part_domain']) ? $_SESSION['part_domain'] : '';
+$partlogin 		  = isset($_SESSION['part_login']) ? $_SESSION['part_login'] : '';
+$partuid 		  = isset($_SESSION['part_uid']) ? $_SESSION['part_uid'] : '';
+$captcha_x 		  = isset($_SESSION['CAPTCHAString']) ? $_SESSION['CAPTCHAString'] : '';
 $flag 			  = "";
 
 if (!$entered_login && !$entered_password) {
 	// use data from session
 	//echo "$_SESSION[login] test";
-    session_start();
-	$login 		= $_SESSION['login'];
-	$user_login = $_SESSION['user_login'];
-	$password 	= $_SESSION['password'];
-	$sessid 	= $_SESSION['sessid'];
+    if (session_status() == 1) {
+	    session_start();
+	}
+	$login 		= isset($_SESSION['login']) ? $_SESSION['login'] :'';
+	$user_login = isset($_SESSION['user_login']) ? $_SESSION['user_login'] :'';
+	$password 	= isset($_SESSION['password']) ? $_SESSION['password'] :'';
+	$sessid 	= isset($_SESSION['sessid']) ? $_SESSION['sessid'] :'';
 	// $captcha_x = $_SESSION['CAPTCHAString'];
 	// $captcha = $_SESSION['captcha'];
 
@@ -95,7 +97,9 @@ else
 {
 	// use entered data
 	// encrypt entered login & password
-    session_start();
+    if (session_status() == 1) {
+	    session_start();
+	}
 	$login = $entered_login;	
 	$password = hash("sha256",md5($entered_password).'8080');
 	$captcha = $entered_val;
