@@ -26,7 +26,7 @@ if ($login){
 	$dir = substr($login,0,1);
 }
 
-if($_GET["action"]=="logout"){
+if(isset($_GET["action"])=="logout"){
 		$_SESSION = array();
 		if(isset($_COOKIE[session_name()])) {
 			setcookie(session_name(), '', time()-(60*60*24*30), '/');

@@ -3,7 +3,7 @@ $freePage=true;
 include("meta.php");
 include("header.php");
 
-if (!$_SESSION["login"]){
+if (!isset($_SESSION["login"])){
 	$flag = 'withdraw';
 	include('ketdpwd.php');
 	include('footer.php');
@@ -34,12 +34,12 @@ if($status_bank == 0) {
 
 $defaultOpen = 0;
 
-	if ($_POST["submit"]) {
+	if (isset($_POST["submit"])) {
 		$name		= $login;
 		//$amount		= substr(str_replace('.','',$_POST["amount"]),4);
-		$amount		= $_POST["amount"];
-		$pass		= $_POST["pass"];
-		$capt		= $_POST["captcha"];
+		$amount		= isset($_POST["amount"]) ? $_POST["amount"] : '';
+		$pass		= isset($_POST["pass"]) ? $_POST["pass"] : '';
+		$capt		= isset($_POST["captcha"]) ? $_POST["captcha"] : '';
 		$bankacc	= $bankaccname;
 		$rek		= $bankaccno;
 		$error = 0;
@@ -204,6 +204,8 @@ $defaultOpen = 0;
 					<div id="wdcontainer" class="tabcontent">
 						<form class="form-horizontal" role="form" method="post">
 						   <?php 
+						   if(!isset($errorReport)){$errorReport = '';}
+						   if(!isset($success_withdraw)){$success_withdraw = '';}
 							if ($errorReport){
 							?>
 								<div class="alert alert-danger">

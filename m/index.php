@@ -3,6 +3,7 @@ $page='home';
 include("_metax.php");
 include("_header.php");
 $img_main = explode(';', $infoweb['img_main']);
+if(!isset($sid)){$sid = '';}
 $param = $_SESSION['login'].",".$sid;
 
 ?>

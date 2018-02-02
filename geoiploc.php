@@ -10,8 +10,8 @@ if(!in_array($ip, $whitelist_ip)){
 	$protected_country = array();
 }
 
-$country_code = getenv(GEOIP_COUNTRY_CODE);
-$country_name = getenv(GEOIP_COUNTRY_NAME);
+$country_code = getenv("GEOIP_COUNTRY_CODE");
+$country_name = getenv("GEOIP_COUNTRY_NAME");
 if(in_array($country_code, $protected_country)){
 
 	if(!in_array($ip, $whitelist_ip)){

@@ -1,6 +1,6 @@
 <?php
 include("config.php");
-include("config.inc.php");
+// include("config.inc.php");
 ?>
 <html>
 	<link rel="shortcut icon" href="assets/img/<?php echo $link_img;?>/favicon.ico" />
@@ -17,11 +17,11 @@ include("config.inc.php");
 		if (isset($_GET["tekan"]))
 			$tekan = $_GET["tekan"];
 
-		if($tekan == "Setuju"){
+		if(isset($tekan) == "Setuju"){
 			echo "<script>document.location='menu.php'</script>";
 		}
 
-		if($tekan == "Tidak Setuju"){
+		if(isset($tekan) == "Tidak Setuju"){
 			echo "<script>document.location='logout.php'</script>";
 		}
 		$term = str_replace("\r\n","<br>",$infoweb["rules_text"]);

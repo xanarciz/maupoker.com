@@ -5,7 +5,9 @@ $page='home';
 include("_metax.php");
 include("_header.php");
 
-session_start();
+if (session_status() == 1) {
+        session_start();
+    }
 
 if (!$_SESSION["login"]){
     echo "<script>window.location = 'index.php'</script>";

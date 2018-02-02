@@ -78,6 +78,8 @@ if(@$_POST["submit"]){
 
 					<form class="form-horizontal" role="form" method="POST">
 						<?php 
+						if(!isset($errorReport)){$errorReport = '';}
+						if(!isset($successRegister)){$successRegister = '';}
 						if ($errorReport){
 						?>
 							<div class="alert alert-danger">
@@ -100,7 +102,7 @@ if(@$_POST["submit"]){
 						<div class="form-group-full">
 							<label class="col-lg-1 control-label">Username</label>
 							<div class="col-lg-2">
-								<input type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=10 value="<?php echo $uname; ?>" data-required="true" class="form-control">
+								<input type="text" name="UName" id="user_name" placeholder="Username Account Anda" maxlength=10 value="<?php if(!isset($uname)){$uname = '';} echo $uname; ?>" data-required="true" class="form-control">
 								
 							</div>
 						</div>
@@ -129,14 +131,14 @@ if(@$_POST["submit"]){
 						<div class="form-group-full">
 							<label class="col-lg-1 control-label">Nama Rekening</label>
 							<div class="col-lg-2">
-								<input type="text" name="BAName" placeholder="Nama Rekening Anda" class="form-control">
+								<input type="text" name="BAName" value='<?php if(!isset($baname)){$baname = '';} echo $baname; ?>' placeholder="Nama Rekening Anda" class="form-control">
 							</div>
 						</div>
 
 						<div class="form-group-full">
 							<label class="col-lg-1 control-label">Nomor Rekening</label>
 							<div class="col-lg-2">
-								<input type="text" name='BAno' placeholder="Nomor Rekening Anda" class="form-control"/>
+								<input type="text" name='BAno' value='<?php if(!isset($bano)){$bano = '';} echo $bano; ?>' placeholder="Nomor Rekening Anda" class="form-control"/>
 								
 							</div>
 						</div>
@@ -144,7 +146,7 @@ if(@$_POST["submit"]){
 						<div class="form-group-full">
 							<label class="col-lg-1 control-label">Nomor HP</label>
 							<div class="col-lg-2">
-								<input type="text" name="hp1" placeholder="Nomor HP" value="<?php echo $email; ?>" class="form-control" data-required="true" data-type="email">
+								<input type="text" name="hp1" placeholder="Nomor HP" value="<?php if(!isset($email)){$email = '';} echo $email; ?>" class="form-control" data-required="true" data-type="email">
 							</div>
 						</div>
 						<div class="form-group-full">

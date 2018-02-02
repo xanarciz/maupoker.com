@@ -7,7 +7,7 @@ if($page == 'home'){
 	$_SESSION['login'] = "";
 }
 
-if($_GET["action"]=="logout"){
+if(isset($_GET["action"])=="logout"){
 	$_SESSION = array();
 	if(isset($_COOKIE[session_name()])) {
 		setcookie(session_name(), '', time()-(60*60*24*30), '/');
@@ -32,12 +32,12 @@ if ($message != ""){
 if ($_SESSION["login"] && $message == "") {
 	$requiredUserLevel = array('U');
 	$login=$_SESSION["login"];
-	if ($_POST['entered_login'] && $_POST['entered_password']) {
+	if (isset($_POST['entered_login']) && isset($_POST['entered_password'])) {
 		header("location:login.php");
 		die();
 	}
 
-	if ($status == 1){
+	if (isset($status) == 1){
 		$_GET["action"] = "logout";
 	}
 }
@@ -196,6 +196,7 @@ function depAmount(a){
 </script>
 
 <?php
+if(!isset($kata)){$kata = '';}
 if ($login){
 	if ($kata){
 		echo "<script>alert('$kata');</script>";

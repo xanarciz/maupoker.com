@@ -33,10 +33,10 @@ $cref=$agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = $_POST["Curr"];
-$ref = strtoupper($_COOKIE["ref"]);
+$curr = isset($_POST["Curr"]) ? $_POST["Curr"] : '';
+$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] : '');
 if (!$ref)$ref="";
-if($_POST["submit"]){
+if(isset($_POST["submit"])){
 ?>
 	<script>
 		$(document).ready(function () {
@@ -127,6 +127,7 @@ if($_POST["submit"]){
 
                     <div class="res" id="res_reg" align="center">
               			<?php
+                            if(!isset($errorReport)){$errorReport = '';}
               				if ($errorReport){								
               					echo "<div class='big-notification red-notification' id='the_alert'>".$errorReport."</div>";
               				}
@@ -138,13 +139,15 @@ if($_POST["submit"]){
 
                     <form method="post" id="form_reg" style="margin-top: 14px;">
 
-                        <?php if (!$successRegister){ ?>
+                        <?php 
+                        if(!isset($successRegister)){$successRegister = '';}
+                        if (!$successRegister){ ?>
                         <div class="form-group">
                             <div class="formLabel">
                                 <label class="field-title formTextarea" for="formTextarea">Login ID</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" class="contactField" name="UName" maxlength="8" value="<?php echo $_POST["UName"]; ?>" />
+                                <input onBlur="fast_checking('user_name', 'ceklis1', '')" id="user_name" type="text" class="contactField" name="UName" maxlength="8" value="<?php if (isset($_POST["UName"])) { echo $_POST["UName"];} ?>" />
                             </div>
                         </div>
 						
@@ -153,7 +156,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Nickname</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('user_nameid', 'ceklis2', '')" id="user_nameid" type="text" class="contactField" name="UNameid" maxlength="10" value="<?php echo strtoupper($unameid); ?>" />
+                                <input onBlur="fast_checking('user_nameid', 'ceklis2', '')" id="user_nameid" type="text" class="contactField" name="UNameid" maxlength="10" value="<?php if(!isset($unameid)){$unameid = '';} echo strtoupper($unameid); ?>" />
                             </div>
                         </div>
 
@@ -162,7 +165,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Password</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_pass', 'ceklis3', '')" id="the_pass" type="password" class="contactField" name="Pass" value="<?php echo $_POST["Pass"]; ?>" />
+                                <input onBlur="fast_checking('the_pass', 'ceklis3', '')" id="the_pass" type="password" class="contactField" name="Pass" value="<?php if (isset($_POST["Pass"])) {echo $_POST["Pass"];} ?>" />
                             </div>
                         </div>
 
@@ -171,7 +174,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Ulangi Password</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_cpass', 'ceklis4', 'the_pass')" id="the_cpass" type="password" class="contactField" name="CPass" value="<?php echo $_POST["CPass"]; ?>" />
+                                <input onBlur="fast_checking('the_cpass', 'ceklis4', 'the_pass')" id="the_cpass" type="password" class="contactField" name="CPass" value="<?php if (isset($_POST["CPass"])) {echo $_POST["CPass"];} ?>" />
                             </div>
                         </div>
 
@@ -182,7 +185,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Nama</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_fname', 'ceklis5', '')" id="the_fname" type="text" type="text" class="contactField" name="FName" value="<?php echo $_POST["FName"]; ?>" />
+                                <input onBlur="fast_checking('the_fname', 'ceklis5', '')" id="the_fname" type="text" type="text" class="contactField" name="FName" value="<?php if (isset($_POST["FName"])) {echo $_POST["FName"];} ?>" />
                             </div>
                         </div>
 
@@ -191,7 +194,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Alamat Email</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_email', 'ceklis6', '')" id="the_email" type="text" class="contactField" maxlength="40"  name="Email" value="<?php echo $_POST["Email"]; ?>" />
+                                <input onBlur="fast_checking('the_email', 'ceklis6', '')" id="the_email" type="text" class="contactField" maxlength="40"  name="Email" value="<?php if (isset($_POST["Email"])) {echo $_POST["Email"];} ?>" />
                             </div>
                         </div>
 
@@ -200,7 +203,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">No. Telp / HP</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_phone', 'ceklis7', '')" id="the_phone" type="text" class="contactField" maxlength="13" name="Phone" value="<?php echo $_POST["Phone"]; ?>" />
+                                <input onBlur="fast_checking('the_phone', 'ceklis7', '')" id="the_phone" type="text" class="contactField" maxlength="13" name="Phone" value="<?php if (isset($_POST["Phone"])) {echo $_POST["Phone"];} ?>" />
                             </div>
                         </div>
 
@@ -238,7 +241,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Nomor Rekening</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_bano', 'ceklis9', 'the_bname')" id="the_bano" type="text" class="contactField" name="BAno" id="BAno" value="<?php echo $_POST["BAno"];?>" />
+                                <input onBlur="fast_checking('the_bano', 'ceklis9', 'the_bname')" id="the_bano" type="text" class="contactField" name="BAno" id="BAno" value="<?php if (isset($_POST["BAno"])) {echo $_POST["BAno"];} ?>" />
                             </div>
                         </div>
 

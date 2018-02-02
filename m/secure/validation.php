@@ -1,12 +1,12 @@
 <?php
-if ($_POST["logout"]){
+if (isset($_POST["logout"])){
 	session_destroy();
 	echo "<script>window.location='../index.php'</script>"; 
 }
 $pin_pembuka=$pin;
 $iplist = getUserIP2().','.getUserIP2('HTTP_CLIENT_IP').','.getUserIP2('HTTP_X_FORWARDED_FOR').','.getUserIP2('REMOTE_ADDR');
 
-if ($_POST["input_pin"]){
+if (isset($_POST["input_pin"])){
     // validasi pin
     $reqAPIPin = array(
         "auth"   	=> $authapi,
@@ -32,7 +32,7 @@ if ($_POST["input_pin"]){
             $error = $respPin->msg;
         }
     }
-}else if ($_POST["submit_data"]){
+}else if (isset($_POST["submit_data"])){
     $question=$_POST["question"];
     $pin=$_POST["pin"];
 
@@ -105,6 +105,7 @@ if ($_POST["input_pin"]){
 						
 						<br>
 						<?php
+						if(!isset($error)){$error = '';}
 						if ($error){
 							echo "<div style='font-family:verdana;color:#aa0000;font-size:16px;padding-bottom:7px;'><b>$error</b	></div>";
 						}

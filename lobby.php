@@ -6,10 +6,10 @@ $urlBack = $_SERVER['SERVER_NAME'];
 
 
 //CURR SESSION
-if($_GET["currx"]!=""){
+if(isset($_GET["currx"])!=""){
 	$_SESSION["currx"] = $_GET["currx"];
 	$currx = $_GET["currx"];
-}elseif($_SESSION["currx"]!=""){
+}elseif(isset($_SESSION["currx"])!=""){
 	$currx = $_SESSION["currx"];
 }else{
 	$_SESSION["currx"] = "IDR";
@@ -20,10 +20,10 @@ $getCode = "LPK";
 
 
 //ROOM SESSION
-if($_GET["roomname"]!=""){
+if(isset($_GET["roomname"])!=""){
 	$_SESSION["roomname"] = $_GET["roomname"];
 	$getRoomname = $_GET["roomname"];
-}elseif($_SESSION["roomname"]!=""){
+}elseif(isset($_SESSION["roomname"])!=""){
 	$getRoomname = $_SESSION["roomname"];
 }else{
 	$_SESSION["roomname"] = "smallest";
@@ -32,10 +32,10 @@ if($_GET["roomname"]!=""){
 
 
 //TIMER SESSION
-if($_GET["timer"]!=""){
+if(isset($_GET["timer"])!=""){
 	$_SESSION["timer"] = $_GET["timer"];
 	$timer = $_GET["timer"];
-}elseif($_SESSION["timer"]!=""){
+}elseif(isset($_SESSION["timer"])!=""){
 	$timer = $_SESSION["timer"];
 }else{
 	$_SESSION["timer"] = 20;
@@ -46,7 +46,7 @@ if($_GET["timer"]!=""){
 
 //SEARCH QUERY
 $isiSearch = "";
-if($_GET["search"]!=""){
+if(isset($_GET["search"])!=""){
 	$_GET["search"] = str_replace("SPACE"," ",$_GET["search"]);
 	$isiSearch = $_GET["search"];
 	// $searcher = " AND a.TableRank LIKE '%".$_GET["search"]."%'";
@@ -89,7 +89,7 @@ function myCurl($req)
 }
 
 
-
+// <lang>".$lang."</lang>
 $req18 = "<request>
 			<secret_key>88888111118888811111</secret_key>
 			<id>181</id>
@@ -98,7 +98,6 @@ $req18 = "<request>
 			<curr>".$currx."</curr>
 			<getCode>".$getCode."</getCode>
 			<getroomname>".$getRoomname."</getroomname>
-			<lang>".$lang."</lang>
 			<timer>".$timer."</timer>
 			<searcher>".$isiSearch."</searcher>
 		</request>";

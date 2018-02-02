@@ -58,7 +58,10 @@ $backgrounds[] = 'bg_gun.gif';
 
 
 
-
+if(!isset($Server)){$Server = '';}
+if(!isset($DbUserName)){$DbUserName = '';}
+if(!isset($DbPassword)){$DbPassword = '';}
+if(!isset($DatabaseName)){$DatabaseName = '';}
 
 /****** Database ******/
 
@@ -73,7 +76,6 @@ $cfgServerHost = $Server;             // MySQL hostname
 $cfgServerPort = '3306';                      // MySQL port - leave blank for default port
 
 //global $DbName, $DbUserName, $DbPassword,$sqlconn;
-
 $cfgServerUser = $DbUserName;                  // MySQL user
 
 $cfgServerPassword = $DbPassword;                  // MySQL password
@@ -194,7 +196,7 @@ $cfgUserID[3] = '';
 $cfgHtmlDir = "http://" . getenv("HTTP_HOST") . $cfgProgDir;
 //$cfgProgDir = getenv("DOCUMENT_ROOT") . $cfgProgDir;
 
-if ($message) $messageOld = $message;
+if (isset($message)) $messageOld = $message;
 
 $message = false;
 
@@ -231,7 +233,7 @@ include($cfgSecDir."session.php");
 
 // choose between login or logout
 
-if ($logout) {
+if (isset($logout)) {
 	// logout
 	
 	include($cfgSecDir."logout.php");

@@ -1,5 +1,6 @@
 <?php
 //=========================================================================
+/* 
 $P_NEWPLA="Add Player";
 $P_PLALIS="Player List";
 $P_PLALISL="Player List (Lck)";
@@ -20,7 +21,7 @@ $P_HISCOI="History Coin";
 $P_TUTO="Tutorial";
 $P_ALL ="All";
 
-define("P_TRXDAY","Transaction start");
+// define("P_TRXDAY","Transaction start");
 define("P_DAY","Day");
 define("P_MONTHLY","Monthly");
 define("P_REFLIS","Nama Referral");
@@ -529,5 +530,5 @@ define(P_MANDIRI13DIGIT, "BANK MANDIRI ACCOUNT NUMBER LENGTH MUST BE 13 DIGIT");
 define(P_BNI10DIGIT, "BANK BNI ACCOUNT NUMBER LENGTH MUST BE 9 OR 10 DIGIT");
 define(P_MANDIRI13DIGIT, "BANK BRI ACCOUNT NUMBER LENGTH MUST BE 15 DIGIT");
 //-- END
-
+*/
 ?>
