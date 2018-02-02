@@ -203,7 +203,7 @@ if($_POST["submit"]){
                                 <label class="field-title formTextarea" for="formTextarea">Nama Rekening</label>
                             </div>
                             <div class="formInput">
-                                <input onBlur="fast_checking('the_baname', 'ceklis8', '')" id="the_baname" type="text" class="contactField" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" />
+                                <input onBlur="fast_checking('the_baname', 'ceklis8', 'the_bname')" id="the_baname" type="text" class="contactField" maxlength="25" name="BAName" value="<?php echo $_POST["BAName"]; ?>" />
                                 <div style="height:5px;"></div>
                                 <span class="note">* Nama lengkap anda sesuai dibuku tabungan</span>
                             </div>

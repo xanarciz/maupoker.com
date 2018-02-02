@@ -157,7 +157,7 @@ if($_POST["submit"]){
 										<label class="col-lg-1 control-label">Nama Rekening Bank</label>
 										<div class="col-lg-2">
 											<div id="ceklis8" class="validx"></div>
-											<input onblur="fast_checking('the_baname', 'ceklis8', '')" type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
+											<input onblur="fast_checking('the_baname', 'ceklis8', 'the_bname')" type="text" name="BAName" id="the_baname" value="<?php echo $baname; ?>" placeholder="Nama Lengkap Anda Sesuai Buku tabungan" data-required="true" class="form-control" maxlength="50" >
 										</div>
 									</div>
 
