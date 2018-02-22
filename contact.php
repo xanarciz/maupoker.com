@@ -18,7 +18,6 @@ include("header.php");
                                 <div class="tabs">
                                     <ul class="tab-links">
                                         <li class="active"><a href="#tab1">Hubungi kami</a></li>
-                                        <li><a href="#tab2">Cara Bermain</a></li>
                                     </ul>
 
                                     <div class="tab-content">
@@ -35,14 +34,9 @@ include("header.php");
 											if($whatsapp_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_6.png'></td><td><h4>$whatsapp_id</h4></td></tr>";
 											if($facebook_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_7.png'></td><td><h4>$facebook_id</h4></td></tr>";
 											if($twitter_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_8.png'></td><td><h4>$twitter_id</h4></td></tr>";
+											if($line_id)echo "<tr><td><img src='assets/js/quickAccess/icons/light_icons/varia_9.png'></td><td><h4>$line_id</h4></td></tr>";
 											?>
 											</table>
-                                        </div>
-
-                                        <div id="tab2" class="tab">
-												<?php
-												echo str_replace("\r\n","<br>",$infoweb["howtoplay_text"]);
-												?>
                                         </div>
                                     </div>
                                 </div>
