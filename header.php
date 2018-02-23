@@ -205,7 +205,7 @@ $param = $_SESSION['login'].",".$sid;
                             </a>
                         </div>
 
-                        <button type="submit" class="btn btn-login" tabindex="4">LOGIN</button>
+                        <input type="submit" class="btn btn-login" tabindex="4" value="LOGIN" id="the_click">
                     </form>
                     <?php if ($register==1){ ?><div class="forget-password" style="margin-top: 85px;margin-right: -351px;"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
                 <?php

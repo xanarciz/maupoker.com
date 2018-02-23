@@ -87,11 +87,11 @@ if(isset($_POST["submit"])){
 							</script>
 							<?php
 						}else{
-							echo"<script>
-								document.getElementById('menu-register').href=j_register;
-								document.getElementById('menu-deposit').href=j_deposit;
-								document.getElementById('menu-withdraw').href=j_withdraw;
-							</script>";
+							// echo"<script>
+							// 	document.getElementById('menu-register').href='j_register';
+							// 	document.getElementById('menu-deposit').href='j_deposit';
+							// 	document.getElementById('menu-withdraw').href='j_withdraw';
+							// </script>";
 						
 						?>
 						    <div class="head-wrap">
@@ -305,8 +305,10 @@ if(isset($_POST["submit"])){
 				function(result){ 
 					document.getElementById("membername").value = "<?php echo $uname; ?>";
 					document.getElementById("j_plain_password").value = "<?php echo $pass; ?>";
-					document.getElementById("membervalidation").value = result;
-					document.getElementById("frmlgn").submit();
+					// document.getElementById("membervalidation").value = result;
+					// document.getElementById("frmlgn").submit();
+					document.getElementById("the_click").click();
+
 				}
 			);  
 	    }
