@@ -56,8 +56,12 @@ function sanitize($data, $values2 = null) {
 	if(is_array($data)){
 		$res = array();
 		foreach ($data as $key => $value){
-			$res[$key] = str_ireplace($operators, '', $value);
-			$res[$key] = preg_replace($regexIlegalChar, '', $res[$key]);
+			if($key == "UName" or $key == "UNameid"){
+				$res[$key] = $value;
+			}else{
+				$res[$key] = str_ireplace($operators, '', $value);
+				$res[$key] = preg_replace($regexIlegalChar, '', $res[$key]);
+			}
 		}
 	}else{
 		$res = str_ireplace($operators,'',$data);
@@ -198,6 +202,7 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
         } else {
             $response = $respon;
         }
+		// echo "<script>console.log('".$response."');</script>";
 		
 
         curl_setopt($curl, CURLOPT_URL, $url);

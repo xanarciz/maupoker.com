@@ -17,6 +17,7 @@ if (isset($_POST["input_pin"])){
         "userid"	=> $login,
         "pin"       => $_POST["pin"],
 		"webid"     => $subwebid,
+		"agent"     => $agentwlable,
     );
 
     $respPin = sendAPI($url_Api."/account",$reqAPIPin,'JSON','02e97eddc9524a1e');
