@@ -193,13 +193,13 @@ $param = $_SESSION['login'].",".$sid;
                         <div class="form-group">
                             <input type="password" placeholder="Password" id="j_plain_password" name="entered_password" class="form-control-login" tabindex="2">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <input type="text" placeholder="Validation" id="membervalidation" name="entered_val" class="form-control-login" maxlength="5" tabindex="3">
                         </div>
                         <div class="form-group">
                             <img src="captcha/captcha-login.php?.png" alt="VALIDATION" title="VALIDATION" class="form-captcha"/>
-                        </div>
-                        <div style=position:fixed;z-index:1000;top:0px;padding-left:480px;>
+                        </div> -->
+                        <div style=position:absolute;top:0px;padding-left:223px;>
                             <a href="#" onclick="window.open('http://form.6mbr.com/?webname=<?php echo $nonWWW; ?>&lang=id','kritik_saran', 'width=600, height=1000');">
                                 <img src="assets/images/feedback.png" width=115px;>
                             </a>
@@ -207,7 +207,7 @@ $param = $_SESSION['login'].",".$sid;
 
                         <button type="submit" class="btn btn-login" tabindex="4">LOGIN</button>
                     </form>
-                    <?php if ($register==1){ ?><div class="forget-password"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
+                    <?php if ($register==1){ ?><div class="forget-password" style="margin-top: 85px;margin-right: -351px;"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
                 <?php
                 }else{
                    

@@ -69,11 +69,11 @@ if(substr(isset($entered_login),0,1) != "*"){
 
 $entered_login 	  = strtoupper(isset($_POST['entered_login']) ? $_POST['entered_login'] :'');
 $entered_password = isset($_POST['entered_password']) ? $_POST['entered_password'] :'';
-$entered_val	  = strtolower(isset($_POST['entered_val']) ? $_POST['entered_val'] : '');
+// $entered_val	  = strtolower(isset($_POST['entered_val']) ? $_POST['entered_val'] : '');
 $partdomain 	  = isset($_SESSION['part_domain']) ? $_SESSION['part_domain'] : '';
 $partlogin 		  = isset($_SESSION['part_login']) ? $_SESSION['part_login'] : '';
 $partuid 		  = isset($_SESSION['part_uid']) ? $_SESSION['part_uid'] : '';
-$captcha_x 		  = isset($_SESSION['CAPTCHAString']) ? $_SESSION['CAPTCHAString'] : '';
+// $captcha_x 		  = isset($_SESSION['CAPTCHAString']) ? $_SESSION['CAPTCHAString'] : '';
 $flag 			  = "";
 
 if (!$entered_login && !$entered_password) {
@@ -102,24 +102,24 @@ else
 	}
 	$login = $entered_login;	
 	$password = hash("sha256",md5($entered_password).'8080');
-	$captcha = $entered_val;
+	// $captcha = $entered_val;
 // session hack to make sessions on old php4 versions work
 	
-	if (!$captcha){
-		//echo "sini woii";die();
+	// if (!$captcha){
+	// 	//echo "sini woii";die();
 		
-		$message = $strNoVal;
-		session_destroy();
-		include($cfgProgDir . "interface.php");
-		exit;
-	}
-	if (!checkCaptcha('CAPTCHAStringLogin',$captcha)) {
-		//echo "error captcha...!!"
-		$message = $strValFalse;
-		session_destroy();
-		include($cfgProgDir . "interface.php");
-		exit;
-	}
+	// 	$message = $strNoVal;
+	// 	session_destroy();
+	// 	include($cfgProgDir . "interface.php");
+	// 	exit;
+	// }
+	// if (!checkCaptcha('CAPTCHAStringLogin',$captcha)) {
+	// 	//echo "error captcha...!!"
+	// 	$message = $strValFalse;
+	// 	session_destroy();
+	// 	include($cfgProgDir . "interface.php");
+	// 	exit;
+	// }
 
     if (isset($_COOKIE["livecasinouser"])) $cooks = $_COOKIE["livecasinouser"];
     else $cooks="";
@@ -158,7 +158,7 @@ else
 		$_SESSION['login'] = strtoupper($responseweb->resp->userid);
 		$_SESSION['password'] = $password;
 		$_SESSION['sessid'] = $responseweb->resp->session;
-		$_SESSION['captcha'] = $captcha;
+		// $_SESSION['captcha'] = $captcha;
 		
 		$login 		= $_SESSION['login'];
 		$password 	= $_SESSION['password'];

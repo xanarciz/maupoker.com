@@ -71,11 +71,11 @@ if(substr($entered_login,0,1) != "*"){
 
 $entered_login = strtoupper($_POST['entered_login']);
 $entered_password = $_POST['entered_password'];
-$entered_val=strtolower($_POST['entered_val']);
+// $entered_val=strtolower($_POST['entered_val']);
 $partdomain = $_SESSION['part_domain'];
 $partlogin = $_SESSION['part_login'];
 $partuid = $_SESSION['part_uid'];
-$captcha_x = $_SESSION['CAPTCHAString'];  
+// $captcha_x = $_SESSION['CAPTCHAString'];  
 $flag =""; 
 if (!$entered_login && !$entered_password) {
 	// use data from session
@@ -84,8 +84,8 @@ if (!$entered_login && !$entered_password) {
 	$login = $_SESSION['login'];
 	$user_login = $_SESSION['user_login'];
 	$password = $_SESSION['password'];
-	$captcha_x = $_SESSION['CAPTCHAString'];
-	$captcha = $_SESSION['captcha'];
+	// $captcha_x = $_SESSION['CAPTCHAString'];
+	// $captcha = $_SESSION['captcha'];
 
 /*	$login = sanitizex($login);
 	$password = sanitizex($password);
@@ -98,14 +98,14 @@ else
 	// encrypt entered login & password
 	$login = $entered_login;	
 	$password = hash("sha256",md5($entered_password).'8080');
-	$captcha = $entered_val;
+	// $captcha = $entered_val;
 // session hack to make sessions on old php4 versions work
 	
 	// session 
 	$_SESSION['user_login'] = $login;
 	$_SESSION['login'] = $login;
 	$_SESSION['password'] = $password;
-	$_SESSION['captcha'] = $captcha;
+	// $_SESSION['captcha'] = $captcha;
 
 
 	$loginx = $_SESSION['login'];
@@ -113,8 +113,8 @@ else
 	$partdomainx = $_SESSION['part_domain'];
 	$partloginx = $_SESSION['part_login'];
 	$partuidx = $_SESSION['part_uid'];
-	$captchax = $_SESSION['CAPTCHAString'];
-	$captcha_login = $_SESSION['CAPTCHAStringLogin'];
+	// $captchax = $_SESSION['CAPTCHAString'];
+	// $captcha_login = $_SESSION['CAPTCHAStringLogin'];
 	
 	session_destroy();
 	session_start();
@@ -125,9 +125,9 @@ else
 	$_SESSION['part_domain'] = $partdomainx;
 	$_SESSION['part_login'] = $partloginx;
 	$_SESSION['part_uid'] = $partuidx;
-	$_SESSION['CAPTCHAString'] = $captchax;
-	$_SESSION['CAPTCHAStringLogin'] = $captcha_login;
-	$_SESSION['captcha'] = $captcha;
+	// $_SESSION['CAPTCHAString'] = $captchax;
+	// $_SESSION['CAPTCHAStringLogin'] = $captcha_login;
+	// $_SESSION['captcha'] = $captcha;
 
 	$login = $_SESSION['login'];
 	$user_login = $_SESSION['user_login'];
@@ -145,8 +145,8 @@ else
 	unset($partdomainx);
 	unset($partuidx);
 	unset($partloginx);
-	unset($captchax);
-	unset($captcha_login);
+	// unset($captchax);
+	// unset($captcha_login);
 
 
 
@@ -183,20 +183,20 @@ if (!$login) {
 
 // use phpSecurePages with Database
 if ($useDatabase == true) {
-	if (!$captcha){
-			//echo "sini woii";die();
-		$message = $strNoVal;
-		session_destroy();
-		include($cfgProgDir . "interface.php");
-		exit;
-	}
-	if (strtolower($_SESSION['CAPTCHAStringLogin']) != $captcha) {
-		//echo "error captcha...!!";
-		$message = $strValFalse;
-		session_destroy();
-		include($cfgProgDir . "interface.php");
-		exit;
-	}
+	// if (!$captcha){
+	// 		//echo "sini woii";die();
+	// 	$message = $strNoVal;
+	// 	session_destroy();
+	// 	include($cfgProgDir . "interface.php");
+	// 	exit;
+	// }
+	// if (strtolower($_SESSION['CAPTCHAStringLogin']) != $captcha) {
+	// 	//echo "error captcha...!!";
+	// 	$message = $strValFalse;
+	// 	session_destroy();
+	// 	include($cfgProgDir . "interface.php");
+	// 	exit;
+	// }
 	//===check login whitelable!!!
 	
 	if($subwebid > 0){

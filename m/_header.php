@@ -45,12 +45,12 @@
                         <input id="j_plain_password" class="contactField" type="password" name="entered_password" value="Password" placeholder="Password" onblur="if(this.value == '') { this.value='Password'}" onfocus="if (this.value == 'Password') {this.value=''}" required />
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <input id="membervalidation" class="contactField" type="text" name="entered_val" placeholder="Validation" value="Validation" autocomplete="off" maxlength="5" onClick="this.value=''" onBlur="if(this.value == '') { this.value='Validation'}" onFocus="if (this.value == 'Validation') {this.value=''}" required />
                         <div style="height:10px;"></div>
                         <img src="../captcha/captcha-login.php?.png" alt="Validation Code" title="Validation Code" width="120" height="30" style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px;"/>
 						<input type="hidden" name=mobile value='1'>
-				  </div>
+				  </div> -->
 
                     <!--<input id="mobile" type="hidden" name="mobile" value="mobile"  />-->
 

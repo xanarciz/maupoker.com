@@ -7,7 +7,7 @@
 		<label>Password</label>
 		<input type="password" class="form-control bg-light-gray password-form" id="j_plain_password" name="entered_password" value="Password" placeholder="Password" onblur="if(this.value == '') { this.value='Password'}" onfocus="if (this.value == 'Password') {this.value=''}" required />
 
-		<label>Validation</label>
+		<!-- <label>Validation</label>
 		<div class="row margin0">
 			<div class="col-lg-6">
 				<input type="text" class="form-control bg-light-gray validation-form" id="membervalidation" name="entered_val" value="Validation" placeholder="Validation" autocomplete="off" onClick="this.value=''" onBlur="if(this.value == '') { this.value='Validation'}" onFocus="if (this.value == 'Validation') {this.value=''}" required />				
@@ -16,7 +16,7 @@
 		        <img src="../captcha/captcha-login.php?.png" alt="Validation Code" title="Validation Code" width="130" height="34" style="-moz-border-radius:4px;-webkit-border-radius:4px;-khtml-border-radius:4px; border-radius:4px; margin-left: 7px;"/>
 		        <input type="hidden" name=mobile value='1'>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="row tmargin-5">
 			<input type="submit" name="sub" class="btn btn-green" value="LOG IN" value="1">
