@@ -22,7 +22,7 @@ include("header.php");
                                         <li><a href="#tab3">Ceme Jackpot</a></li>
                                     </ul>
 
-                                    <div class="tab-content">
+                                    <div id="scrollbar1" class="tab-content" style="overflow: scroll;height: 800px;">
                                         <div id="tab1" class="tab active">
                                             <div class="clear space_20"></div>
                                             <a href="#txh-jackpot" class="btn btn-login">Jackpot System</a>
@@ -46,7 +46,7 @@ include("header.php");
     												<li>four of kind   x 250 harga jackpot yang anda beli
     													<ul	>(contoh:anda membeli 1000 maka:1000 X250 = 250.000)</ul>
     												</li>
-    												<li>Straight flush  x 1200
+    												<li>Straight flush  x 1200  
     													<ul	>(contoh:anda membeli 1000 maka:1000 X1200 = 1.200.000)</ul>
     												</li>
     												<li>Royal flush   x  10000	harga jackpot yang anda beli
@@ -303,11 +303,11 @@ include("header.php");
                                         </div>
                                         <div id="tab3" class="tab">
                                             <div class="clear space_20"></div>
-                                            <a href="#dmm-jackpot" class="btn btn-login">Jackpot System</a>
-                                            <a href="#dmm-winner" class="btn btn-login">Jackpot Winner</a>
+                                            <a href="#ceme-jackpot" class="btn btn-login">Jackpot System</a>
+                                            <a href="#ceme-winner" class="btn btn-login">Jackpot Winner</a>
                                             <div class="clear space_20"></div>
 
-                                            <div id="dmm-jackpot">
+                                            <div id="ceme-jackpot">
                                                 <p><b>Ceme Multi Jackpot System</b></p>
                                              
                                                 <p>Jackpot dilihat dari gabungan kartu pemain dengan kartu bandar. Bandar harus membeli jackpot sebanyak jumlah player yang sedang duduk. Sebagai contoh bila terdapat 3 pemain duduk bermain, dan bandar memutuskan untuk membeli jackpot Rp 1.000, maka pada periode tersebut bandar akan membeli jackpot sebanyak 3xRp1.000 = Rp3.000.</p>
@@ -333,7 +333,7 @@ include("header.php");
 
                                             <div class="clear space_20"></div>
 
-                                            <div id="dmm-winner">
+                                            <div id="ceme-winner">
                                                 <p><b>Ceme Jackpot Winner</b></p>
                                                 <?php
                                                 echo "<center>
@@ -430,6 +430,27 @@ include("header.php");
                     <div class="clear space_30"></div>
                 </div>
             </div>
+<style type="text/css">
+    #scrollbar1::-webkit-scrollbar
+{
+    height: 0px;
+    width: 8px;
+    background-color: transparent;
+}
+    #scrollbar1::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+#scrollbar1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #CACACA;
+}
+</style>
 <?php
 include("footer.php");
 ?>
