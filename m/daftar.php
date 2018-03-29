@@ -14,11 +14,11 @@ $cref=$agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = isset($_POST["Curr"]) ? $_POST["Curr"] : '';
-$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] : '');
+$curr = isset($_POST["Curr"]) ? $_POST["Curr"] :'';
+$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] :'');
 if (!$ref)$ref="";
 if($ref == ''){
-	$ref = isset($_POST['ref_text']);
+	$ref = isset($_POST['ref_text']) ? $_POST['ref_text'] : '';
 }
 if(isset($_POST["submit"])){
 	if($infoweb['open_reg'] == "0"){echo "<div class='error-report'>Registration Tempolary Closed</div>";
@@ -62,6 +62,7 @@ if(isset($_POST["submit"])){
 				"ref_text"  => strtoupper($ref),
 				"device"	=> $device
 			)
+			
 		);
 		$response = sendAPI($url_Api."/register",$reqAPIRegister,'JSON','02e97eddc9524a1e');
 		if($response->status == 200){
