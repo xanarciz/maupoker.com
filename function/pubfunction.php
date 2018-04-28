@@ -40,7 +40,7 @@ function sanitize($data, $values2 = null) {
         'not similar to', 'not ilike', '~~*', '!~~*',';',
         'select ','update ','delete ','insert ',' alter ','create ',
         ' join ',' where ',' union ',' order ',' having ', ' exec ',' declare ',
-        ' char ', '(',')'
+        'char(', 'chr(', '(',')', '*'
     ];
     $regexIlegalChar = [
         '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
@@ -203,7 +203,6 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
             $response = $respon;
         }
 		// echo "<script>console.log('".$response."');</script>";
-		
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);
