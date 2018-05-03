@@ -13,11 +13,11 @@ $cref	= $agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = isset($_POST["Curr"]) ? $_POST["Curr"] :'';
-$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] :'');
+$curr = $_POST["Curr"];
+$ref = strtoupper($_COOKIE["ref"]);
 if (!$ref)$ref="";
 if($ref == ''){
-	$ref = isset($_POST['ref_text']) ? $_POST['ref_text'] : '';
+	$ref = $_POST['ref_text'];
 }
 if(isset($_POST["submit"])){
 	$uname 		= str_replace("''","*",$_POST["UName"]);
@@ -276,9 +276,9 @@ if(isset($_POST["submit"])){
 		$('#'+id_div2).html("<img src='assets/images/loader.gif' width='30' title='checking...' />"); 
 		//alert(id_val2);
 		$.post("fast_checking.php", { id_div:id_div, id_val:id_val, id_val2:id_val2},  
-			function(result){  
+			function(result){
 				var inresult = result.split(";");
-	
+
 				if(inresult[0] == "0"){  
 					//show that the username is available  
 					$('#'+id_div2).html("<img src='assets/images/crossred.png' width='30' title='"+inresult[1]+"' />"); 

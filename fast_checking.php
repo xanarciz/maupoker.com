@@ -19,7 +19,7 @@ if($_POST["id_div"] != "the_cap"){
 	if ($response->status == 200){
 		echo "1;Valid";
 	}else{
-		echo "0;".$response->msg;
+		echo "0;".$response->msg . ';';
 	}
 }else{
 	

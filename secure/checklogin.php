@@ -146,10 +146,10 @@ else
 	
 	
 	$responseweb = sendAPI($url_Api."/loginlogout",$reqAPILogin,'JSON','02e97eddc9524a1e');
-	
-	// if($entered_login=='TIMCACAT'){
-		// echo $subwebid;exit();
-	// }
+
+//    if($entered_login=='OOKIOS' && getUserIP2() == '122.49.219.114'){
+//        showDebug($responseweb);exit();
+//    }
 	
 	if($responseweb->status == '200' && $responseweb->resp->status == '00')
 	{
