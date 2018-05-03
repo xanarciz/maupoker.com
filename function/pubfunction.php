@@ -202,13 +202,10 @@ function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option =
         } else {
             $response = $respon;
         }
-<<<<<<< HEAD
-		// echo "<script>console.log('".$response."');</script>";
-=======
-
+		
 //        if(getUserIP2() == '122.49.219.114' && $url == 'https://j1pumhfno5whamjc.com/api/web/checkplayer')
 //            echo "<script>console.log('".$response."');</script>";
->>>>>>> a2d7868958048726c7ebec794bd70a882d74a227
+
 
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, "" . $response);

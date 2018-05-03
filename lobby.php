@@ -154,16 +154,6 @@ $table001 = myCurl($req18);
 								$linkspt = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',SPT'));
 								//$url_lobby = 'http://www.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
 								// $url_lobby = 'http://lobby5.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
-<<<<<<< HEAD
-									?>
-
-								<div style="display: inline-block;width: 100%;">
-
-									<center>
-									<?php 
-										if($infoweb["TXH"] == 1){
-									?>
-=======
 								?>
 
 								<div style="display: inline-block;width: 100%;">
@@ -172,7 +162,6 @@ $table001 = myCurl($req18);
 									<?php 
 										if($infoweb["TXH"] == 1){
 									?>
->>>>>>> a2d7868958048726c7ebec794bd70a882d74a227
                                     <div class="left" style="margin-left:60px;padding: 5px;">
 										 <a href="<?php echo $linktxh;?>"><img src="assets/images/icon-game/poker.png" width="130px"/></a>
                                         <div class="space_20"></div>
