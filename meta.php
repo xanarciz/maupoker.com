@@ -92,7 +92,7 @@ if ($_SESSION["login"] && $message == "") {
 
         <!-- Stylesheet -->
         <link rel="stylesheet" href="assets/css/normalize.css">
-    	<link rel="stylesheet" href="assets/css/main.css?v=3.8">
+    	<link rel="stylesheet" href="assets/css/main.css?v=<?PHP echo time();?>">
         <link rel="stylesheet" href="assets/css/<?php echo $link_img;?>.css?id=<?PHP echo time();?>">
 
         <!-- Jquery -->

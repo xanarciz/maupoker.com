@@ -151,11 +151,18 @@ $table001 = myCurl($req18);
 								$linkcap = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',CAP'));
 								$linklpk = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',LPK'));
 								$linkbtm = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',BTM'));
+								$linkspt = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',SPT'));
 								//$url_lobby = 'http://www.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
 								// $url_lobby = 'http://lobby5.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
-									if($infoweb["TXH"] == 1){
 									?>
-                                    <div class="left" style="margin-left:5px;float:left;padding: 5px;">
+
+								<div style="display: inline-block;width: 100%;">
+
+									<center>
+									<?php 
+										if($infoweb["TXH"] == 1){
+									?>
+                                    <div class="left" style="margin-left:60px;padding: 5px;">
 										 <a href="<?php echo $linktxh;?>"><img src="assets/images/icon-game/poker.png" width="130px"/></a>
                                         <div class="space_20"></div>
 										<a href="<?php echo $linktxh;?>"><button type="submit" class="btn btn-submit">Poker!</button></a>
@@ -165,7 +172,7 @@ $table001 = myCurl($req18);
 									?>
 									<?php if ($infoweb["DMM"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
+                                    <div class="left" style="margin-left:30px;padding: 5px;">
                                         <a href="<?php echo $linkdmm;?>"><img src="assets/images/icon-game/domino.png" width="130px"/></a>
                                         <div class="space_20"></div>
                                         <a href="<?php echo $linkdmm;?>"><button type="submit" class="btn btn-submit">Domino!</button></a>
@@ -175,7 +182,7 @@ $table001 = myCurl($req18);
 									?>
 									<?php if ($infoweb["EBN"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
+                                    <div class="left" style="margin-left:30px;padding: 5px;">
                                         <a href="<?php echo $linkebn;?>"><img src="assets/images/icon-game/ceme.png" width="130px"/></a>
                                         <div class="space_20"></div>
                                         <a href="<?php echo $linkebn;?>"><button type="submit" class="btn btn-submit">Ceme!</button></a>
@@ -186,7 +193,7 @@ $table001 = myCurl($req18);
                                     
 									<?php if ($infoweb["BJK"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
+                                    <div class="left" style="margin-left:0px;padding: 5px;">
                                         <a href="<?php echo $linkbjk;?>"><img src="assets/images/icon-game/blackjack.png" width="130px"/></a>
                                         <div class="space_20"></div>
                                         <a href="<?php echo $linkbjk;?>"><button type="submit" class="btn btn-submit">Blackjack!</button></a>
@@ -196,7 +203,7 @@ $table001 = myCurl($req18);
 									?>
 									<?php if ($infoweb["CAP"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
+                                    <div class="left" style="margin-left:30px;padding: 5px;">
                                         <a href="<?php echo $linkcap;?>"><img src="assets/images/icon-game/capsa.png" width="130px"/></a>
                                         <div class="space_20"></div>
                                        <a href="<?php echo $linkcap;?>"><button type="submit" class="btn btn-submit">Capsa!</button></a>
@@ -204,10 +211,15 @@ $table001 = myCurl($req18);
 									<?php
 									}
 									?>
+									</center>
+								</div>
+
+								<div style="display: inline-block;width: 100%;margin-top: 20px;">
+									<center>
 									<?php if ($infoweb["LPK"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
-                                        <a href="<?php echo $linklpk;?>"><img src="assets/images/icon-game/live-poker.png" width="130px"/></a>
+                                    <div class="left" style="margin-left:60px;padding: 5px;">
+                                        <a href="<?php echo $linklpk;?>"><img src="assets/images/icon-game/live-poker.jpg" style="border-radius: 30px;" width="130px"/></a>
                                         <div class="space_20"></div>
                                         <a href="<?php echo $linklpk;?>"><button type="submit" class="btn btn-submit">Live Poker!</button></a>
                                     </div>
@@ -216,13 +228,26 @@ $table001 = myCurl($req18);
 									?>
 									<?php if ($infoweb["BTM"] == 1){
 									?>
-                                    <div class="left" style="margin-left:0px;float:left;padding: 5px;">
-                                        <a href="<?php echo $linkbtm;?>"><img src="assets/images/icon-game/keliling.png" width="130px"/></a>
+                                    <div class="left" style="margin-left:30px;padding: 5px;">
+                                        <a href="<?php echo $linkbtm;?>"><img src="assets/images/icon-game/keliling.jpg" style="border-radius: 30px;" width="130px"/></a>
                                         <div class="space_20"></div>
 										<a href="<?php echo $linkbtm;?>"><button type="submit" class="btn btn-submit">Ceme Keliling!</button></a>
+                                    </div>
 									<?php
 									}
 									?>
+									<?php if ($infoweb["SPT"] == 1){
+									?>
+                                    <div class="left" style="margin-left:30px;padding: 5px;">
+                                        <a href="<?php echo $linkspt;?>"><img src="assets/images/icon-game/super-ten.jpg" style="border-radius: 30px;" width="130px"/></a>
+                                        <div class="space_20"></div>
+										<a href="<?php echo $linkspt;?>"><button type="submit" class="btn btn-submit">Super Ten!</button></a>
+                                    </div>
+									<?php
+									}
+									?>
+									</center>
+								</div>
 									<!-- <div style="margin-top:10px;width:100%;float:left;float:left;">
 										<a href="<?php echo $url_lobby."/lobby.php?public={$publicKey}&data={$encodedData}&urlBack=$urlBack&key=$key&lang=id";?>" target="_lobby"><img src="assets/images/BUTTON-LOBBY-BARU2.png"></a>
 									</div> -->

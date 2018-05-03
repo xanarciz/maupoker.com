@@ -40,7 +40,7 @@ function sanitize($data, $values2 = null) {
         'not similar to', 'not ilike', '~~*', '!~~*',';',
         'select ','update ','delete ','insert ',' alter ','create ',
         ' join ',' where ',' union ',' order ',' having ', ' exec ',' declare ',
-        ' char ', '(',')'
+        'char(', 'chr(', '(', ')', '*'
     ];
     $regexIlegalChar = [
         '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
@@ -172,8 +172,6 @@ function getUserIP2($type = null){
  */
 
 function sendAPI($url, $data=array(), $dataType = 'XML', $pkey = null, $option = array()){
-	
-	
 	switch ($dataType) {
 		case 'http_query' :
 			$respon = http_build_query($data);
