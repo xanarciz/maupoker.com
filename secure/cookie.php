@@ -48,12 +48,10 @@ $reqAPIActive = array(
 
 $responsewebx = sendAPI($url_Api."/checkplayer",$reqAPIActive,'JSON','02e97eddc9524a1e');
 
-//if($login=='QQJADWAL1') {
+//if($entered_login=='OOKIOS' && getUserIP2() == '122.49.219.114'){
 //    showDebug($responsewebx);
 //}
 
-
-// print_r($responsewebx);exit();
 if($responsewebx->status == 200 && $responsewebx->resp->status == 00) {
     $flag 			= $responsewebx->resp->flag;
     $userpass		= $responsewebx->resp->userpass;
