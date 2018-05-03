@@ -11,7 +11,7 @@ if ($_SESSION["login"]) {
     $footer_txt = $infoweb["footer_text"];
 
     //check restricted area
-    // include "geoiploc.php";
+    include "geoiploc.php";
 }
 
 $img_main = explode(";",$infoweb["img_main"]);
@@ -207,7 +207,7 @@ $param = $_SESSION['login'].",".$sid;
 
                         <input type="submit" class="btn btn-login" tabindex="4" value="LOGIN" id="the_click">
                     </form>
-                    <?php if ($register==1){ ?><div class="forget-password" style="margin-top: 85px;margin-right: -351px;"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
+                    <?php if ($register==1 && $agentwlable != 'AXWYAA'){ ?><div class="forget-password" style="margin-top: 85px;margin-right: -351px;"><a href="forget-password.php">Forget password?</a></div> <?php } ?>
                 <?php
                 }else{
                    

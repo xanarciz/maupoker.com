@@ -13,11 +13,11 @@ $cref	= $agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
-$curr = isset($_POST["Curr"]) ? $_POST["Curr"] :'';
-$ref = strtoupper(isset($_COOKIE["ref"]) ? $_COOKIE["ref"] :'');
+$curr = $_POST["Curr"];
+$ref = strtoupper($_COOKIE["ref"]);
 if (!$ref)$ref="";
 if($ref == ''){
-	$ref = isset($_POST['ref_text']) ? $_POST['ref_text'] : '';
+	$ref = $_POST['ref_text'];
 }
 if(isset($_POST["submit"])){
 	$uname 		= str_replace("''","*",$_POST["UName"]);
