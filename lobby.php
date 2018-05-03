@@ -232,24 +232,6 @@ $table001 = myCurl($req18);
                                         <a href="<?php echo $linkbtm;?>"><img src="assets/images/icon-game/keliling.jpg" style="border-radius: 30px;" width="130px"/></a>
                                         <div class="space_20"></div>
 										<a href="<?php echo $linkbtm;?>"><button type="submit" class="btn btn-submit">Ceme Keliling!</button></a>
-<<<<<<< HEAD
-                                    </div>
-									<?php
-									}
-									?>
-									<?php if ($infoweb["SPT"] == 1){
-									?>
-                                    <div class="left" style="margin-left:30px;padding: 5px;">
-                                        <a href="<?php echo $linkspt;?>"><img src="assets/images/icon-game/super-ten.jpg" style="border-radius: 30px;" width="130px"/></a>
-                                        <div class="space_20"></div>
-										<a href="<?php echo $linkspt;?>"><button type="submit" class="btn btn-submit">Super Ten!</button></a>
-                                    </div>
-									<?php
-									}
-									?>
-									</center>
-								</div>
-=======
                                     </div>
 									<?php
 									}
@@ -269,8 +251,6 @@ $table001 = myCurl($req18);
 									?>
 									</center>
 								</div>
-									
->>>>>>> 07b10b5540b813a4c124f848202c6caca5c6b988
 									<!-- <div style="margin-top:10px;width:100%;float:left;float:left;">
 										<a href="<?php echo $url_lobby."/lobby.php?public={$publicKey}&data={$encodedData}&urlBack=$urlBack&key=$key&lang=id";?>" target="_lobby"><img src="assets/images/BUTTON-LOBBY-BARU2.png"></a>
 									</div> -->
