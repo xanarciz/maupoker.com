@@ -276,9 +276,9 @@ if(isset($_POST["submit"])){
 		$('#'+id_div2).html("<img src='assets/images/loader.gif' width='30' title='checking...' />"); 
 		//alert(id_val2);
 		$.post("fast_checking.php", { id_div:id_div, id_val:id_val, id_val2:id_val2},  
-			function(result){  
+			function(result){
 				var inresult = result.split(";");
-	
+
 				if(inresult[0] == "0"){  
 					//show that the username is available  
 					$('#'+id_div2).html("<img src='assets/images/crossred.png' width='30' title='"+inresult[1]+"' />"); 
