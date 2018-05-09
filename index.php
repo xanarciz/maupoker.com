@@ -83,12 +83,13 @@ if ($_SESSION["login"]){
                         <div id="winner">
                             <div class="box">
 								<?php
-								$lastRF = $infoweb['latestWinner']['POKER']['RF'][0];
-								$jackuser = $lastRF["Userid"];
-								$jackpot = $lastRF["Jackpot"];
-								$jackdate = $lastRF["TDate"];
-								$jackKet = $lastRF["Ket"];
-								$jackpotpay = $lastRF["Jackpot"];
+								$jpwinner = sendAPI($url_Api."/jpwinner",'','JSON','02e97eddc9524a1e');
+								$lastRF = $jpwinner->data;
+								$jackuser = $lastRF->userid;
+								$jackpot = $lastRF->Jackpot;
+								$jackdate = $lastRF->TDate;
+								$jackKet = $lastRF->Ket;
+								$jackpotpay = $lastRF->Jackpot;
 								
 								$dir = substr($jackuser,0,1);
 								$img_avatar = $path."/Avatar/".$dir."/".$jackuser.".jpg";
