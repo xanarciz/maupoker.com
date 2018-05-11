@@ -3,7 +3,7 @@
 include("_meta.php");
 include("_header.php");
 
-$forget_password = array("XCCAA" , "XRBAA" , "XNKAA", "XNDAA", "XURAA", "AXHQAA", "AXCGAA","XNIAA","AXNGAA","XJZAA","XJGAA","AXLXAA","AXMVAA","AXNWAA");
+$forget_password = array("XCCAA" , "XRBAA" , "XNKAA", "XNDAA", "XURAA", "AXHQAA", "AXCGAA","XNIAA","AXNGAA","XJZAA","XJGAA","AXLXAA","AXMVAA","AXNWAA","XACAA");
 if (in_array($agentwlable , $forget_password)){exit("<script>location.href='index.php'</script>");}
 ?>
 

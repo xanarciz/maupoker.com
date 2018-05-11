@@ -60,7 +60,7 @@
 
                     <div class="decoration"></div>
 					<?php
-					$forget_password = array("XCCAA" , "XRBAA" , "XNKAA", "XNDAA", "XURAA", "AXHQAA", "AXCGAA","XNIAA","AXNGAA","XJZAA","XJGAA","AXLXAA","AXMVAA","AXNWAA");
+					$forget_password = array("XCCAA" , "XRBAA" , "XNKAA", "XNDAA", "XURAA", "AXHQAA", "AXCGAA","XNIAA","AXNGAA","XJZAA","XJGAA","AXLXAA","AXMVAA","AXNWAA","XACAA");
 					if (!in_array($agentwlable , $forget_password)){
 					?>
                     <a class="forgot_pass" href="forget-password.php">Lupa Password?</a>
