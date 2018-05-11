@@ -11,7 +11,7 @@ if ($_SESSION["login"]) {
     $footer_txt = $infoweb["footer_text"];
 
     //check restricted area
-    include "geoiploc.php";
+    // include "geoiploc.php";
 }
 
 $img_main = explode(";",$infoweb["img_main"]);
