@@ -9,7 +9,8 @@ include("function/jcd-umum.php");
 
 
 $forget_password = array("XCCAA" , "XRBAA" , "XNKAA", "XNDAA", "XURAA", "AXHQAA", "AXCGAA","XNIAA","AXNGAA","XJZAA","XJGAA","AXLXAA","AXMVAA","AXNWAA","XACAA");
-if (!$register && !in_array($agentwlable , $forget_password))exit("<script>location.href='index.php'</script>");
+if (in_array($agentwlable , $forget_password)){exit("<script>location.href='index.php'</script>");}
+if (!$register)exit("<script>location.href='index.php'</script>");
 
 $cref=$agentwlable;
 $noRek	= "1";
