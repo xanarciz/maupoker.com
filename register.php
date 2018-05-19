@@ -17,23 +17,20 @@ if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 $curr = $_POST["Curr"];
 $ref = strtoupper($_COOKIE["ref"]);
 if (!$ref)$ref="";
+
 if($ref == ''){
 	
 	$ref = $_POST['ref_text'];
 	if($ref){
-		$reqFastCheck = array(
-			"auth"   => $authapi,
-			"agent"  => $agentwlable,	
-			"id_div" => "the_ref",
-			"id_val" => $ref,
-			"id_val2"=> ""
+		$reqAPIRef = array(
+			"auth"    => $authapi,
+			"webid"   => $subwebid,
+			"loginid" => $ref
 		);
-		$response = sendAPI($url_Api."/fastchecking",$reqFastCheck,'JSON','02e97eddc9524a1e');
-
-		if ($response->status == 200){
-			$ref = $ref;
-		}else{
-			$ref = "";
+		if (!$_COOKIE["ref"])$page="ref.php?ref=".$ref;
+		$response = sendAPI($url_Api."/ref",$reqAPIRef,'JSON','02e97eddc9524a1e');
+		if($response->status == 200){
+			setcookie ("ref", $ref, time() + 2529000);
 		}
 	}
 	
@@ -234,6 +231,7 @@ if(isset($_POST["submit"])){
 											<label class="col-lg-1 control-label">Referral</label>
 											<div class="col-lg-2" style="text-align:left">
 												<?php echo "<b>".strtoupper($ref)."</b>"; ?>
+												<input type="hidden" name="ref_text" id="the_ref" value="<?php echo strtoupper($ref); ?>" >
 											</div>
 										</div>
 									<?php
