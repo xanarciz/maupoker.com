@@ -13,11 +13,30 @@ $cref	= $agentwlable;
 $noRek	= "1";
 if($infoweb['pt_status'] == 0) die("Cannot Open this page.");
 
+
 $curr = $_POST["Curr"];
 $ref = strtoupper($_COOKIE["ref"]);
 if (!$ref)$ref="";
 if($ref == ''){
+	
 	$ref = $_POST['ref_text'];
+	if($ref){
+		$reqFastCheck = array(
+			"auth"   => $authapi,
+			"agent"  => $agentwlable,	
+			"id_div" => "the_ref",
+			"id_val" => $ref,
+			"id_val2"=> ""
+		);
+		$response = sendAPI($url_Api."/fastchecking",$reqFastCheck,'JSON','02e97eddc9524a1e');
+
+		if ($response->status == 200){
+			$ref = $ref;
+		}else{
+			$ref = "";
+		}
+	}
+	
 }
 if(isset($_POST["submit"])){
 	$uname 		= str_replace("''","*",$_POST["UName"]);
