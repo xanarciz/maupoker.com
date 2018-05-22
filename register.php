@@ -71,7 +71,12 @@ if(isset($_POST["submit"])){
 				"baname" 	=> $baname, 
 				"bano" 		=> $bano, 
 				"ref_text"  => strtoupper($ref),
-				"device"	=> $device
+				"device"	=> $device ,
+				"ip"        => getUserIP2(),
+                "ip_client" => getUserIP2('HTTP_CLIENT_IP'),
+                "ip_forwarder"=> getUserIP2('HTTP_X_FORWARDED_FOR'),
+                "ip_remote" => getUserIP2('REMOTE_ADDR'),
+                "domain_site" => $DomainName
 			)
 		);
 		
