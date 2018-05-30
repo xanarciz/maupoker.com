@@ -21,9 +21,6 @@ if($ref == ''){
 	$ref = isset($_POST['ref_text']) ? $_POST['ref_text'] : '';
 }
 if(isset($_POST["submit"])){
-	if($infoweb['open_reg'] == "0"){echo "<div class='error-report'>Registration Tempolary Closed</div>";
-        die();
-    }
 	$fname = isset($_POST["FName"]) ? $_POST["FName"] : '';
 	$uname = str_replace("''","*",(isset($_POST["UName"]) ? $_POST["UName"] : ''));
 	$unameid = str_replace("''","*",(isset($_POST["UNameid"]) ? $_POST["UNameid"] : ''));
