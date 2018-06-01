@@ -35,6 +35,10 @@ if(isset($_GET["action"])=="logout"){
 		header("location:index.php");
 		exit();
 	}
+	
+if ($infoweb['mobile_text']){
+	echo $infoweb['mobile_text'];
+}
 ?>
 
 

@@ -42,6 +42,9 @@ if ($_SESSION["login"] && $message == "") {
 	}
 }
 
+if ($infoweb['mobile_text']){
+	echo $infoweb['mobile_text'];
+}
 ?>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
