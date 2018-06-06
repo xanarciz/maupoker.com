@@ -23,7 +23,7 @@ if(!isset($message)){$message = '';}
 if ($message != ""){
 	?>
 	<SCRIPT LANGUAGE="JavaScript">
-		alert('<?php echo"".$message."";?>');
+		alert("<?php echo"".$message."";?>");
 	</SCRIPT>
 	<?php
 }
