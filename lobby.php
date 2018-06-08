@@ -152,6 +152,7 @@ $table001 = myCurl($req18);
 								$linklpk = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',LPK'));
 								$linkbtm = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',BTM'));
 								$linkspt = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',SPT'));
+								$linkomh = $url_lobby.'/lobby.php?vp='.rawurlencode($myaes->getEnc($valuex.',OMH'));
 								//$url_lobby = 'http://www.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
 								// $url_lobby = 'http://lobby5.lobbyplay.com/lobby.php?lang=id&user='.$login.'&key='.$key.'&urlBack='.$urlBack;
 								?>
@@ -251,7 +252,7 @@ $table001 = myCurl($req18);
                                     <div class="left" style="margin-left:30px;padding: 5px;">
                                         <a href="<?php echo $linkspt;?>"><img src="assets/images/icon-game/omaha-game.jpg" style="border-radius: 30px;" width="130px"/></a>
                                         <div class="space_20"></div>
-										<a href="<?php echo $linkspt;?>"><button type="submit" class="btn btn-submit">Super Ten!</button></a>
+										<a href="<?php echo $linkspt;?>"><button type="submit" class="btn btn-submit">Omaha!</button></a>
                                     </div>
 									<?php
 									}
