@@ -250,7 +250,7 @@ $table001 = myCurl($req18);
 									<?php if ($infoweb["OMH"] == 1){
 									?>
                                     <div class="left" style="margin-left:30px;padding: 5px;">
-                                        <a href="<?php echo $linkspt;?>"><img src="assets/images/icon-game/omaha-game.jpg" style="border-radius: 30px;" width="130px"/></a>
+                                        <a href="<?php echo $linkspt;?>"><img src="assets/images/icon-game/omaha-game.png" style="border-radius: 30px;" width="130px"/></a>
                                         <div class="space_20"></div>
 										<a href="<?php echo $linkspt;?>"><button type="submit" class="btn btn-submit">Omaha!</button></a>
                                     </div>
